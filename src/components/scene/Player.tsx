@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { platforms, spawnPoint } from "../../data/world";
 import { Noob } from "./Noob";
@@ -161,11 +160,6 @@ export function Player({
   return (
     <group ref={group}>
       <Noob intro={showIntro} />
-      {showIntro && (
-        <Html position={[0, 2.25, 0]} center>
-          <div className="speech">Hi, I’m Sreejita! 👋</div>
-        </Html>
-      )}
     </group>
   );
 }

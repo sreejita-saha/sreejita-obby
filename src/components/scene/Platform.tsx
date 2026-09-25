@@ -1,6 +1,7 @@
 import { Html } from "@react-three/drei";
 import { portfolio } from "../../data/portfolio";
 import type { PlatformData } from "../../types/world";
+import { SceneModel } from "./SceneModel";
 
 type PlatformProps = {
   data: PlatformData;
@@ -13,10 +14,18 @@ export function Platform({ data, showLabel }: PlatformProps) {
 
   return (
     <group>
-      <mesh position={data.position} receiveShadow castShadow>
-        <boxGeometry args={data.size} />
-        <meshStandardMaterial color={data.color} roughness={0.72} />
-      </mesh>
+      {data.model ? (
+        <SceneModel
+          {...data.model}
+          position={[data.position[0], data.position[1] + data.size[1] / 2, data.position[2]]}
+          anchor="top"
+        />
+      ) : (
+        <mesh position={data.position} receiveShadow castShadow>
+          <boxGeometry args={data.size} />
+          <meshStandardMaterial color={data.color} roughness={0.72} />
+        </mesh>
+      )}
       {showLabel && section && (
         <Html
           position={[
@@ -28,6 +37,7 @@ export function Platform({ data, showLabel }: PlatformProps) {
           distanceFactor={8}
           transform
           occlude
+          pointerEvents="none"
         >
           <div className="world-label">
             <span>{section.kicker}</span>
