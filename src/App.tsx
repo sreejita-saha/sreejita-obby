@@ -13,6 +13,7 @@ function App() {
   const [checkpoint, setCheckpoint] = useState(-1);
   const [openSection, setOpenSection] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
 
   const isPlaying = started && openSection === null && !menuOpen;
 
@@ -21,10 +22,25 @@ function App() {
     setOpenSection(index);
   };
 
+  const restartObby = () => {
+    setCheckpoint(-1);
+    setOpenSection(null);
+    setMenuOpen(false);
+    setStarted(true);
+    setResetKey((current) => current + 1);
+  };
+
+  const goBack = () => {
+    setCheckpoint((current) => Math.max(-1, current - 1));
+    setOpenSection(null);
+    setMenuOpen(false);
+    setResetKey((current) => current + 1);
+  };
+
   const closeSection = () => {
     if (openSection === portfolio.length - 1) {
-      setCheckpoint(-1);
-      setStarted(false);
+      restartObby();
+      return;
     }
     setOpenSection(null);
   };
@@ -35,7 +51,11 @@ function App() {
         <Suspense fallback={null}>
           <ObbyScene
             playing={isPlaying}
+            showIntro={!started}
             checkpoint={checkpoint}
+            resetKey={resetKey}
+            onRestart={restartObby}
+            onBack={goBack}
             onCheckpoint={(index) => {
               setCheckpoint(index);
               setOpenSection(index);
@@ -48,7 +68,7 @@ function App() {
 
       {!started && <WelcomeScreen onStart={() => setStarted(true)} />}
       {started && openSection === null && !menuOpen && (
-        <div className="controls"><b>WASD</b> move <b>SPACE</b> jump <b>R</b> respawn</div>
+        <div className="controls"><b>WASD</b> move <b>SPACE</b> jump <b>B</b> back <b>R</b> restart</div>
       )}
       {openSection !== null && <SectionCard section={portfolio[openSection]} onClose={closeSection} />}
       {menuOpen && <PortfolioMenu onClose={() => setMenuOpen(false)} onSelectSection={openPortfolioSection} />}

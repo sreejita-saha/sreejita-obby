@@ -4,9 +4,10 @@ import type { PlatformData } from "../../types/world";
 
 type PlatformProps = {
   data: PlatformData;
+  showLabel: boolean;
 };
 
-export function Platform({ data }: PlatformProps) {
+export function Platform({ data, showLabel }: PlatformProps) {
   const section = data.section === undefined ? undefined : portfolio[data.section];
   const labelSide = data.section !== undefined && data.section % 2 === 0 ? -1 : 1;
 
@@ -16,7 +17,7 @@ export function Platform({ data }: PlatformProps) {
         <boxGeometry args={data.size} />
         <meshStandardMaterial color={data.color} roughness={0.72} />
       </mesh>
-      {section && (
+      {showLabel && section && (
         <Html
           position={[
             data.position[0] + labelSide * (data.size[0] / 2 + 1.5),

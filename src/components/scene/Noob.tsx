@@ -31,8 +31,9 @@ export function Noob({ intro }: NoobProps) {
     ref.current.position.y = Math.sin(clock.elapsedTime * 3) * 0.025 - 0.85;
   });
 
+  // The GLB's forward axis is rotated 90° from the game's forward axis.
   return (
-    <group ref={ref} position={[0, -0.9, 0]} scale={modelFit.scale}>
+    <group ref={ref} position={[0, -0.9, 0]} rotation={[0, Math.PI / 2, 0]} scale={modelFit.scale}>
       <primitive object={model} position={modelFit.offset} />
     </group>
   );

@@ -55,7 +55,7 @@ button { cursor: pointer; }
   position: fixed;
   z-index: 8;
   left: 50%;
-  bottom: 5vh;
+  top: clamp(88px, 13vh, 150px);
   width: min(560px, calc(100% - 32px));
   transform: translateX(-50%);
   padding: 25px 28px 22px;
@@ -158,7 +158,7 @@ button { cursor: pointer; }
 @media (max-width: 640px) {
   .hud { grid-template-columns: 1fr auto; padding: 15px; }
   .progress { display: none; }
-  .welcome { bottom: 18px; padding: 22px 18px 18px; }
+  .welcome { top: 82px; padding: 22px 18px 18px; }
   .welcome small { font-size: .7rem; }
   .section-card { padding: 32px 22px 24px; }
   .controls { bottom: 10px; }

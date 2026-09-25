@@ -3,7 +3,9 @@ import { platforms } from "../../data/world";
 import { Platform } from "./Platform";
 import { Player, type PlayerProps } from "./Player";
 
-export function ObbyScene({ playing, checkpoint, onCheckpoint }: PlayerProps) {
+export function ObbyScene(props: PlayerProps) {
+  const { playing } = props;
+
   return (
     <>
       <color attach="background" args={["#87ceeb"]} />
@@ -13,8 +15,10 @@ export function ObbyScene({ playing, checkpoint, onCheckpoint }: PlayerProps) {
       <hemisphereLight args={["#dff5ff", "#6fae67", 1.2]} />
 
       <Decorations />
-      {platforms.map((platform, index) => <Platform key={index} data={platform} />)}
-      <Player playing={playing} checkpoint={checkpoint} onCheckpoint={onCheckpoint} />
+      {platforms.map((platform, index) => (
+        <Platform key={index} data={platform} showLabel={playing} />
+      ))}
+      <Player {...props} />
     </>
   );
 }
