@@ -11,4 +11,12 @@ body { min-width: 320px; }
 html, canvas { cursor: url('/images/default.png') 2 2, default; }
 button, a { cursor: url('/images/pointer.png') 4 2, pointer; }
 input, textarea { cursor: url('/images/text.png') 14 16, text; }
+.welcome h1,
+.welcome > p,
+.section-card h2,
+.section-card > p,
+.portfolio-menu h2,
+.portfolio-menu > p {
+  cursor: url('/images/text.png') 14 16, text;
+}
 button:focus-visible, a:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }

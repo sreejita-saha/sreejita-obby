@@ -1,0 +1,2 @@
+.speech, .world-label { border: 3px solid #17223b; background: #fff; color: #17223b; box-shadow: 5px 5px 0 #17223b; font-family: "Archivo Black", sans-serif; white-space: nowrap; pointer-events: none; }
+.speech { padding: 10px 14px; border-radius: 14px 14px 14px 2px; font-size: 18px; }.world-label { padding: 8px 11px; border-radius: 7px; font-size: 13px; text-align: center; }.world-label span { display: block; margin-bottom: 3px; font: 700 9px "DM Sans", sans-serif; letter-spacing: .15em; text-transform: uppercase; opacity: .6; }

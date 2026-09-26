@@ -4,8 +4,10 @@ export type PlatformData = {
   position: Vector3Tuple;
   size: Vector3Tuple;
   color: string;
+  surface?: "grass" | "flowers" | "baseplate" | "stone";
   section?: number;
   model?: SceneModelData;
+  modelLabelOffset?: Vector3Tuple;
 };
 
 export type SceneModelData = {

@@ -11,11 +11,12 @@ export function SectionCard({ section, onClose }: SectionCardProps) {
 
   return (
     <div className="panel-backdrop">
-      <article className="section-card" style={style}>
+      <article className={`section-card${section.id === "about" ? " section-card--about" : ""}`} style={style}>
         <button className="close" onClick={onClose} aria-label="Continue playing">×</button>
         <p className="eyebrow">{section.kicker}</p>
         <h2>{section.title}</h2>
         <p>{section.body}</p>
+        {section.id === "about" && <img className="modal-avatar" src="/images/me wave.png" alt="Sreejita waving" />}
         {section.links?.map((link) => (
           <a key={link.label} className="card-link" href={link.href} target="_blank" rel="noreferrer">
             {link.label} ↗

@@ -1,14 +1,23 @@
 import { cloudPositions } from "../../data/world";
 
+// Simple three-puff clouds, with small variations so the sky feels less repeated.
+const cloudPuffs = [
+  [[-0.9, 0, 0, 1.05], [0, 0.4, 0, 1.4], [0.9, 0, 0, 1.05]],
+  [[-0.85, 0, 0, 0.95], [0.05, 0.34, 0, 1.25], [0.95, 0.08, 0, 1.1]],
+  [[-1, 0.05, 0, 1.15], [0, 0.48, 0, 1.35], [0.95, -0.02, 0, 0.95]],
+  [[-0.95, -0.03, 0, 0.9], [0, 0.38, 0, 1.5], [1.05, 0.02, 0, 1]],
+  [[-0.85, 0, 0, 1], [0, 0.46, 0, 1.3], [0.9, 0.08, 0, 1.1]],
+] as const;
+
 export function Decorations() {
   return (
     <>
       {cloudPositions.map((position, index) => (
-        <group position={position} key={index}>
-          {[-1, 0, 1].map((x) => (
-            <mesh key={x} position={[x * 0.9, Math.abs(x) * -0.15, 0]}>
-              <sphereGeometry args={[1.15, 16, 12]} />
-              <meshStandardMaterial color="#ffffff" roughness={1} />
+        <group position={position} scale={1.25 + (index % 2) * 0.25} key={index}>
+          {cloudPuffs[index].map(([x, y, z, size], puffIndex) => (
+            <mesh key={puffIndex} position={[x, y, z]} scale={[size, size * 0.72, size * 0.82]}>
+              <sphereGeometry args={[1, 16, 12]} />
+              <meshStandardMaterial color="#ffffff" roughness={0.9} />
             </mesh>
           ))}
         </group>

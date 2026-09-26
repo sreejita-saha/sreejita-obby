@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;600;700&display=swap');
+
+* { box-sizing: border-box; }
+button, a { font: inherit; cursor: url('/images/pointer.png') 4 2, pointer; }
+
+.app-shell { width: 100vw; height: 100svh; overflow: hidden; position: relative; background: #87ceeb; color: #17223b; }
+.app-shell canvas { display: block; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; } }
