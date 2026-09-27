@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { KTX2Loader } from "three-stdlib";
 import type { SceneModelData, Vector3Tuple } from "../../types/world";
 
 type SceneModelProps = SceneModelData & {
@@ -8,8 +10,25 @@ type SceneModelProps = SceneModelData & {
   anchor?: "bottom" | "top";
 };
 
+// Every model in this canvas uses the same renderer, so they can also share
+// one decoder. Creating a decoder per model wastes memory and worker setup.
+const ktx2Loaders = new WeakMap<THREE.WebGLRenderer, KTX2Loader>();
+
+function getKtx2Loader(gl: THREE.WebGLRenderer) {
+  let loader = ktx2Loaders.get(gl);
+  if (!loader) {
+    loader = new KTX2Loader().setTranscoderPath("/basis/").detectSupport(gl);
+    ktx2Loaders.set(gl, loader);
+  }
+  return loader;
+}
+
 export function SceneModel({ url, position, displaySize, rotation, anchor = "bottom" }: SceneModelProps) {
-  const { scene } = useGLTF(url);
+  const { gl } = useThree();
+  // Some GLB assets (such as the tree) use KTX2-compressed textures.
+  // Keep the decoder local so models work offline and in production builds.
+  const ktx2Loader = useMemo(() => getKtx2Loader(gl), [gl]);
+  const { scene } = useGLTF(url, true, true, (loader) => loader.setKTX2Loader(ktx2Loader));
   const model = useMemo(() => scene.clone(), [scene]);
   const fit = useMemo(() => {
     const box = new THREE.Box3().setFromObject(model);

@@ -1,3 +1,5 @@
+// Non-interactive background scenery. Cloud positions are configured in data/world.ts.
+import { Instance, Instances } from "@react-three/drei";
 import { cloudPositions } from "../../data/world";
 
 // Simple three-puff clouds, with small variations so the sky feels less repeated.
@@ -12,16 +14,21 @@ const cloudPuffs = [
 export function Decorations() {
   return (
     <>
-      {cloudPositions.map((position, index) => (
-        <group position={position} scale={1.25 + (index % 2) * 0.25} key={index}>
-          {cloudPuffs[index].map(([x, y, z, size], puffIndex) => (
-            <mesh key={puffIndex} position={[x, y, z]} scale={[size, size * 0.72, size * 0.82]}>
-              <sphereGeometry args={[1, 16, 12]} />
-              <meshStandardMaterial color="#ffffff" roughness={0.9} />
-            </mesh>
-          ))}
-        </group>
-      ))}
+      {/* One shared sphere geometry and material for every cloud puff. */}
+      <Instances limit={cloudPositions.length * 3}>
+        <sphereGeometry args={[1, 16, 12]} />
+        <meshStandardMaterial color="#ffffff" roughness={0.9} />
+        {cloudPositions.flatMap((position, index) => {
+          const cloudScale = 1.25 + (index % 2) * 0.25;
+          return cloudPuffs[index].map(([x, y, z, size], puffIndex) => (
+            <Instance
+              key={`${index}-${puffIndex}`}
+              position={[position[0] + x * cloudScale, position[1] + y * cloudScale, position[2] + z * cloudScale]}
+              scale={[size * cloudScale, size * 0.72 * cloudScale, size * 0.82 * cloudScale]}
+            />
+          ));
+        })}
+      </Instances>
       <mesh position={[0, -7, -22]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[100, 100]} />
         <meshBasicMaterial color="#b8e8ff" />

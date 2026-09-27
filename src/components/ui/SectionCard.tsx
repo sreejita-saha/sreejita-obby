@@ -1,29 +1,33 @@
 import type { CSSProperties } from "react";
 import type { PortfolioSection } from "../../types/portfolio";
+import { SectionContent } from "./SectionContent";
 
 type SectionCardProps = {
   section: PortfolioSection;
   onClose: () => void;
+  /** The main button can restart the obby from the final card. */
+  onContinue: () => void;
 };
 
-export function SectionCard({ section, onClose }: SectionCardProps) {
+export function SectionCard({ section, onClose, onContinue }: SectionCardProps) {
   const style = { "--section-color": section.color } as CSSProperties;
+  const isFinalSection = section.id === "contact";
 
   return (
-    <div className="panel-backdrop">
-      <article className={`section-card${section.id === "about" ? " section-card--about" : ""}`} style={style}>
-        <button className="close" onClick={onClose} aria-label="Continue playing">×</button>
+    <div className="panel-backdrop" role="presentation" onMouseDown={onClose}>
+      <article className={`section-card${section.image ? " section-card--with-image" : ""}`} style={style} role="dialog" aria-modal="true" aria-labelledby={`section-title-${section.id}`} onMouseDown={(event) => event.stopPropagation()}>
+        <button className="close" type="button" onClick={onClose} aria-label="Close section">×</button>
         <p className="eyebrow">{section.kicker}</p>
-        <h2>{section.title}</h2>
-        <p>{section.body}</p>
-        {section.id === "about" && <img className="modal-avatar" src="/images/me wave.png" alt="Sreejita waving" />}
+        <h2 id={`section-title-${section.id}`}>{section.title}</h2>
+        <SectionContent content={section.content} />
+        {section.image && <img className={section.image.className} src={section.image.src} alt={section.image.alt} />}
         {section.links?.map((link) => (
-          <a key={link.label} className="card-link" href={link.href} target="_blank" rel="noreferrer">
+          <a key={link.href} className="card-link" href={link.href} target="_blank" rel="noreferrer">
             {link.label} ↗
           </a>
         ))}
-        <button className="continue" onClick={onClose}>
-          {section.id === "contact" ? "Play again" : "Continue obby"}
+        <button className="continue" type="button" onClick={onContinue}>
+          {isFinalSection ? "Play again" : "Continue obby"}
         </button>
       </article>
     </div>

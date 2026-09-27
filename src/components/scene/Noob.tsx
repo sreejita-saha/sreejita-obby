@@ -1,3 +1,4 @@
+// The animated player avatar. Replace /models/noob.glb here to swap the character.
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";

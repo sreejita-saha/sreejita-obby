@@ -1,9 +1,15 @@
-.hud { position: fixed; z-index: 10; left: 0; right: 0; top: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; padding: 20px 24px; pointer-events: none; }
-.brand { color: #17223b; font-family: "Archivo Black", sans-serif; font-size: clamp(.78rem, 2vw, 1rem); text-decoration: none; text-shadow: 0 2px #fff; pointer-events: auto; }
+.hud { position: fixed; z-index: 10; left: 0; right: 0; top: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; padding: 6px 16px; pointer-events: none; }
+.brand { display:inline-flex; align-items:center; pointer-events:auto; }
+.brand img { display:block; width:clamp(145px, 33vw, 270px); height:auto; max-height:74px; object-fit:contain; object-position:left center; }
 .menu-button, .hud button { justify-self: end; border: 3px solid #17223b; border-radius: 12px; background: #fff; color: #17223b; font-weight: 800; padding: 9px 15px; box-shadow: 0 5px 0 #17223b; pointer-events: auto; }
-.progress { display: flex; gap: 6px; }
-.progress i { width: 22px; height: 9px; background: rgba(255,255,255,.6); border: 2px solid #17223b; border-radius: 99px; }
-.progress i.done { background: #ffd84d; }
+.progress { display: flex; gap: 6px; pointer-events: auto; }
+.progress button { width: 22px; height: 9px; min-width: 0; padding: 0; border: 2px solid #17223b; border-radius: 99px; background: rgba(255,255,255,.6); box-shadow: none; cursor: url('/images/pointer.png') 4 2, pointer; }
+.progress button.done { background: #ffd84d; }
+.progress button:hover, .progress button:focus-visible { transform: scale(1.18); background: #fff; outline: none; }
 .controls { position: fixed; z-index: 6; left: 50%; bottom: 18px; transform: translateX(-50%); white-space: nowrap; padding: 9px 13px; border: 2px solid #17223b; border-radius: 10px; background: rgba(255,255,255,.86); box-shadow: 0 4px 0 #17223b; font-size: .75rem; }
 .controls b { margin-left: 8px; }.controls b:first-child { margin-left: 0; }
-@media (max-width: 640px) { .hud { grid-template-columns: 1fr auto; padding: 15px; }.progress { display: none; }.controls { bottom: 10px; } }
+.music-toggle { position: fixed; z-index: 11; left: 24px; bottom: 18px; display: inline-flex; align-items: center; gap: 7px; border: 3px solid #17223b; border-radius: 12px; background: #fff; color: #17223b; font-weight: 800; padding: 9px 13px; box-shadow: 0 5px 0 #17223b; cursor: url('/images/pointer.png') 4 2, pointer; }
+.music-toggle:hover { transform: translate(-1px, -1px); box-shadow: 5px 6px 0 #17223b; }
+.music-toggle:active { transform: translateY(3px); box-shadow: 0 2px 0 #17223b; }
+.music-toggle span { font-size: 1.15rem; line-height: 1; }
+@media (max-width: 640px) { .hud { grid-template-columns: 1fr auto; padding: 5px 10px; }.brand img { width:clamp(140px, 44vw, 200px); max-height:58px; }.progress { display: none; }.controls { bottom: 10px; }.music-toggle { left: 15px; bottom: 10px; } }
