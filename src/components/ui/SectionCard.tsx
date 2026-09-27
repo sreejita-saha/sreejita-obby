@@ -15,7 +15,7 @@ export function SectionCard({ section, onClose, onContinue }: SectionCardProps) 
 
   return (
     <div className="panel-backdrop" role="presentation" onMouseDown={onClose}>
-      <article className={`section-card section-card--${section.id}${section.image ? " section-card--with-image" : ""}`} style={style} role="dialog" aria-modal="true" aria-labelledby={`section-title-${section.id}`} onMouseDown={(event) => event.stopPropagation()}>
+      <article className={`section-card ui-panel section-card--${section.id}${section.image ? " section-card--with-image" : ""}`} style={style} role="dialog" aria-modal="true" aria-labelledby={`section-title-${section.id}`} onMouseDown={(event) => event.stopPropagation()}>
         <button className="close" type="button" onClick={onClose} aria-label="Close section">×</button>
         <p className="eyebrow">{section.kicker}</p>
         <h2 id={`section-title-${section.id}`}>{section.title}</h2>
@@ -30,7 +30,7 @@ export function SectionCard({ section, onClose, onContinue }: SectionCardProps) 
             ))}
           </div>
         )}
-        <button className="continue" type="button" onClick={onContinue}>
+        <button className="continue ui-button" type="button" onClick={onContinue}>
           {isFinalSection ? "Play again" : "Continue obby"}
         </button>
       </article>

@@ -21,7 +21,7 @@ export const portfolio: PortfolioSection[] = [
   {
     id: "experience", kicker: "Checkpoint 03", title: "Experience",
     content: [
-      { type: "heading", text: "Fin by Salesforce — Product Engineering Intern" },
+      { type: "heading", text: "Fin from Salesforce — Product Engineering Intern" },
       { type: "paragraph", text: "June 2026 – August 2026" },
       { type: "paragraph", text: "During my internship, I worked on Fin Messenger and helped fix problems that customers were experiencing. I spent a lot of time understanding a large existing codebase, finding the causes of bugs and testing changes carefully." },
       { type: "paragraph", text: "I worked mainly on the web product, while also looking into issues affecting mobile. I also built a feature that allowed special notices to turn off automatically after a set amount of time." },
@@ -38,10 +38,10 @@ export const portfolio: PortfolioSection[] = [
     id: "projects", kicker: "Checkpoint 04", title: "Things I’ve built",
     content: [
       { type: "heading", text: "Secure Messaging Platform" },
-      { type: "paragraph", text: "For a university group project, I helped build a secure messaging platform with a desktop client and a web client. The system allowed users to register, log in and send messages securely." },
+      { type: "paragraph", text: "I helped build a secure messaging platform with a desktop client and a web client. The system allowed users to register, log in and send messages securely." },
       { type: "paragraph", text: "I worked on the client, server and database parts of the project. I’m most proud of the security work, because we had to think carefully about encryption, user access and protecting messages." },
       { type: "heading", text: "Gym Workout Tracking App" },
-      { type: "paragraph", text: "I built a native Android app for recording workouts. Users can keep track of their exercises, sets and progress in one place." },
+      { type: "paragraph", text: "I worked on a native Android app for recording workouts. Users can keep track of their exercises, sets and progress in one place." },
       { type: "paragraph", text: "This project helped me understand mobile app development and how small design decisions can make an app easier to use." },
       { type: "heading", text: "System Hardware Monitor" },
       { type: "paragraph", text: "This is a Java tool that displays information about a computer’s hardware. It reads details about the system and presents them in a simple way." },

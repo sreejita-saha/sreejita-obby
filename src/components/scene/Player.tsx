@@ -54,6 +54,12 @@ export function Player({
   };
 
   useEffect(() => {
+    const setVirtualKey = (event: Event, pressed: boolean) => {
+      const code = (event as CustomEvent<string>).detail;
+      if (typeof code !== "string") return;
+      if (pressed) keys.current.add(code);
+      else keys.current.delete(code);
+    };
     const onKeyDown = (event: KeyboardEvent) => {
       // Let form fields use their normal keyboard input instead of treating
       // spaces and arrow keys as game controls.
@@ -69,12 +75,21 @@ export function Player({
       if (event.code === "KeyB") onBack();
     };
     const onKeyUp = (event: KeyboardEvent) => keys.current.delete(event.code);
+    const clearKeys = () => keys.current.clear();
+    const onVirtualControlStart = (event: Event) => setVirtualKey(event, true);
+    const onVirtualControlEnd = (event: Event) => setVirtualKey(event, false);
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
+    window.addEventListener("obby-control-start", onVirtualControlStart);
+    window.addEventListener("obby-control-end", onVirtualControlEnd);
+    window.addEventListener("blur", clearKeys);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("obby-control-start", onVirtualControlStart);
+      window.removeEventListener("obby-control-end", onVirtualControlEnd);
+      window.removeEventListener("blur", clearKeys);
     };
   });
 

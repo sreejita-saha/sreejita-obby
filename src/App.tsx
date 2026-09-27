@@ -9,6 +9,7 @@ import { WelcomeScreen } from "./components/ui/WelcomeScreen";
 import { MusicToggle } from "./components/ui/MusicToggle";
 import { RatingWidget } from "./components/ui/RatingWidget";
 import { LoadingScreen } from "./components/ui/LoadingScreen";
+import { TouchControls } from "./components/ui/TouchControls";
 import "./App.css";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
@@ -135,7 +136,10 @@ function App() {
 
       {!started && <WelcomeScreen onStart={() => setStarted(true)} />}
       {started && openSection === null && !menuOpen && (
-        <div className="controls"><b>WASD</b> move <b>SPACE</b> jump <b>B</b> back <b>R</b> restart</div>
+        <>
+          <div className="controls"><b>WASD</b> move <b>SPACE</b> jump <b>B</b> back <b>R</b> restart</div>
+          <TouchControls />
+        </>
       )}
       <Suspense fallback={null}>
         {openSection !== null && <SectionCard section={portfolio[openSection]} onClose={closeSection} onContinue={continueSection} />}

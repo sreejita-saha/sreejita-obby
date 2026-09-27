@@ -71,14 +71,14 @@ export function RatingWidget() {
       </button>
       {isOpen && createPortal(
         <div className="rating-backdrop" role="presentation" onMouseDown={close}>
-          <section className="rating-modal" role="dialog" aria-modal="true" aria-labelledby="rating-title" onMouseDown={(event) => event.stopPropagation()}>
+          <section className="rating-modal ui-panel" role="dialog" aria-modal="true" aria-labelledby="rating-title" onMouseDown={(event) => event.stopPropagation()}>
             <button className="close" type="button" onClick={close} aria-label="Close rating form">×</button>
             {submitted ? (
               <div className="rating-thanks">
                 <span aria-hidden="true">★</span>
                 <h2 id="rating-title">Thank you!</h2>
                 <p>Your feedback means a lot to me :)</p>
-                <button type="button" className="rating-submit" onClick={close}>Close</button>
+                <button type="button" className="rating-submit ui-button" onClick={close}>Close</button>
               </div>
             ) : (
               <form onSubmit={submitRating}>
@@ -93,7 +93,7 @@ export function RatingWidget() {
                 <textarea id="rating-comment" value={comment} onChange={(event) => setComment(event.target.value)} placeholder="I liked..." rows={4} maxLength={commentMaxLength} />
                 <p className="rating-character-count" aria-live="polite">{comment.length}/{commentMaxLength}</p>
                 {error && <p role="alert" className="rating-error">{error}</p>}
-                <button className="rating-submit" type="submit" disabled={!rating || isSubmitting}>{isSubmitting ? "Sending..." : "Submit rating"}</button>
+                <button className="rating-submit ui-button" type="submit" disabled={!rating || isSubmitting}>{isSubmitting ? "Sending..." : "Submit rating"}</button>
               </form>
             )}
           </section>

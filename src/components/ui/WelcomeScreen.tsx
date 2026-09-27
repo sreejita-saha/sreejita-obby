@@ -4,7 +4,7 @@ type WelcomeScreenProps = {
 
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   return (
-    <section className="welcome">
+    <section className="welcome ui-panel">
       <p className="eyebrow">A tiny playable portfolio</p>
       <h1>Hi, I’m Sreejita!</h1>
       <p>Jump through my world and unlock a little more about me at every checkpoint.</p>

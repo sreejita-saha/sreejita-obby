@@ -1,0 +1,15 @@
+/* Reusable visual primitives for the 2D interface. */
+:root {
+  --ink: #17223b;
+  --surface: #fff;
+  --accent: #ffd84d;
+  --control-border: 3px solid var(--ink);
+  --control-radius: 12px;
+  --control-shadow: 0 5px 0 var(--ink);
+  --panel-border: 4px solid var(--ink);
+  --panel-radius: 18px;
+  --panel-shadow: 10px 10px 0 var(--ink);
+}
+.ui-button, .welcome button, .menu-button { border: var(--control-border); border-radius: var(--control-radius); background: var(--button-color, var(--accent)); color: var(--ink); font-weight: 900; box-shadow: var(--control-shadow); }
+.ui-button:active, .welcome button:active, .menu-button:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
+.ui-panel { border: var(--panel-border); border-radius: var(--panel-radius); background: var(--surface); box-shadow: var(--panel-shadow); }

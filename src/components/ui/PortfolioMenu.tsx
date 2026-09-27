@@ -15,7 +15,7 @@ export function PortfolioMenu({ onClose }: PortfolioMenuProps) {
       </div>
       <div className="portfolio-overview">
         {portfolio.map((section) => (
-          <article key={section.id} className="portfolio-overview__card" style={{ "--section-color": section.color } as CSSProperties}>
+          <article key={section.id} className="portfolio-overview__card ui-panel" style={{ "--section-color": section.color } as CSSProperties}>
             <p className="eyebrow">{section.kicker}</p>
             <h3 className="portfolio-overview__title">{section.title}</h3>
             <SectionContent content={section.content} />
