@@ -8,6 +8,7 @@ import { Hud } from "./components/ui/Hud";
 import { WelcomeScreen } from "./components/ui/WelcomeScreen";
 import { MusicToggle } from "./components/ui/MusicToggle";
 import { RatingWidget } from "./components/ui/RatingWidget";
+import { LoadingScreen } from "./components/ui/LoadingScreen";
 import "./App.css";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
@@ -38,6 +39,7 @@ function App() {
   const [resetKey, setResetKey] = useState(0);
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [popupsEnabled, setPopupsEnabled] = useState(true);
+  const [loaderDismissed, setLoaderDismissed] = useState(false);
   const lowPower = useLowPowerMode();
 
   const isPlaying = started && openSection === null && !menuOpen;
@@ -106,6 +108,10 @@ function App() {
               setCheckpoint(index);
               if (popupsEnabled) setOpenSection(index);
             }}
+            onOpenCheckpoint={(index) => {
+              setCheckpoint(index);
+              setOpenSection(index);
+            }}
           />
         </Suspense>
       </Canvas>
@@ -124,6 +130,8 @@ function App() {
         onToggle={() => setMusicEnabled((enabled) => !enabled)}
       />
       <RatingWidget />
+
+      {!loaderDismissed && <LoadingScreen onReady={() => setLoaderDismissed(true)} />}
 
       {!started && <WelcomeScreen onStart={() => setStarted(true)} />}
       {started && openSection === null && !menuOpen && (

@@ -15,17 +15,21 @@ export function SectionCard({ section, onClose, onContinue }: SectionCardProps) 
 
   return (
     <div className="panel-backdrop" role="presentation" onMouseDown={onClose}>
-      <article className={`section-card${section.image ? " section-card--with-image" : ""}`} style={style} role="dialog" aria-modal="true" aria-labelledby={`section-title-${section.id}`} onMouseDown={(event) => event.stopPropagation()}>
+      <article className={`section-card section-card--${section.id}${section.image ? " section-card--with-image" : ""}`} style={style} role="dialog" aria-modal="true" aria-labelledby={`section-title-${section.id}`} onMouseDown={(event) => event.stopPropagation()}>
         <button className="close" type="button" onClick={onClose} aria-label="Close section">×</button>
         <p className="eyebrow">{section.kicker}</p>
         <h2 id={`section-title-${section.id}`}>{section.title}</h2>
         <SectionContent content={section.content} />
         {section.image && <img className={section.image.className} src={section.image.src} alt={section.image.alt} />}
-        {section.links?.map((link) => (
-          <a key={link.href} className="card-link" href={link.href} target="_blank" rel="noreferrer">
-            {link.label} ↗
-          </a>
-        ))}
+        {section.links && (
+          <div className="section-card__links">
+            {section.links.map((link) => (
+              <a key={link.href} className="card-link" href={link.href} target="_blank" rel="noreferrer">
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+        )}
         <button className="continue" type="button" onClick={onContinue}>
           {isFinalSection ? "Play again" : "Continue obby"}
         </button>

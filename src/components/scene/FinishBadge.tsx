@@ -6,12 +6,16 @@ import type { Vector3Tuple } from "../../types/world";
 
 type FinishBadgeProps = { position: Vector3Tuple };
 
-const confetti = Array.from({ length: 28 }, (_, index) => ({
-  direction: [Math.sin(index * 2.4) * (0.8 + (index % 3) * 0.18), 1.1 + (index % 5) * 0.16, Math.cos(index * 1.7) * (0.7 + (index % 4) * 0.16)] as Vector3Tuple,
+const confetti = Array.from({ length: 96 }, (_, index) => ({
+  position: [
+    Math.sin(index * 2.4) * (1.4 + (index % 7) * 0.42),
+    0.35 + (index % 11) * 0.29,
+    Math.cos(index * 1.7) * (1.1 + (index % 6) * 0.38),
+  ] as Vector3Tuple,
   color: ["#ff5f85", "#ffd34e", "#5ad5f5", "#b991ff", "#75d86c"][index % 5],
 }));
 
-/** Small floating medal that marks the final checkpoint without blocking play. */
+/** A badge surrounded by a wide, permanent confetti celebration at the finish. */
 export function FinishBadge({ position }: FinishBadgeProps) {
   const badge = useRef<THREE.Group>(null);
 
@@ -25,17 +29,17 @@ export function FinishBadge({ position }: FinishBadgeProps) {
         {/* Thin gold coin edge behind the artwork gives the badge physical depth. */}
         <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
           <cylinderGeometry args={[0.72, 0.72, 0.06, 50]} />
-          <meshStandardMaterial color="#dea005" roughness={0.28} />
+          <meshStandardMaterial color="#f474cd" roughness={0.28} />
         </mesh>
         {/* Two copies make the user-provided badge readable from both sides. */}
         <Image url="/images/badge.png" position={[0, 0, 0.035]} scale={[1.55, 1.55]} transparent />
         <Image url="/images/badge.png" position={[0, 0, -0.035]} rotation={[0, Math.PI, 0]} scale={[1.55, 1.55]} transparent />
-        {/* A permanent, quiet confetti halo instead of a triggered burst. */}
+        {/* A broad, permanent confetti field celebrates the entire final platform. */}
         <group>
-          {confetti.map(({ direction: [x, y, z], color }, index) => (
-            <mesh key={index} position={[x * 0.9, y * 0.1, z * 0.9]} rotation={[index, index * 0.7, index * 1.2]}>
-              <boxGeometry args={[0.08, 0.13, 0.025]} />
-              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.22} />
+          {confetti.map(({ position, color }, index) => (
+            <mesh key={index} position={position} rotation={[index * 0.73, index * 1.1, index * 1.47]}>
+              <boxGeometry args={[0.09, 0.16, 0.03]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.28} />
             </mesh>
           ))}
         </group>

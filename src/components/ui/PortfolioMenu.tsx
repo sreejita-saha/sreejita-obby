@@ -10,17 +10,20 @@ export function PortfolioMenu({ onClose }: PortfolioMenuProps) {
     <section className="portfolio-menu" aria-labelledby="portfolio-title">
       <button className="close" type="button" onClick={onClose} aria-label="Close portfolio">×</button>
       <div className="portfolio-menu__intro">
-        <p className="eyebrow">No jumping required</p>
+        <p className="eyebrow">No need to jump :)</p>
         <h2 id="portfolio-title">Sreejita’s portfolio</h2>
-        <p>Scroll through every checkpoint, all in one place.</p>
       </div>
       <div className="portfolio-overview">
         {portfolio.map((section) => (
           <article key={section.id} className="portfolio-overview__card" style={{ "--section-color": section.color } as CSSProperties}>
             <p className="eyebrow">{section.kicker}</p>
-            <h3>{section.title}</h3>
+            <h3 className="portfolio-overview__title">{section.title}</h3>
             <SectionContent content={section.content} />
-            {section.links?.map((link) => <a key={link.href} className="card-link" href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>)}
+            {section.links && (
+              <div className="portfolio-overview__links">
+                {section.links.map((link) => <a key={link.href} className="card-link" href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>)}
+              </div>
+            )}
           </article>
         ))}
       </div>

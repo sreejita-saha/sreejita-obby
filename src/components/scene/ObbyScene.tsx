@@ -4,7 +4,12 @@ import { platforms } from "../../data/world";
 import { Platform } from "./Platform";
 import { Player, type PlayerProps } from "./Player";
 
-export function ObbyScene(props: PlayerProps) {
+type ObbySceneProps = PlayerProps & {
+  /** Explicit label clicks should always open their checkpoint modal. */
+  onOpenCheckpoint: (index: number) => void;
+};
+
+export function ObbyScene(props: ObbySceneProps) {
   const { playing } = props;
 
   return (
@@ -22,7 +27,7 @@ export function ObbyScene(props: PlayerProps) {
           key={platform.id}
           data={platform}
           showLabel={playing}
-          onOpenCheckpoint={platform.section === undefined ? undefined : () => props.onCheckpoint(platform.section!)}
+          onOpenCheckpoint={platform.section === undefined ? undefined : () => props.onOpenCheckpoint(platform.section!)}
         />
       ))}
       <Player {...props} />

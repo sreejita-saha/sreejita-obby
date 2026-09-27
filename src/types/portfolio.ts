@@ -8,7 +8,8 @@ export type PortfolioLink = {
 export type PortfolioContentBlock =
   | { type: "paragraph"; text: string }
   | { type: "heading"; text: string }
-  | { type: "list"; items: string[] };
+  | { type: "list"; items: string[] }
+  | { type: "tags"; items: string[] };
 
 export type PortfolioImage = { src: string; alt: string; className?: string };
 
@@ -16,7 +17,6 @@ export type PortfolioSection = {
   id: PortfolioSectionId;
   kicker: string;
   title: string;
-  summary: string;
   content: PortfolioContentBlock[];
   links?: readonly PortfolioLink[];
   image?: PortfolioImage;

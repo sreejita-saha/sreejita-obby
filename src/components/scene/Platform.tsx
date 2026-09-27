@@ -166,7 +166,7 @@ function RobloxBaseplate({ position, size, color }: { position: [number, number,
       {/* Instancing keeps the stud grid inexpensive even with many raised tiles. */}
       <Instances limit={columns * rows}>
         <boxGeometry args={[0.18, 0.045, 0.18]} />
-        <meshStandardMaterial color="#5c6064" roughness={0.82} />
+        <meshStandardMaterial color="#89898a" roughness={0.82} />
         {Array.from({ length: columns * rows }, (_, index) => {
           const column = index % columns;
           const row = Math.floor(index / columns);
