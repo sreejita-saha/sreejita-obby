@@ -4,6 +4,7 @@ import { ControlIcon } from "./ControlIcon";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const commentMaxLength = 300;
 
 export function RatingWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,7 +77,7 @@ export function RatingWidget() {
               <div className="rating-thanks">
                 <span aria-hidden="true">★</span>
                 <h2 id="rating-title">Thank you!</h2>
-                <p>Your feedback has been sent.</p>
+                <p>Your feedback means a lot to me :)</p>
                 <button type="button" className="rating-submit" onClick={close}>Close</button>
               </div>
             ) : (
@@ -89,7 +90,8 @@ export function RatingWidget() {
                   ))}
                 </div>
                 <label htmlFor="rating-comment">Anything you want to share? <span>(optional)</span></label>
-                <textarea id="rating-comment" value={comment} onChange={(event) => setComment(event.target.value)} placeholder="I liked..." rows={4} maxLength={1000} />
+                <textarea id="rating-comment" value={comment} onChange={(event) => setComment(event.target.value)} placeholder="I liked..." rows={4} maxLength={commentMaxLength} />
+                <p className="rating-character-count" aria-live="polite">{comment.length}/{commentMaxLength}</p>
                 {error && <p role="alert" className="rating-error">{error}</p>}
                 <button className="rating-submit" type="submit" disabled={!rating || isSubmitting}>{isSubmitting ? "Sending..." : "Submit rating"}</button>
               </form>

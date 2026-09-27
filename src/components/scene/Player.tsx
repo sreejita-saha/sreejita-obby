@@ -55,6 +55,11 @@ export function Player({
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      // Let form fields use their normal keyboard input instead of treating
+      // spaces and arrow keys as game controls.
+      const target = event.target as HTMLElement | null;
+      if (target?.matches("input, textarea, select, [contenteditable='true']")) return;
+
       keys.current.add(event.code);
       if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code)) {
         event.preventDefault();
