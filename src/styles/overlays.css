@@ -9,6 +9,10 @@
   background: rgba(23, 34, 59, 0.38);
   backdrop-filter: blur(5px);
 }
+.portfolio-menu {
+  /* The portfolio may be opened from the HUD before the welcome card closes. */
+  z-index: 26;
+}
 
 .section-card {
   --section-color: var(--accent);
@@ -47,14 +51,33 @@
 .section-card__content p {
   margin: 0;
 }
+.inline-link {
+  color: #2658a8;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.16em;
+}
+.inline-link:hover,
+.inline-link:focus-visible {
+  color: #173b78;
+}
 .section-card__content p + p,
 .section-card__content h3,
 .section-card__content ul {
   margin: 14px 0 0;
 }
 .section-card__content h3 {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid color-mix(in srgb, var(--section-color) 50%, #ffffff);
   font-size: 1.4rem;
   line-height: 1.25;
+}
+.section-card__content h3:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
 }
 .section-card__content ul {
   padding-left: 1.25rem;
