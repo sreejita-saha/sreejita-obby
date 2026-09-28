@@ -1,4 +1,4 @@
-.welcome { position: fixed; z-index: 8; left: 50%; top: clamp(88px, 13vh, 150px); width: min(560px, calc(100% - 32px)); transform: translateX(-50%); padding: 25px 28px 22px; background: rgba(255,255,255,.95); border-radius: 20px; box-shadow: 9px 9px 0 var(--ink); text-align: center; }
+.welcome { position: fixed; z-index: 25; left: 50%; top: clamp(88px, 13vh, 150px); width: min(560px, calc(100% - 32px)); transform: translateX(-50%); padding: 25px 28px 22px; background: rgba(255,255,255,.95); border-radius: 20px; box-shadow: 9px 9px 0 var(--ink); text-align: center; }
 .eyebrow { margin: 0 0 7px; color: #765c00; text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; font-weight: 900; }
 .welcome h1, .section-card h2, .portfolio-menu h2 { margin: 0; font-family: "Archivo Black", sans-serif; letter-spacing: -.04em; line-height: 1.05; }.welcome h1 { font-size: clamp(2rem, 7vw, 4rem); }.welcome > p:not(.eyebrow) { max-width: 440px; margin: 12px auto 18px; line-height: 1.5; }
 .welcome button, .continue { padding: 12px 18px; }.welcome button span { margin-left: 20px; }.welcome small { display: block; margin-top: 15px; font-weight: 700; opacity: .65; }

@@ -1,5 +1,38 @@
 # React + TypeScript + Vite
 
+## Compressing 3D models
+
+Run the batch script from the project root:
+
+```powershell
+python scripts/compress_glb.py
+```
+
+It finds every `.glb` under `public/models` and replaces each with its
+Meshopt-compressed version. A temporary file is used, so a model is replaced
+only after compression succeeds. The first run downloads the free, open-source
+`@gltf-transform/cli` package through `npx`; later runs reuse its npm cache.
+
+```powershell
+python scripts/compress_glb.py
+```
+
+To write compressed copies somewhere else instead, use `--output`:
+
+```powershell
+python scripts/compress_glb.py --output public/models-compressed
+```
+
+## Compressing images
+
+This conservatively recompresses PNGs in place without changing any pixels,
+dimensions, or transparency. Install its free dependency once, then run it:
+
+```powershell
+python -m pip install Pillow
+python scripts/compress_images.py
+```
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
