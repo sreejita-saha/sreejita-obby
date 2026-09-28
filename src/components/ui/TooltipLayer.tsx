@@ -1,10 +1,19 @@
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import {
+  arrow,
+  FloatingPortal,
+  flip,
+  offset,
+  shift,
+  useFloating,
+  type Placement,
+} from "@floating-ui/react";
+import { useEffect, useRef, useState } from "react";
 
 type TooltipTarget = {
   element: HTMLElement;
   label: string;
-  position: "top" | "bottom";
+  preferredSide: "top" | "bottom";
+  lockSide: boolean;
 };
 
 function getTarget(node: EventTarget | null) {
@@ -13,21 +22,39 @@ function getTarget(node: EventTarget | null) {
     : null;
 }
 
-/** Renders tooltips at document level so panels and the app shell cannot clip them. */
+/** Uses Floating UI to keep every hint and its arrow attached to its trigger. */
 export function TooltipLayer() {
   const [target, setTarget] = useState<TooltipTarget | null>(null);
-  const [rect, setRect] = useState<DOMRect | null>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
+  const preferredSide = target?.preferredSide ?? "top";
+  const fallbackPlacements: Placement[] =
+    preferredSide === "top"
+      ? ["bottom", "right", "left"]
+      : ["top", "right", "left"];
+  const { refs, floatingStyles, placement, middlewareData } = useFloating({
+    open: Boolean(target),
+    placement: preferredSide,
+    middleware: [
+      offset(10),
+      ...(target?.lockSide ? [] : [flip({ fallbackPlacements })]),
+      shift({ padding: 8 }),
+      arrow({ element: arrowRef }),
+    ],
+  });
 
   useEffect(() => {
-    const show = (element: HTMLElement) => {
+    refs.setReference(target?.element ?? null);
+  }, [refs, target]);
+
+  useEffect(() => {
+    const show = (element: HTMLElement) =>
       setTarget({
         element,
         label: element.dataset.tooltip ?? "",
-        position:
+        preferredSide:
           element.dataset.tooltipPosition === "bottom" ? "bottom" : "top",
+        lockSide: element.dataset.tooltipLockSide === "true",
       });
-      setRect(element.getBoundingClientRect());
-    };
     const onMouseOver = (event: MouseEvent) => {
       const next = getTarget(event.target);
       if (next && next !== getTarget(event.relatedTarget)) show(next);
@@ -42,7 +69,6 @@ export function TooltipLayer() {
       if (next) show(next);
     };
     const onFocusOut = () => setTarget(null);
-
     document.addEventListener("mouseover", onMouseOver);
     document.addEventListener("mouseout", onMouseOut);
     document.addEventListener("focusin", onFocusIn);
@@ -55,39 +81,38 @@ export function TooltipLayer() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!target) return;
-    const update = () => setRect(target.element.getBoundingClientRect());
-    window.addEventListener("resize", update);
-    window.addEventListener("scroll", update, true);
-    return () => {
-      window.removeEventListener("resize", update);
-      window.removeEventListener("scroll", update, true);
-    };
-  }, [target]);
+  if (!target || !target.label) return null;
+  const side = placement.split("-")[0];
+  const { x: arrowX, y: arrowY } = middlewareData.arrow ?? {};
+  const staticSide = {
+    top: "bottom",
+    right: "left",
+    bottom: "top",
+    left: "right",
+  }[side] as "top" | "right" | "bottom" | "left";
 
-  if (!target || !rect || !target.label) return null;
-  const horizontalInset = Math.min(132, window.innerWidth / 2);
-  const left = Math.max(
-    horizontalInset,
-    Math.min(window.innerWidth - horizontalInset, rect.left + rect.width / 2),
-  );
-  const position =
-    target.position === "top" && rect.top < 90
-      ? "bottom"
-      : target.position === "bottom" && rect.bottom > window.innerHeight - 90
-        ? "top"
-        : target.position;
-  const top = position === "bottom" ? rect.bottom + 10 : rect.top - 10;
-
-  return createPortal(
-    <div
-      className={`tooltip-layer tooltip-layer--${position}`}
-      role="tooltip"
-      style={{ left, top }}
-    >
-      {target.label}
-    </div>,
-    document.body,
+  return (
+    <FloatingPortal>
+      <div
+        ref={refs.setFloating}
+        className="tooltip-layer"
+        data-side={side}
+        role="tooltip"
+        style={floatingStyles}
+      >
+        {target.label}
+        <div
+          ref={arrowRef}
+          className="tooltip-layer__arrow"
+          style={{
+            left: arrowX ?? "",
+            top: arrowY ?? "",
+            right: "",
+            bottom: "",
+            [staticSide]: "-0.38rem",
+          }}
+        />
+      </div>
+    </FloatingPortal>
   );
 }

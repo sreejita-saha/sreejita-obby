@@ -33,6 +33,7 @@ export function MusicToggle({ canPlay, enabled, onToggle }: MusicToggleProps) {
             ? "Turn off the background music"
             : "Turn on the background music"
         }
+        data-tooltip-lock-side="true"
       >
         <ControlIcon name={isOn ? "music" : "muted"} />
         <span>Music</span>

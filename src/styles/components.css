@@ -50,46 +50,29 @@
   line-height: 1.25;
   pointer-events: none;
   text-align: center;
-  transform: translate(-50%, -100%);
 }
-.tooltip-layer--bottom {
-  transform: translate(-50%, 0);
-}
-.tooltip-layer::before,
-.tooltip-layer::after {
+.tooltip-layer__arrow {
   position: absolute;
-  left: 50%;
-  width: 0;
-  height: 0;
-  content: "";
-  transform: translateX(-50%);
+  width: 0.78rem;
+  height: 0.78rem;
+  background: #fffdf4;
+  transform: rotate(45deg);
 }
-/* The paired triangles make a small outlined speech-bubble pointer. */
-.tooltip-layer--top::after {
-  bottom: -0.58rem;
-  border-top: 0.62rem solid var(--ink);
-  border-right: 0.5rem solid transparent;
-  border-left: 0.5rem solid transparent;
+.tooltip-layer[data-side="top"] .tooltip-layer__arrow {
+  border-right: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
 }
-.tooltip-layer--top::before {
-  z-index: 1;
-  bottom: -0.42rem;
-  border-top: 0.5rem solid #fffdf4;
-  border-right: 0.38rem solid transparent;
-  border-left: 0.38rem solid transparent;
+.tooltip-layer[data-side="bottom"] .tooltip-layer__arrow {
+  border-top: 2px solid var(--ink);
+  border-left: 2px solid var(--ink);
 }
-.tooltip-layer--bottom::after {
-  top: -0.58rem;
-  border-right: 0.5rem solid transparent;
-  border-bottom: 0.62rem solid var(--ink);
-  border-left: 0.5rem solid transparent;
+.tooltip-layer[data-side="left"] .tooltip-layer__arrow {
+  border-top: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
 }
-.tooltip-layer--bottom::before {
-  z-index: 1;
-  top: -0.42rem;
-  border-right: 0.38rem solid transparent;
-  border-bottom: 0.5rem solid #fffdf4;
-  border-left: 0.38rem solid transparent;
+.tooltip-layer[data-side="right"] .tooltip-layer__arrow {
+  border-bottom: 2px solid var(--ink);
+  border-left: 2px solid var(--ink);
 }
 @media (hover: none) {
   .tooltip-layer {

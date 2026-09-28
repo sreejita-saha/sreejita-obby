@@ -33,7 +33,10 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
     );
   }, [completed, hasObservedLoading, progress]);
 
-  const ready = !active && progress >= 100 && elapsed > 900;
+  // useProgress initially reports 100% before the scene starts requesting its
+  // assets. Wait until at least one real loading cycle has been observed.
+  const ready =
+    hasObservedLoading && !active && progress >= 100 && elapsed > 900;
 
   useEffect(() => {
     if (ready) setCompleted(true);

@@ -70,6 +70,7 @@ export function SectionCard({
               ? "Restart the obby from the beginning"
               : "Close this card and continue playing"
           }
+          data-tooltip-position="top"
         >
           {isFinalSection ? "Play again" : "Continue obby"}
         </button>
