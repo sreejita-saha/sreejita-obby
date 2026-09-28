@@ -23,12 +23,20 @@ function getKtx2Loader(gl: THREE.WebGLRenderer) {
   return loader;
 }
 
-export function SceneModel({ url, position, displaySize, rotation, anchor = "bottom" }: SceneModelProps) {
+export function SceneModel({
+  url,
+  position,
+  displaySize,
+  rotation,
+  anchor = "bottom",
+}: SceneModelProps) {
   const { gl } = useThree();
   // Some GLB assets (such as the tree) use KTX2-compressed textures.
   // Keep the decoder local so models work offline and in production builds.
   const ktx2Loader = useMemo(() => getKtx2Loader(gl), [gl]);
-  const { scene } = useGLTF(url, true, true, (loader) => loader.setKTX2Loader(ktx2Loader));
+  const { scene } = useGLTF(url, true, true, (loader) =>
+    loader.setKTX2Loader(ktx2Loader),
+  );
   const model = useMemo(() => scene.clone(), [scene]);
   const fit = useMemo(() => {
     const box = new THREE.Box3().setFromObject(model);
@@ -51,4 +59,17 @@ export function SceneModel({ url, position, displaySize, rotation, anchor = "bot
       <primitive object={model} position={fit.offset} />
     </group>
   );
+}
+
+/** Warm the GLTF cache for models in an upcoming checkpoint. */
+export function preloadSceneModels(
+  urls: Iterable<string>,
+  gl: THREE.WebGLRenderer,
+) {
+  const ktx2Loader = getKtx2Loader(gl);
+  for (const url of new Set(urls)) {
+    useGLTF.preload(url, true, true, (loader) =>
+      loader.setKTX2Loader(ktx2Loader),
+    );
+  }
 }

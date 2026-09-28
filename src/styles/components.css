@@ -10,6 +10,89 @@
   --panel-radius: 18px;
   --panel-shadow: 10px 10px 0 var(--ink);
 }
-.ui-button, .welcome button, .menu-button { border: var(--control-border); border-radius: var(--control-radius); background: var(--button-color, var(--accent)); color: var(--ink); font-weight: 900; box-shadow: var(--control-shadow); }
-.ui-button:active, .welcome button:active, .menu-button:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
-.ui-panel { border: var(--panel-border); border-radius: var(--panel-radius); background: var(--surface); box-shadow: var(--panel-shadow); }
+.ui-button,
+.welcome button,
+.menu-button {
+  border: var(--control-border);
+  border-radius: var(--control-radius);
+  background: var(--button-color, var(--accent));
+  color: var(--ink);
+  font-weight: 900;
+  box-shadow: var(--control-shadow);
+}
+.ui-button:active,
+.welcome button:active,
+.menu-button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--ink);
+}
+.ui-panel {
+  border: var(--panel-border);
+  border-radius: var(--panel-radius);
+  background: var(--surface);
+  box-shadow: var(--panel-shadow);
+}
+
+/* Rendered at document level so a parent container can never clip a hint. */
+.tooltip-layer {
+  position: fixed;
+  z-index: 10001;
+  width: max-content;
+  max-width: min(15rem, calc(100vw - 1.5rem));
+  padding: 0.45rem 0.65rem;
+  border: 2px solid var(--ink);
+  border-radius: 0.6rem;
+  background: #fffdf4;
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.25;
+  pointer-events: none;
+  text-align: center;
+  transform: translate(-50%, -100%);
+}
+.tooltip-layer--bottom {
+  transform: translate(-50%, 0);
+}
+.tooltip-layer::before,
+.tooltip-layer::after {
+  position: absolute;
+  left: 50%;
+  width: 0;
+  height: 0;
+  content: "";
+  transform: translateX(-50%);
+}
+/* The paired triangles make a small outlined speech-bubble pointer. */
+.tooltip-layer--top::after {
+  bottom: -0.58rem;
+  border-top: 0.62rem solid var(--ink);
+  border-right: 0.5rem solid transparent;
+  border-left: 0.5rem solid transparent;
+}
+.tooltip-layer--top::before {
+  z-index: 1;
+  bottom: -0.42rem;
+  border-top: 0.5rem solid #fffdf4;
+  border-right: 0.38rem solid transparent;
+  border-left: 0.38rem solid transparent;
+}
+.tooltip-layer--bottom::after {
+  top: -0.58rem;
+  border-right: 0.5rem solid transparent;
+  border-bottom: 0.62rem solid var(--ink);
+  border-left: 0.5rem solid transparent;
+}
+.tooltip-layer--bottom::before {
+  z-index: 1;
+  top: -0.42rem;
+  border-right: 0.38rem solid transparent;
+  border-bottom: 0.5rem solid #fffdf4;
+  border-left: 0.38rem solid transparent;
+}
+@media (hover: none) {
+  .tooltip-layer {
+    display: none;
+  }
+}

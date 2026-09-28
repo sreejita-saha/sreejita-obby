@@ -10,16 +10,27 @@ import { MusicToggle } from "./components/ui/MusicToggle";
 import { RatingWidget } from "./components/ui/RatingWidget";
 import { LoadingScreen } from "./components/ui/LoadingScreen";
 import { TouchControls } from "./components/ui/TouchControls";
+import { TooltipLayer } from "./components/ui/TooltipLayer";
 import "./App.css";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
-const PortfolioMenu = lazy(() => import("./components/ui/PortfolioMenu").then(({ PortfolioMenu }) => ({ default: PortfolioMenu })));
-const SectionCard = lazy(() => import("./components/ui/SectionCard").then(({ SectionCard }) => ({ default: SectionCard })));
+const PortfolioMenu = lazy(() =>
+  import("./components/ui/PortfolioMenu").then(({ PortfolioMenu }) => ({
+    default: PortfolioMenu,
+  })),
+);
+const SectionCard = lazy(() =>
+  import("./components/ui/SectionCard").then(({ SectionCard }) => ({
+    default: SectionCard,
+  })),
+);
 
 function useLowPowerMode() {
   // Keep this query aligned with the devices on which you want simpler graphics.
   const query = "(max-width: 700px), (prefers-reduced-motion: reduce)";
-  const [lowPower, setLowPower] = useState(() => window.matchMedia(query).matches);
+  const [lowPower, setLowPower] = useState(
+    () => window.matchMedia(query).matches,
+  );
 
   useEffect(() => {
     const media = window.matchMedia(query);
@@ -131,18 +142,29 @@ function App() {
         onToggle={() => setMusicEnabled((enabled) => !enabled)}
       />
       <RatingWidget />
+      <TooltipLayer />
 
-      {!loaderDismissed && <LoadingScreen onReady={() => setLoaderDismissed(true)} />}
+      {!loaderDismissed && (
+        <LoadingScreen onReady={() => setLoaderDismissed(true)} />
+      )}
 
       {!started && <WelcomeScreen onStart={() => setStarted(true)} />}
       {started && openSection === null && !menuOpen && (
         <>
-          <div className="controls"><b>WASD</b> move <b>SPACE</b> jump <b>B</b> back <b>R</b> restart</div>
+          <div className="controls">
+            <b>WASD</b> move <b>SPACE</b> jump <b>B</b> back <b>R</b> restart
+          </div>
           <TouchControls />
         </>
       )}
       <Suspense fallback={null}>
-        {openSection !== null && <SectionCard section={portfolio[openSection]} onClose={closeSection} onContinue={continueSection} />}
+        {openSection !== null && (
+          <SectionCard
+            section={portfolio[openSection]}
+            onClose={closeSection}
+            onContinue={continueSection}
+          />
+        )}
         {menuOpen && <PortfolioMenu onClose={() => setMenuOpen(false)} />}
       </Suspense>
     </main>

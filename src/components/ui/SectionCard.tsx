@@ -9,28 +9,68 @@ type SectionCardProps = {
   onContinue: () => void;
 };
 
-export function SectionCard({ section, onClose, onContinue }: SectionCardProps) {
+export function SectionCard({
+  section,
+  onClose,
+  onContinue,
+}: SectionCardProps) {
   const style = { "--section-color": section.color } as CSSProperties;
   const isFinalSection = section.id === "contact";
 
   return (
     <div className="panel-backdrop" role="presentation" onMouseDown={onClose}>
-      <article className={`section-card ui-panel section-card--${section.id}${section.image ? " section-card--with-image" : ""}`} style={style} role="dialog" aria-modal="true" aria-labelledby={`section-title-${section.id}`} onMouseDown={(event) => event.stopPropagation()}>
-        <button className="close" type="button" onClick={onClose} aria-label="Close section">×</button>
+      <article
+        className={`section-card ui-panel section-card--${section.id}${section.image ? " section-card--with-image" : ""}`}
+        style={style}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`section-title-${section.id}`}
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <button
+          className="close"
+          type="button"
+          onClick={onClose}
+          aria-label="Close section"
+          data-tooltip="Close this checkpoint"
+        >
+          ×
+        </button>
         <p className="eyebrow">{section.kicker}</p>
         <h2 id={`section-title-${section.id}`}>{section.title}</h2>
         <SectionContent content={section.content} />
-        {section.image && <img className={section.image.className} src={section.image.src} alt={section.image.alt} />}
+        {section.image && (
+          <img
+            className={section.image.className}
+            src={section.image.src}
+            alt={section.image.alt}
+          />
+        )}
         {section.links && (
           <div className="section-card__links">
             {section.links.map((link) => (
-              <a key={link.href} className="card-link" href={link.href} target="_blank" rel="noreferrer">
+              <a
+                key={link.href}
+                className="card-link"
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {link.label} ↗
               </a>
             ))}
           </div>
         )}
-        <button className="continue ui-button" type="button" onClick={onContinue}>
+        <button
+          className="continue ui-button"
+          type="button"
+          onClick={onContinue}
+          data-tooltip={
+            isFinalSection
+              ? "Restart the obby from the beginning"
+              : "Close this card and continue playing"
+          }
+        >
           {isFinalSection ? "Play again" : "Continue obby"}
         </button>
       </article>

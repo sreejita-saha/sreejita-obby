@@ -74,6 +74,6 @@ export const portfolio: PortfolioSection[] = [
       { label: "LinkedIn: sreejita-s", href: "https://www.linkedin.com/in/sreejita-s" },
       { label: "CV", href: "/cv.pdf" },
     ],
-    color: "#ffd769",
+    color: "#f2a7fc",
   },
 ];

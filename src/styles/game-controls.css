@@ -1,48 +1,278 @@
-.hud-actions { display:flex; justify-content:flex-end; align-items:center; pointer-events:auto; }
-.quick-actions { position:fixed; z-index:12; top:31vh; left:10px; display:grid; gap:10px; }
-.hud-utility,.music-toggle,.rating-toggle { display:inline-flex; align-items:center; justify-content:center; gap:7px; height:42px; min-width:98px; padding:0 10px; border:3px solid #17223b; border-radius:12px; color:#17223b; box-shadow:0 5px 0 #17223b; font:800 .8rem/1 "DM Sans",sans-serif; letter-spacing:.01em; transition:transform .15s,box-shadow .15s,background .15s,color .15s; }
-.music-toggle span { font-size:inherit; line-height:inherit; }
-.control-icon { width:18px; height:18px; flex:0 0 auto; }
-.hud .hud-utility--skip { min-width:98px; padding:0 10px; border-radius:12px; background:#8bb6f6; box-shadow:0 5px 0 #17223b, inset 0 0 0 2px rgba(255,255,255,.35); }
-.hud-utility--skip .control-icon { width:18px; height:18px; }
-.hud .hud-utility--skip:hover { background:#5f96e8; }
-.hud .hud-utility--popups { position:fixed; z-index:12; bottom:18px; left:116px; background:#7ed957; box-shadow:0 5px 0 #17223b, inset 0 0 0 2px rgba(255,255,255,.35); }
-.music-toggle { position:fixed; z-index:12; left:10px; bottom:18px; background:#ed99b9; box-shadow:0 5px 0 #17223b, inset 0 0 0 2px rgba(255,255,255,.35); }
-.rating-toggle { position:fixed; z-index:12; top:calc(31vh + 52px); left:10px; background:#ffff85; box-shadow:0 5px 0 #17223b, inset 0 0 0 2px rgba(255,255,255,.35); }
-.hud-utility.is-off,.music-toggle.is-off { background:#d6d9df; color:#a4aab3; box-shadow:0 5px 0 #89919c; }
-.hud-utility:hover,.music-toggle:hover,.rating-toggle:hover { transform:translate(-1px,-2px); box-shadow:5px 7px 0 #17223b, inset 0 0 0 2px rgba(255,255,255,.35); }
-.hud-utility:active,.music-toggle:active,.rating-toggle:active { transform:translateY(3px); box-shadow:0 2px 0 #17223b, inset 0 0 0 2px rgba(255,255,255,.35); }
-@media (max-width:640px){
-  .quick-actions{top:auto;bottom:66px;left:6px;gap:8px}
-  .hud-utility,.music-toggle,.rating-toggle{height:38px;min-width:88px;padding:0 8px;font-size:.74rem}
-  .hud-utility--skip{min-width:88px;padding:0 8px}
-  .hud-utility--skip .control-icon{width:17px;height:17px}
-  .control-icon{width:17px;height:17px}
-  .music-toggle{left:6px;bottom:12px}
-  .hud-utility--popups{left:102px;bottom:12px}
-  .rating-toggle{top:auto;left:6px;bottom:58px}
+.hud-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  pointer-events: auto;
 }
-.touch-controls { display: none; }
+.quick-actions {
+  position: fixed;
+  z-index: 12;
+  top: 31vh;
+  left: 10px;
+  display: grid;
+  gap: 10px;
+}
+.hud-utility,
+.music-toggle,
+.rating-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 42px;
+  min-width: 98px;
+  padding: 0 10px;
+  border: 3px solid #17223b;
+  border-radius: 12px;
+  color: #17223b;
+  box-shadow: 0 5px 0 #17223b;
+  font:
+    800 0.8rem/1 "DM Sans",
+    sans-serif;
+  letter-spacing: 0.01em;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    background 0.15s,
+    color 0.15s;
+}
+.music-toggle span {
+  font-size: inherit;
+  line-height: inherit;
+}
+.control-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+.hud .hud-utility--skip {
+  min-width: 98px;
+  padding: 0 10px;
+  border-radius: 12px;
+  background: #8bb6f6;
+  box-shadow:
+    0 5px 0 #17223b,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+.hud-utility--skip .control-icon {
+  width: 18px;
+  height: 18px;
+}
+.hud .hud-utility--skip:hover {
+  background: #5f96e8;
+}
+.hud .hud-utility--popups {
+  position: fixed;
+  z-index: 12;
+  bottom: 18px;
+  left: 116px;
+  background: #7ed957;
+  box-shadow:
+    0 5px 0 #17223b,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+.music-toggle {
+  position: fixed;
+  z-index: 12;
+  left: 10px;
+  bottom: 18px;
+  background: #ed99b9;
+  box-shadow:
+    0 5px 0 #17223b,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+.rating-toggle {
+  position: fixed;
+  z-index: 12;
+  top: calc(31vh + 52px);
+  left: 10px;
+  background: #ffff85;
+  box-shadow:
+    0 5px 0 #17223b,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+.hud-utility.is-off,
+.music-toggle.is-off {
+  background: #d6d9df;
+  color: #a4aab3;
+  box-shadow: 0 5px 0 #89919c;
+}
+.hud-utility:hover,
+.music-toggle:hover,
+.rating-toggle:hover {
+  transform: translate(-1px, -2px);
+  box-shadow:
+    5px 7px 0 #17223b,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+.hud-utility:active,
+.music-toggle:active,
+.rating-toggle:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 2px 0 #17223b,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+@media (max-width: 640px) {
+  .quick-actions {
+    top: auto;
+    bottom: 66px;
+    left: 6px;
+    gap: 8px;
+  }
+  .hud-utility,
+  .music-toggle,
+  .rating-toggle {
+    height: 38px;
+    min-width: 88px;
+    padding: 0 8px;
+    font-size: 0.74rem;
+  }
+  .hud-utility--skip {
+    min-width: 88px;
+    padding: 0 8px;
+  }
+  .hud-utility--skip .control-icon {
+    width: 17px;
+    height: 17px;
+  }
+  .control-icon {
+    width: 17px;
+    height: 17px;
+  }
+  .music-toggle {
+    left: 6px;
+    bottom: 12px;
+  }
+  .hud-utility--popups {
+    left: 102px;
+    bottom: 12px;
+  }
+  .rating-toggle {
+    top: auto;
+    left: 6px;
+    bottom: 58px;
+  }
+}
+.touch-controls {
+  display: none;
+}
 
 @media (pointer: coarse), (max-width: 700px) {
-  .controls { display: none; }
-  .touch-controls { position: fixed; z-index: 15; inset: auto 0 calc(10px + env(safe-area-inset-bottom)) 0; display: flex; align-items: end; justify-content: space-between; padding: 0 max(14px, env(safe-area-inset-right)) 0 max(14px, env(safe-area-inset-left)); pointer-events: none; }
-  .touch-dpad { position: relative; width: 132px; height: 132px; pointer-events: auto; }
-  .touch-control { position: absolute; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 3px solid var(--ink); border-radius: 13px; background: rgba(255,255,255,.88); color: var(--ink); box-shadow: 0 4px 0 var(--ink); font: 900 1.5rem/1 "DM Sans", sans-serif; text-align: center; touch-action: none; user-select: none; -webkit-user-select: none; }
-  .touch-control:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); background: var(--accent); }
-  .touch-control--up { left: 44px; top: 0; }
-  .touch-control--left { left: 0; top: 44px; }
-  .touch-control--down { left: 44px; top: 44px; }
-  .touch-control--right { left: 88px; top: 44px; }
-  .touch-control--jump { position: static; width: 72px; height: 72px; border-radius: 50%; background: var(--accent); pointer-events: auto; font-size: .85rem; }
-  .touch-control__glyph { display: block; line-height: 1; }
-  .touch-control--left .touch-control__glyph { transform: rotate(-90deg); }
-  .touch-control--down .touch-control__glyph { transform: rotate(180deg); }
-  .touch-control--right .touch-control__glyph { transform: rotate(90deg); }
+  .controls {
+    display: none;
+  }
+  .touch-controls {
+    position: fixed;
+    z-index: 15;
+    inset: auto 0 calc(10px + env(safe-area-inset-bottom)) 0;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    padding: 0 max(14px, env(safe-area-inset-right)) 0
+      max(14px, env(safe-area-inset-left));
+    pointer-events: none;
+  }
+  .touch-dpad {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    pointer-events: auto;
+  }
+  .touch-control {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 3px solid var(--ink);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.88);
+    color: var(--ink);
+    box-shadow: 0 4px 0 var(--ink);
+    font:
+      900 1.5rem/1 "DM Sans",
+      sans-serif;
+    text-align: center;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .touch-control:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--ink);
+    background: var(--accent);
+  }
+  .touch-control--up {
+    left: 44px;
+    top: 0;
+  }
+  .touch-control--left {
+    left: 0;
+    top: 44px;
+  }
+  .touch-control--down {
+    left: 44px;
+    top: 44px;
+  }
+  .touch-control--right {
+    left: 88px;
+    top: 44px;
+  }
+  .touch-control--jump {
+    position: static;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: auto;
+    font-size: 0.85rem;
+  }
+  .touch-control__glyph {
+    display: block;
+    line-height: 1;
+  }
+  .touch-control--left .touch-control__glyph {
+    transform: rotate(-90deg);
+  }
+  .touch-control--down .touch-control__glyph {
+    transform: rotate(180deg);
+  }
+  .touch-control--right .touch-control__glyph {
+    transform: rotate(90deg);
+  }
   /* A uniform left-side stack sits above the D-pad and away from Jump. */
-  .quick-actions { top: auto !important; right: auto !important; bottom: 296px !important; left: 14px !important; gap: 6px; }
-  .hud-utility, .music-toggle, .rating-toggle { width: 82px !important; min-width: 82px !important; padding-inline: 5px !important; gap: 4px !important; font-size: .68rem !important; }
-  .rating-toggle { top: auto !important; right: auto !important; bottom: 252px !important; left: 14px !important; }
-  .music-toggle { right: auto !important; bottom: 208px !important; left: 14px !important; }
-  .hud .hud-utility--popups { right: auto !important; bottom: 164px !important; left: 14px !important; }
+  .quick-actions {
+    top: auto !important;
+    right: auto !important;
+    bottom: 296px !important;
+    left: 14px !important;
+    gap: 6px;
+  }
+  .hud-utility,
+  .music-toggle,
+  .rating-toggle {
+    width: 82px !important;
+    min-width: 82px !important;
+    padding-inline: 5px !important;
+    gap: 4px !important;
+    font-size: 0.68rem !important;
+  }
+  .rating-toggle {
+    top: auto !important;
+    right: auto !important;
+    bottom: 252px !important;
+    left: 14px !important;
+  }
+  .music-toggle {
+    right: auto !important;
+    bottom: 208px !important;
+    left: 14px !important;
+  }
+  .hud .hud-utility--popups {
+    right: auto !important;
+    bottom: 164px !important;
+    left: 14px !important;
+  }
 }
