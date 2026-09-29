@@ -175,16 +175,16 @@
   }
   .touch-dpad {
     position: relative;
-    width: 132px;
-    height: 132px;
+    width: 150px;
+    height: 150px;
     pointer-events: auto;
   }
   .touch-control {
     position: absolute;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     padding: 0;
     border: 3px solid var(--ink);
     border-radius: 13px;
@@ -205,20 +205,36 @@
     background: var(--accent);
   }
   .touch-control--up {
-    left: 44px;
+    left: 52px;
     top: 0;
   }
   .touch-control--left {
     left: 0;
-    top: 44px;
+    top: 52px;
   }
   .touch-control--down {
-    left: 44px;
-    top: 44px;
+    left: 52px;
+    top: 104px;
   }
   .touch-control--right {
-    left: 88px;
-    top: 44px;
+    left: 104px;
+    top: 52px;
+  }
+  .touch-control--up-left {
+    left: 0;
+    top: 0;
+  }
+  .touch-control--up-right {
+    left: 104px;
+    top: 0;
+  }
+  .touch-control--down-left {
+    left: 0;
+    top: 104px;
+  }
+  .touch-control--down-right {
+    left: 104px;
+    top: 104px;
   }
   .touch-control--jump {
     position: static;
@@ -246,7 +262,7 @@
   .quick-actions {
     top: auto !important;
     right: auto !important;
-    bottom: 296px !important;
+    bottom: 314px !important;
     left: 14px !important;
     gap: 6px;
   }
@@ -262,17 +278,17 @@
   .rating-toggle {
     top: auto !important;
     right: auto !important;
-    bottom: 252px !important;
+    bottom: 270px !important;
     left: 14px !important;
   }
   .music-toggle {
     right: auto !important;
-    bottom: 208px !important;
+    bottom: 226px !important;
     left: 14px !important;
   }
   .hud .hud-utility--popups {
     right: auto !important;
-    bottom: 164px !important;
+    bottom: 182px !important;
     left: 14px !important;
   }
 }

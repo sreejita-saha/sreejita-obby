@@ -28,6 +28,7 @@ export function Player({
   const velocity = useRef(new THREE.Vector3());
   const position = useRef(spawnPoint.clone());
   const keys = useRef(new Set<string>());
+  const virtualKeyCounts = useRef(new Map<string, number>());
   const grounded = useRef(false);
   const coyoteTime = useRef(0);
   const jumpBufferTime = useRef(0);
@@ -57,8 +58,14 @@ export function Player({
     const setVirtualKey = (event: Event, pressed: boolean) => {
       const code = (event as CustomEvent<string>).detail;
       if (typeof code !== "string") return;
-      if (pressed) keys.current.add(code);
-      else keys.current.delete(code);
+      const currentCount = virtualKeyCounts.current.get(code) ?? 0;
+      if (pressed) {
+        virtualKeyCounts.current.set(code, currentCount + 1);
+      } else if (currentCount <= 1) {
+        virtualKeyCounts.current.delete(code);
+      } else {
+        virtualKeyCounts.current.set(code, currentCount - 1);
+      }
     };
     const onKeyDown = (event: KeyboardEvent) => {
       // Let form fields use their normal keyboard input instead of treating
@@ -75,7 +82,10 @@ export function Player({
       if (event.code === "KeyB") onBack();
     };
     const onKeyUp = (event: KeyboardEvent) => keys.current.delete(event.code);
-    const clearKeys = () => keys.current.clear();
+    const clearKeys = () => {
+      keys.current.clear();
+      virtualKeyCounts.current.clear();
+    };
     const onVirtualControlStart = (event: Event) => setVirtualKey(event, true);
     const onVirtualControlEnd = (event: Event) => setVirtualKey(event, false);
 
@@ -113,10 +123,12 @@ export function Player({
     wasShowingIntro.current = showIntro;
 
     if (playing) {
-      if (keys.current.has("KeyW") || keys.current.has("ArrowUp")) movement.z -= 1;
-      if (keys.current.has("KeyS") || keys.current.has("ArrowDown")) movement.z += 1;
-      if (keys.current.has("KeyA") || keys.current.has("ArrowLeft")) movement.x -= 1;
-      if (keys.current.has("KeyD") || keys.current.has("ArrowRight")) movement.x += 1;
+      const isPressed = (code: string) =>
+        keys.current.has(code) || virtualKeyCounts.current.has(code);
+      if (isPressed("KeyW") || isPressed("ArrowUp")) movement.z -= 1;
+      if (isPressed("KeyS") || isPressed("ArrowDown")) movement.z += 1;
+      if (isPressed("KeyA") || isPressed("ArrowLeft")) movement.x -= 1;
+      if (isPressed("KeyD") || isPressed("ArrowRight")) movement.x += 1;
 
       if (movement.lengthSq()) {
         movement.normalize();
@@ -128,7 +140,7 @@ export function Player({
         velocity.current.z *= 0.82;
       }
 
-      const wantsJump = keys.current.has("Space");
+      const wantsJump = isPressed("Space");
       // Buffer a slightly early press, and allow a brief jump after walking
       // off an edge. This feels much more responsive without enabling flight.
       if (wantsJump) jumpBufferTime.current = 0.12;

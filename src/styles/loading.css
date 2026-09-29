@@ -47,6 +47,12 @@
   background: #ffd84d;
   transform: translateY(-0.08rem);
 }
+@media (max-width: 700px) {
+  .loading-meter {
+    transform: scaleX(0.72);
+    transform-origin: center;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .loading-screen {
     transition-duration: 0.01ms;

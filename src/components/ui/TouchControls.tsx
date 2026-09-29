@@ -1,32 +1,45 @@
-import type { PointerEvent } from "react";
+import { useRef, type PointerEvent } from "react";
 
 type ControlKey = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
-const upArrow = "\u2191";
+type ControlKeys = ControlKey | ControlKey[];
 
 function sendControlEvent(
   name: "obby-control-start" | "obby-control-end",
-  code: ControlKey,
+  codes: ControlKeys,
 ) {
-  window.dispatchEvent(new CustomEvent<string>(name, { detail: code }));
+  const keys = Array.isArray(codes) ? codes : [codes];
+  keys.forEach((code) =>
+    window.dispatchEvent(new CustomEvent<string>(name, { detail: code })),
+  );
 }
 
 function TouchButton({
-  code,
+  codes,
   label,
   children,
   className = "",
 }: {
-  code: ControlKey;
+  codes: ControlKeys;
   label: string;
   children: string;
   className?: string;
 }) {
+  const activePointers = useRef(new Set<number>());
+
   const press = (event: PointerEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
-    sendControlEvent("obby-control-start", code);
+    if (activePointers.current.size === 0) {
+      sendControlEvent("obby-control-start", codes);
+    }
+    activePointers.current.add(event.pointerId);
   };
-  const release = () => sendControlEvent("obby-control-end", code);
+  const release = (pointerId: number) => {
+    const wasActive = activePointers.current.delete(pointerId);
+    if (wasActive && activePointers.current.size === 0) {
+      sendControlEvent("obby-control-end", codes);
+    }
+  };
 
   return (
     <button
@@ -35,9 +48,9 @@ function TouchButton({
       aria-label={label}
       data-tooltip={label}
       onPointerDown={press}
-      onPointerUp={release}
-      onPointerCancel={release}
-      onLostPointerCapture={release}
+      onPointerUp={(event) => release(event.pointerId)}
+      onPointerCancel={(event) => release(event.pointerId)}
+      onLostPointerCapture={(event) => release(event.pointerId)}
     >
       <span className="touch-control__glyph">{children}</span>
     </button>
@@ -49,35 +62,63 @@ export function TouchControls() {
     <div className="touch-controls" aria-label="Touch game controls">
       <div className="touch-dpad">
         <TouchButton
-          code="KeyW"
+          codes="KeyW"
           label="Move forward"
           className="touch-control--up"
         >
-          {upArrow}
+          {"\u2191"}
         </TouchButton>
         <TouchButton
-          code="KeyA"
+          codes="KeyA"
           label="Move left"
           className="touch-control--left"
         >
-          {upArrow}
+          {"\u2191"}
         </TouchButton>
         <TouchButton
-          code="KeyS"
+          codes="KeyS"
           label="Move backward"
           className="touch-control--down"
         >
-          {upArrow}
+          {"\u2191"}
         </TouchButton>
         <TouchButton
-          code="KeyD"
+          codes="KeyD"
           label="Move right"
           className="touch-control--right"
         >
-          {upArrow}
+          {"\u2191"}
+        </TouchButton>
+        <TouchButton
+          codes={["KeyW", "KeyA"]}
+          label="Move forward and left"
+          className="touch-control--up-left"
+        >
+          {"\u2196"}
+        </TouchButton>
+        <TouchButton
+          codes={["KeyW", "KeyD"]}
+          label="Move forward and right"
+          className="touch-control--up-right"
+        >
+          {"\u2197"}
+        </TouchButton>
+        <TouchButton
+          codes={["KeyS", "KeyA"]}
+          label="Move backward and left"
+          className="touch-control--down-left"
+        >
+          {"\u2199"}
+        </TouchButton>
+        <TouchButton
+          codes={["KeyS", "KeyD"]}
+          label="Move backward and right"
+          className="touch-control--down-right"
+        >
+          {"\u2198"}
         </TouchButton>
       </div>
-      <TouchButton code="Space" label="Jump" className="touch-control--jump">
+      <TouchButton codes="Space" label="Jump" className="touch-control--jump">
         Jump
       </TouchButton>
     </div>
