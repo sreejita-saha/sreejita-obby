@@ -51,6 +51,12 @@ export function Player({
       checkpointPlatform?.position[2] ?? spawnPoint.z,
     );
     velocity.current.set(0, 0, 0);
+    // A touch control can be unmounted by a checkpoint card before it receives
+    // its pointer-up event. Clear every input on teleports so it cannot carry
+    // movement into a modal or a respawn.
+    keys.current.clear();
+    virtualKeyCounts.current.clear();
+    jumpBufferTime.current = 0;
     facing.current = Math.PI;
   };
 
@@ -102,6 +108,16 @@ export function Player({
       window.removeEventListener("blur", clearKeys);
     };
   });
+
+  useEffect(() => {
+    // Checkpoint cards remove the touch buttons while a finger may still be on
+    // one. Treat opening any non-play state as releasing all controls.
+    if (!playing) {
+      keys.current.clear();
+      virtualKeyCounts.current.clear();
+      jumpBufferTime.current = 0;
+    }
+  }, [playing]);
 
   useFrame((_, rawDelta) => {
     if (!group.current) return;
@@ -190,6 +206,9 @@ export function Player({
         coyoteTime.current = 0.1;
 
         if (platform.section !== undefined && platform.section > checkpoint) {
+          keys.current.clear();
+          virtualKeyCounts.current.clear();
+          jumpBufferTime.current = 0;
           onCheckpoint(platform.section);
         }
       }

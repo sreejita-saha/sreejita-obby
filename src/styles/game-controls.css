@@ -258,6 +258,18 @@
   .touch-control--right .touch-control__glyph {
     transform: rotate(90deg);
   }
+  .touch-control--up-left .touch-control__glyph {
+    transform: rotate(-45deg);
+  }
+  .touch-control--up-right .touch-control__glyph {
+    transform: rotate(45deg);
+  }
+  .touch-control--down-left .touch-control__glyph {
+    transform: rotate(-135deg);
+  }
+  .touch-control--down-right .touch-control__glyph {
+    transform: rotate(135deg);
+  }
   /* A uniform left-side stack sits above the D-pad and away from Jump. */
   .quick-actions {
     top: auto !important;

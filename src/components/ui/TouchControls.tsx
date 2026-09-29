@@ -94,28 +94,28 @@ export function TouchControls() {
           label="Move forward and left"
           className="touch-control--up-left"
         >
-          {"\u2196"}
+          {"\u2191"}
         </TouchButton>
         <TouchButton
           codes={["KeyW", "KeyD"]}
           label="Move forward and right"
           className="touch-control--up-right"
         >
-          {"\u2197"}
+          {"\u2191"}
         </TouchButton>
         <TouchButton
           codes={["KeyS", "KeyA"]}
           label="Move backward and left"
           className="touch-control--down-left"
         >
-          {"\u2199"}
+          {"\u2191"}
         </TouchButton>
         <TouchButton
           codes={["KeyS", "KeyD"]}
           label="Move backward and right"
           className="touch-control--down-right"
         >
-          {"\u2198"}
+          {"\u2191"}
         </TouchButton>
       </div>
       <TouchButton codes="Space" label="Jump" className="touch-control--jump">

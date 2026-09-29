@@ -49,7 +49,7 @@ export function PortfolioMenu({ onClose }: PortfolioMenuProps) {
           </article>
         ))}
         <article
-          className="portfolio-overview__card portfolio-overview__card--credits ui-panel"
+          className="portfolio-overview__card ui-panel"
           style={{ "--section-color": creditsSection.color } as CSSProperties}
         >
           <p className="eyebrow">{creditsSection.kicker}</p>

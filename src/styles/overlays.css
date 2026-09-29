@@ -226,19 +226,6 @@
 .portfolio-overview__card .section-card__heading:first-child {
   margin-top: 0;
 }
-.portfolio-overview__card--credits {
-  grid-column: 1 / -1;
-  font-size: 0.9rem;
-  border-left-width: 6px;
-}
-.portfolio-overview__card--credits .portfolio-overview__title {
-  margin-bottom: 10px;
-  font-size: 1.35rem;
-}
-.portfolio-overview__card--credits .section-card__heading {
-  margin-top: 16px;
-  font-size: 0.9rem;
-}
 .portfolio-overview__card .card-link {
   margin-top: 18px;
 }
