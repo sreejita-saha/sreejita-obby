@@ -65,12 +65,6 @@ export function SectionCard({
           className="continue ui-button"
           type="button"
           onClick={onContinue}
-          data-tooltip={
-            isFinalSection
-              ? "Restart the obby from the beginning"
-              : "Close this card and continue playing"
-          }
-          data-tooltip-position="top"
         >
           {isFinalSection ? "Play again" : "Continue obby"}
         </button>

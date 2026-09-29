@@ -2,7 +2,7 @@
 // changing the overall game flow, menus, restart behaviour, or quality mode.
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { portfolio } from "./data/portfolio";
+import { creditsSection, portfolio } from "./data/portfolio";
 import { ObbyScene } from "./components/scene/ObbyScene";
 import { Hud } from "./components/ui/Hud";
 import { WelcomeScreen } from "./components/ui/WelcomeScreen";
@@ -47,6 +47,7 @@ function App() {
   const [started, setStarted] = useState(false);
   const [checkpoint, setCheckpoint] = useState(-1);
   const [openSection, setOpenSection] = useState<number | null>(null);
+  const [creditsOpen, setCreditsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [resetKey, setResetKey] = useState(0);
   const [musicEnabled, setMusicEnabled] = useState(true);
@@ -54,11 +55,13 @@ function App() {
   const [loaderDismissed, setLoaderDismissed] = useState(false);
   const lowPower = useLowPowerMode();
 
-  const isPlaying = started && openSection === null && !menuOpen;
+  const isPlaying =
+    started && openSection === null && !creditsOpen && !menuOpen;
 
   const restartObby = () => {
     setCheckpoint(-1);
     setOpenSection(null);
+    setCreditsOpen(false);
     setMenuOpen(false);
     setStarted(true);
     setResetKey((current) => current + 1);
@@ -67,6 +70,7 @@ function App() {
   const goBack = () => {
     setCheckpoint((current) => Math.max(-1, current - 1));
     setOpenSection(null);
+    setCreditsOpen(false);
     setMenuOpen(false);
     setResetKey((current) => current + 1);
   };
@@ -124,6 +128,7 @@ function App() {
               setCheckpoint(index);
               setOpenSection(index);
             }}
+            onOpenCredits={() => setCreditsOpen(true)}
           />
         </Suspense>
       </Canvas>
@@ -149,7 +154,7 @@ function App() {
       )}
 
       {!started && <WelcomeScreen onStart={() => setStarted(true)} />}
-      {started && openSection === null && !menuOpen && (
+      {started && openSection === null && !creditsOpen && !menuOpen && (
         <>
           <div className="controls">
             <b>WASD</b> move <b>SPACE</b> jump <b>B</b> back <b>R</b> restart
@@ -163,6 +168,13 @@ function App() {
             section={portfolio[openSection]}
             onClose={closeSection}
             onContinue={continueSection}
+          />
+        )}
+        {creditsOpen && (
+          <SectionCard
+            section={creditsSection}
+            onClose={() => setCreditsOpen(false)}
+            onContinue={() => setCreditsOpen(false)}
           />
         )}
         {menuOpen && <PortfolioMenu onClose={() => setMenuOpen(false)} />}

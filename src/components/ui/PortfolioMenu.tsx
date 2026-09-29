@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { portfolio } from "../../data/portfolio";
+import { creditsSection, portfolio } from "../../data/portfolio";
 import { SectionContent } from "./SectionContent";
 
 type PortfolioMenuProps = { onClose: () => void };
@@ -48,6 +48,14 @@ export function PortfolioMenu({ onClose }: PortfolioMenuProps) {
             )}
           </article>
         ))}
+        <article
+          className="portfolio-overview__card portfolio-overview__card--credits ui-panel"
+          style={{ "--section-color": creditsSection.color } as CSSProperties}
+        >
+          <p className="eyebrow">{creditsSection.kicker}</p>
+          <h3 className="portfolio-overview__title">{creditsSection.title}</h3>
+          <SectionContent content={creditsSection.content} />
+        </article>
       </div>
     </section>
   );

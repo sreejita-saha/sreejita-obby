@@ -197,3 +197,24 @@ export const portfolio: PortfolioSection[] = [
     color: "#f2a7fc",
   },
 ];
+
+// Credits are intentionally separate from the playable checkpoint sequence.
+export const creditsSection: PortfolioSection = {
+  id: "credits",
+  kicker: "Credits",
+  title: "With a little help",
+  content: [
+    paragraph(
+      "I built this portfolio using Codex. I really enjoyed exploring ideas, solving problems, and bringing the project to life through code with its help.",
+    ),
+    paragraph(
+      "I was inspired by [Bruno Simon’s portfolio](https://bruno-simon.com/) and [Jesse Zhou’s website](https://www.jesse-zhou.com/)",
+    ),
+    heading("3D model credits"),
+    paragraph(
+      "I adapted and compressed the following 3D models for web use. Each is licensed under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).",
+    ),
+    paragraph("[Roblox-Noob](https://skfb.ly/orzpY) by Roblox,  [Torii - Arche Japonaise](https://skfb.ly/6xTKP) by etifontaine, [Low poly Tree](https://skfb.ly/6zIw7) by 1342345234, [Laptop V2](https://skfb.ly/oq7NW) by FishyBusiness, [3D book and pencil object](https://sketchfab.com/3d-models/3d-book-and-pencil-object-5746a5ac7be4442f9e6a685104c993ff) by MZA3DDesign, [3D book and pencil object](https://sketchfab.com/3d-models/3d-book-and-pencil-object-5746a5ac7be4442f9e6a685104c993ff) by MZA3DDesign, [Low Poly Grass](https://skfb.ly/onvVP) by Ruben Roseleth."),
+  ],
+  color: "#b991ff",
+};

@@ -1,4 +1,11 @@
-export type PortfolioSectionId = "about" | "education" | "experience" | "projects" | "skills" | "contact";
+export type PortfolioSectionId =
+  | "about"
+  | "education"
+  | "experience"
+  | "projects"
+  | "skills"
+  | "contact"
+  | "credits";
 
 export type PortfolioLink = {
   label: string;
