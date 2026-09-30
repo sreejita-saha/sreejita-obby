@@ -60,7 +60,7 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
       aria-live="polite"
       aria-label="Loading portfolio world"
     >
-      <img src="/images/logo.png" alt="Sreejita's Obby" />
+      <img src="/images/logo1.png" alt="Sreejita's Obby" />
       <span>Loading {progressLabel}%</span>
       <div
         className="loading-meter"
