@@ -5,6 +5,7 @@ import { ControlIcon } from "./ControlIcon";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const commentMaxLength = 300;
+const minimumFormTimeMs = 2_500;
 
 export function RatingWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,8 @@ export function RatingWidget() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openedAt, setOpenedAt] = useState(0);
+  const [website, setWebsite] = useState("");
 
   const close = () => {
     setIsOpen(false);
@@ -20,6 +23,7 @@ export function RatingWidget() {
     setComment("");
     setSubmitted(false);
     setError("");
+    setWebsite("");
   };
 
   useEffect(() => {
@@ -34,6 +38,11 @@ export function RatingWidget() {
     event.preventDefault();
     if (!rating || isSubmitting) return;
 
+    if (website || Date.now() - openedAt < minimumFormTimeMs) {
+      setError("Please wait a moment before submitting your feedback.");
+      return;
+    }
+
     if (!supabaseUrl || !supabasePublishableKey) {
       setError("Ratings are not configured yet. Please try again later.");
       return;
@@ -43,7 +52,7 @@ export function RatingWidget() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/ratings`, {
+      const response = await fetch(`${supabaseUrl}/functions/v1/submit-rating`, {
         method: "POST",
         headers: {
           apikey: supabasePublishableKey,
@@ -54,6 +63,10 @@ export function RatingWidget() {
         body: JSON.stringify({ rating, comment: comment.trim() }),
       });
 
+      if (response.status === 429) {
+        setError("Thanks — please wait a few minutes before rating again.");
+        return;
+      }
       if (!response.ok) throw new Error("Rating request failed");
       setSubmitted(true);
     } catch {
@@ -70,7 +83,10 @@ export function RatingWidget() {
       <button
         type="button"
         className="rating-toggle"
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setOpenedAt(Date.now());
+          setIsOpen(true);
+        }}
         aria-label="Rate this portfolio"
         data-tooltip="Share feedback on the obby"
       >
@@ -147,6 +163,15 @@ export function RatingWidget() {
                     rows={4}
                     maxLength={commentMaxLength}
                   />
+                  <label className="rating-honeypot" aria-hidden="true">
+                    Website
+                    <input
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={website}
+                      onChange={(event) => setWebsite(event.target.value)}
+                    />
+                  </label>
                   <p className="rating-character-count" aria-live="polite">
                     {comment.length}/{commentMaxLength}
                   </p>

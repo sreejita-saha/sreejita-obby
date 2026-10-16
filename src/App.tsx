@@ -55,6 +55,28 @@ function App() {
   const [loaderDismissed, setLoaderDismissed] = useState(false);
   const lowPower = useLowPowerMode();
 
+  useEffect(() => {
+    // Browser back/forward navigation can restore this app from the bfcache,
+    // including its React state. The portfolio overview is a transient overlay,
+    // so never bring it back when the visitor returns to the page.
+    const closePortfolioMenu = () => setMenuOpen(false);
+    const closeWhenHidden = () => {
+      if (document.visibilityState === "hidden") closePortfolioMenu();
+    };
+    const closeAfterRestore = (event: PageTransitionEvent) => {
+      if (event.persisted) closePortfolioMenu();
+    };
+
+    document.addEventListener("visibilitychange", closeWhenHidden);
+    window.addEventListener("pagehide", closePortfolioMenu);
+    window.addEventListener("pageshow", closeAfterRestore);
+    return () => {
+      document.removeEventListener("visibilitychange", closeWhenHidden);
+      window.removeEventListener("pagehide", closePortfolioMenu);
+      window.removeEventListener("pageshow", closeAfterRestore);
+    };
+  }, []);
+
   const isPlaying =
     started && openSection === null && !creditsOpen && !menuOpen;
 

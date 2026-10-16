@@ -47,6 +47,24 @@ export function TooltipLayer() {
   }, [refs, target]);
 
   useEffect(() => {
+    // A page restored from the browser's back/forward cache can retain the
+    // previous tooltip target even though the pointer is no longer hovering it.
+    const dismiss = () => setTarget(null);
+    const dismissWhenHidden = () => {
+      if (document.visibilityState === "hidden") dismiss();
+    };
+
+    document.addEventListener("visibilitychange", dismissWhenHidden);
+    window.addEventListener("pagehide", dismiss);
+    window.addEventListener("pageshow", dismiss);
+    return () => {
+      document.removeEventListener("visibilitychange", dismissWhenHidden);
+      window.removeEventListener("pagehide", dismiss);
+      window.removeEventListener("pageshow", dismiss);
+    };
+  }, []);
+
+  useEffect(() => {
     const show = (element: HTMLElement) =>
       setTarget({
         element,

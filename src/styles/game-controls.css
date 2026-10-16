@@ -49,7 +49,7 @@
   min-width: 98px;
   padding: 0 10px;
   border-radius: 12px;
-  background: #8bb6f6;
+  background: #76d6ff;
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
@@ -59,14 +59,14 @@
   height: 18px;
 }
 .hud .hud-utility--skip:hover {
-  background: #a8cbff;
+  background: #a5e6ff;
 }
 .hud .hud-utility--popups {
   position: fixed;
   z-index: 12;
   bottom: 18px;
   left: 116px;
-  background: #acff89;
+  background: #8ff3ae;
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
@@ -76,7 +76,7 @@
   z-index: 12;
   left: 10px;
   bottom: 18px;
-  background: #f8bed4;
+  background: #ff9fca;
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
@@ -86,7 +86,7 @@
   z-index: 12;
   top: calc(31vh + 52px);
   left: 10px;
-  background: #fefe66;
+  background: #ffe65b;
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);

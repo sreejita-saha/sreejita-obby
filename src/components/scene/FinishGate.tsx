@@ -17,7 +17,7 @@ export function FinishGate({ position }: FinishGateProps) {
       {[-2.45, 2.45].map((offsetX) => (
         <mesh key={offsetX} position={[offsetX, postHeight / 2, 0]} castShadow>
           <boxGeometry args={[0.24, postHeight, 0.24]} />
-          <meshStandardMaterial color="#17191b" roughness={0.82} />
+          <meshStandardMaterial color="#f4a7e6" roughness={0.82} />
         </mesh>
       ))}
 
@@ -30,7 +30,7 @@ export function FinishGate({ position }: FinishGateProps) {
               position={[-gateWidth / 2 + tileWidth * (column + 0.5), tileHeight * (0.5 - row), 0]}
             >
               <planeGeometry args={[tileWidth, tileHeight]} />
-              <meshBasicMaterial color={(row + column) % 2 === 0 ? "#f8f8f5" : "#17191b"} />
+              <meshBasicMaterial color={(row + column) % 2 === 0 ? "#f8f8f5" : "#f7b5ed"} />
             </mesh>
           )),
         )}
@@ -46,7 +46,7 @@ export function FinishGate({ position }: FinishGateProps) {
               rotation={[-Math.PI / 2, 0, 0]}
             >
               <planeGeometry args={[tileWidth, 0.58]} />
-              <meshBasicMaterial color={(row + column) % 2 === 0 ? "#f8f8f5" : "#17191b"} />
+              <meshBasicMaterial color={(row + column) % 2 === 0 ? "#f8f8f5" : "#f7b5ed"} />
             </mesh>
           )),
         )}
