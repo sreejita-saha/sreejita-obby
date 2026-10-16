@@ -35,6 +35,25 @@ python scripts/compress_images.py
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Keep the Supabase project active on Vercel
+
+This project includes a daily Vercel Cron Job at `/api/keep-supabase-awake`.
+It makes one small authenticated database query, preventing a low-traffic
+Supabase Free project from being paused for inactivity.
+
+In **Vercel → Project → Settings → Environment Variables**, add these values
+for the Production environment:
+
+| Variable | Value |
+| --- | --- |
+| `CRON_SECRET` | A newly generated random string (at least 16 characters) |
+| `SUPABASE_URL` | Your project URL, e.g. `https://abc123.supabase.co` |
+| `SUPABASE_SECRET_KEY` | The server-only Secret key from Supabase Project Settings → API Keys |
+
+Never add `SUPABASE_SECRET_KEY` to a `VITE_` variable or commit it to the
+repository. Deploying to production creates the cron job; confirm its daily
+runs under **Vercel → Project → Settings → Cron Jobs**.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
