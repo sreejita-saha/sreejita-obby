@@ -42,7 +42,7 @@ function useLowPowerMode() {
   return lowPower;
 }
 
-function App() {
+function LegacyApp() {
   // `checkpoint` is -1 at the start, then matches the portfolio/checkpoint index.
   const [started, setStarted] = useState(false);
   const [checkpoint, setCheckpoint] = useState(-1);
@@ -205,4 +205,25 @@ function App() {
   );
 }
 
+function App() {
+  return (
+    <main className="maintenance-page">
+      <div className="cloud cloud-one" aria-hidden="true" />
+      <div className="cloud cloud-two" aria-hidden="true" />
+      <div className="sparkle sparkle-one" aria-hidden="true">✦</div>
+      <div className="sparkle sparkle-two" aria-hidden="true">✦</div>
+      <section className="maintenance-card" aria-labelledby="maintenance-title">
+        <div className="hard-hat" aria-hidden="true"><span /><i /></div>
+        <p className="eyebrow">SREEJITA&apos;S OBBY</p>
+        <h1 id="maintenance-title">A little refresh is in progress!</h1>
+        <p className="maintenance-copy">I&apos;m busy adding some lovely new things behind the scenes. The obby will be back soon — brighter, better, and ready to explore.</p>
+        <div className="status-pill"><span aria-hidden="true" />Working on it</div>
+        <p className="sign-off">Thanks for popping by ♡</p>
+      </section>
+      <div className="grass" aria-hidden="true"><span>🌼</span><span>🌷</span><span>🌼</span><span>🌷</span><span>🌼</span></div>
+    </main>
+  );
+}
+
 export default App;
+export { LegacyApp };
