@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fredoka:wght@500;600;700&display=swap");
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  color: #38446d;
+  background: #bfeaff;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  min-width: 320px;
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+.maintenance-page {
+  align-items: center;
+  background: linear-gradient(
+    180deg,
+    #aee5ff 0%,
+    #d9f5ff 70%,
+    #b6e793 70%,
+    #8dce70 100%
+  );
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 2rem;
+  position: relative;
+}
+@media (max-width: 580px) {
+  .maintenance-page {
+    padding: 1.25rem;
+  }
+}
