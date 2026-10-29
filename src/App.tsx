@@ -213,7 +213,10 @@ function App() {
       <div className="sparkle sparkle-one" aria-hidden="true">✦</div>
       <div className="sparkle sparkle-two" aria-hidden="true">✦</div>
       <section className="maintenance-card" aria-labelledby="maintenance-title">
-        <div className="hard-hat" aria-hidden="true"><span /><i /></div>
+        <div className="art-tools" aria-hidden="true">
+          <div className="palette"><i /><i /><i /><i /><b /></div>
+          <div className="paintbrush"><span /><i /></div>
+        </div>
         <p className="eyebrow">SREEJITA&apos;S OBBY</p>
         <h1 id="maintenance-title">A little refresh is in progress!</h1>
         <p className="maintenance-copy">I&apos;m busy adding some lovely new things behind the scenes. The obby will be back soon — brighter, better, and ready to explore.</p>
