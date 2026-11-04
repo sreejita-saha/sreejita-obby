@@ -11,9 +11,9 @@ import { RatingWidget } from "./components/ui/RatingWidget";
 import { LoadingScreen } from "./components/ui/LoadingScreen";
 import { TouchControls } from "./components/ui/TouchControls";
 import { TooltipLayer } from "./components/ui/TooltipLayer";
-import "./styles/maintenance/MaintenancePage.css";
-import { BackgroundDecorations } from "./components/maintenance/BackgroundDecorations";
-import { MaintenanceCard } from "./components/maintenance/MaintenanceCard";
+// import "./styles/maintenance/MaintenancePage.css";
+// import { BackgroundDecorations } from "./components/maintenance/BackgroundDecorations";
+// import { MaintenanceCard } from "./components/maintenance/MaintenanceCard";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
 const PortfolioMenu = lazy(() =>
@@ -208,12 +208,13 @@ function LegacyApp() {
 }
 
 function App() {
-  return (
-    <main className="maintenance-page">
-      <BackgroundDecorations />
-      <MaintenanceCard />
-    </main>
-  );
+  return <LegacyApp />;
+  // return (
+  //   <main className="maintenance-page">
+  //     <BackgroundDecorations />
+  //     <MaintenanceCard />
+  //   </main>
+  // );
 }
 
 export default App;
