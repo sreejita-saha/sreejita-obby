@@ -17,7 +17,7 @@ a {
   min-height: 100dvh;
   overflow: hidden;
   position: relative;
-  background: #87ceeb;
+  background: linear-gradient(180deg, #75c4e6 0%, #9bdcf3 48%, #d8f3ff 100%);
   color: #17223b;
 }
 .app-shell canvas {

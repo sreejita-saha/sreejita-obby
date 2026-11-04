@@ -60,22 +60,24 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
       aria-live="polite"
       aria-label="Loading portfolio world"
     >
-      <img src="/images/logo1.png" alt="Sreejita's Obby" />
-      <span>Loading {progressLabel}%</span>
-      <div
-        className="loading-meter"
-        role="progressbar"
-        aria-label="Loading portfolio world"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={progressLabel}
-      >
-        {Array.from({ length: 6 }, (_, index) => (
-          <span
-            key={index}
-            className={`loading-meter__segment ${progressLabel >= ((index + 1) / 6) * 100 ? "is-filled" : ""}`}
-          />
-        ))}
+      <div className="loading-card">
+        <img src="/images/mascot-logo.png" alt="Sreejita's Obby" />
+        <span>Getting your obby ready · {progressLabel}%</span>
+        <div
+          className="loading-meter"
+          role="progressbar"
+          aria-label="Loading portfolio world"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={progressLabel}
+        >
+          {Array.from({ length: 6 }, (_, index) => (
+            <span
+              key={index}
+              className={`loading-meter__segment ${progressLabel >= ((index + 1) / 6) * 100 ? "is-filled" : ""}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

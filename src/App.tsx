@@ -14,6 +14,15 @@ import { TooltipLayer } from "./components/ui/TooltipLayer";
 // import "./styles/maintenance/MaintenancePage.css";
 // import { BackgroundDecorations } from "./components/maintenance/BackgroundDecorations";
 // import { MaintenanceCard } from "./components/maintenance/MaintenanceCard";
+import "./styles/global.css";
+import "./styles/components.css";
+import "./styles/hud.css";
+import "./styles/game-controls.css";
+import "./styles/loading.css";
+import "./styles/rating.css";
+import "./styles/welcome.css";
+import "./styles/overlays.css";
+import "./styles/world-ui.css";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
 const PortfolioMenu = lazy(() =>
@@ -134,7 +143,11 @@ function LegacyApp() {
         shadows={!lowPower}
         camera={{ position: [0, 4.8, 10], fov: 48 }}
         dpr={lowPower ? 1 : [1, 1.5]}
-        gl={{ antialias: !lowPower, powerPreference: "high-performance" }}
+        gl={{
+          antialias: !lowPower,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
       >
         <Suspense fallback={null}>
           <ObbyScene

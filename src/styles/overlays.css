@@ -153,9 +153,11 @@
 .section-card--with-image {
   padding-left: 164px;
 }
-.section-card--about,
+.section-card--about {
+  width: min(680px, calc(100vw - 48px));
+}
 .section-card--education {
-  width: min(500px, calc(100vw - 48px));
+  width: min(640px, calc(100vw - 48px));
 }
 .section-card--about .eyebrow,
 .section-card--about h2 {

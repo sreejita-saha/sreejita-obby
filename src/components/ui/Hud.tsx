@@ -19,7 +19,7 @@ export function Hud({
   return (
     <header className="hud">
       <a className="brand" href="#top" aria-label="Sreejita's Obby home">
-        <img src="/images/logo1.png" alt="Sreejita's Obby" />
+        <img src="/images/mascot-logo.png" alt="Sreejita's Obby" />
       </a>
       <div
         className="progress"

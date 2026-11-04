@@ -18,11 +18,9 @@
 }
 .brand img {
   display: block;
-  width: clamp(112px, 25vw, 205px);
+  width: clamp(52px, 7vw, 76px);
   height: auto;
-  max-height: 90px;
-  object-fit: contain;
-  object-position: left center;
+  filter: drop-shadow(2px 3px 0 rgba(23, 34, 59, 0.3));
 }
 .menu-button,
 .hud button {
@@ -142,8 +140,7 @@
     padding: 5px 10px;
   }
   .brand img {
-    width: clamp(120px, 40vw, 150px);
-    max-height: 56px;
+    width: clamp(48px, 14vw, 62px);
   }
   .progress {
     position: fixed;

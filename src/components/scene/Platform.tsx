@@ -194,7 +194,6 @@ export function Platform({
           center
           distanceFactor={8}
           transform
-          occlude
           pointerEvents="auto"
           // Keep world labels beneath app dialogs rendered outside the canvas.
           zIndexRange={[5, 0]}
@@ -221,7 +220,6 @@ export function Platform({
           center
           distanceFactor={8}
           transform
-          occlude
           pointerEvents="auto"
           zIndexRange={[5, 0]}
         >

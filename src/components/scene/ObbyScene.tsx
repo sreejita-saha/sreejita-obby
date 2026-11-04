@@ -36,9 +36,8 @@ export function ObbyScene(props: ObbySceneProps) {
 
   return (
     <>
-      <color attach="background" args={["#87ceeb"]} />
-      {/* Keep nearby platforms crisp while softening the distant route. */}
-      <fog attach="fog" args={["#87ceeb", 16, 48]} />
+      {/* The transparent canvas reveals the page's sky gradient beneath it. */}
+      <fog attach="fog" args={["#cceeff", 8, 76]} />
       <ambientLight intensity={1.2} />
       <directionalLight
         position={[8, 15, 7]}
