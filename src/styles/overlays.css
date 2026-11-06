@@ -257,20 +257,14 @@
     padding: 32px 22px 24px;
   }
   .section-card--with-image {
-    padding-left: 126px;
+    padding-left: 22px;
   }
   .section-card--about .eyebrow,
   .section-card--about h2 {
-    margin-left: -104px;
+    margin-left: 0;
   }
   .modal-avatar {
-    position: absolute;
-    top: auto;
-    right: auto;
-    bottom: 110px;
-    left: 10px;
-    width: 100px;
-    margin: 0;
+    display: none;
   }
   .portfolio-menu > .close {
     top: max(12px, env(safe-area-inset-top));
