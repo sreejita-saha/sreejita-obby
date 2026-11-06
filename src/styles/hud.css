@@ -13,13 +13,13 @@
 }
 .brand {
   display: inline-flex;
-  align-items: center;
+  align-items: left;
   justify-content: center;
-  width: clamp(52px, 7vw, 76px);
+  width: clamp(50px, 7vw, 76px);
   aspect-ratio: 1;
   overflow: hidden;
   border: 3px solid #17223b;
-  border-radius: 50%;
+  border-radius: 70%;
   background: #ffd8e6;
   box-shadow: 2px 3px 0 rgba(23, 34, 59, 0.3);
   pointer-events: auto;
