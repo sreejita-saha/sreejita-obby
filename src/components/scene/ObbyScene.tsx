@@ -7,6 +7,7 @@ import { Platform } from "./Platform";
 import { Player, type PlayerProps } from "./Player";
 import { preloadSceneModels } from "./SceneModel";
 import { DayNightCycle } from "./DayNightCycle";
+import { AvatarModel } from "./AvatarModel";
 
 const sceneModelUrls = [
   ...new Set(
@@ -51,6 +52,9 @@ export function ObbyScene(props: ObbySceneProps) {
       <DayNightCycle />
 
       <Decorations />
+      <Suspense fallback={null}>
+        <AvatarModel />
+      </Suspense>
       {checkpointAreas.map((area) => (
         <Suspense key={area.id} fallback={null}>
           <CheckpointArea

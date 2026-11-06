@@ -83,44 +83,36 @@ type CelestialKind = "sun" | "moon";
 const CelestialCharacter = forwardRef<THREE.Group, { kind: CelestialKind }>(function CelestialCharacter({ kind }, ref) {
   const isSun = kind === "sun";
   const faceColor = isSun ? "#ffbf27" : "#d9e5ff";
-  const cheekColor = isSun ? "#f58d32" : "#9fb4e7";
 
   return (
     <group ref={ref} scale={isSun ? 10.5 : 7.2}>
       {isSun && Array.from({ length: 12 }, (_, index) => {
         const angle = (index / 12) * Math.PI * 2;
         return (
-          <mesh key={index} position={[Math.cos(angle) * 1.3, Math.sin(angle) * 1.3, 0]} rotation={[0, 0, angle]}>
-            <boxGeometry args={[0.42, 0.78, 0.28]} />
+          <mesh key={index} position={[Math.cos(angle) * 1.35, Math.sin(angle) * 1.35, 0]} rotation={[0, 0, angle - Math.PI / 2]}>
+            <coneGeometry args={[0.46, 0.5, 6]} />
             <meshBasicMaterial color="#ff9e1c" fog={false} />
           </mesh>
         );
       })}
       <mesh castShadow>
-        <sphereGeometry args={[1.22, 16, 12]} />
+        <sphereGeometry args={[1.2, 19, 12]} />
         <meshBasicMaterial color={faceColor} fog={false} />
       </mesh>
-      <group position={[0, 0, 1.05]}>
-        <mesh position={[-0.42, 0.2, 0]} scale={[0.2, 0.3, 0.12]}>
+      {/* Keep the face just ahead of the sphere surface so depth testing cannot
+          intermittently hide its features while the body moves through the sky. */}
+      <group position={[0, 0, 1.27]}>
+        <mesh position={[-0.36, 0.18, 0]} scale={[0.115, 0.16, 0.07]}>
           <sphereGeometry args={[1, 16, 12]} /><meshBasicMaterial color="#17223b" fog={false} />
         </mesh>
-        <mesh position={[0.42, 0.2, 0]} scale={[0.2, 0.3, 0.12]}>
+        <mesh position={[0.36, 0.18, 0]} scale={[0.115, 0.16, 0.07]}>
           <sphereGeometry args={[1, 16, 12]} /><meshBasicMaterial color="#17223b" fog={false} />
-        </mesh>
-        <mesh position={[-0.48, 0.32, 0.1]} scale={[0.055, 0.08, 0.04]}>
-          <sphereGeometry args={[1, 12, 8]} /><meshBasicMaterial color="#ffffff" fog={false} />
-        </mesh>
-        <mesh position={[0.36, 0.32, 0.1]} scale={[0.055, 0.08, 0.04]}>
-          <sphereGeometry args={[1, 12, 8]} /><meshBasicMaterial color="#ffffff" fog={false} />
         </mesh>
         <mesh position={[0, -0.22, 0]} rotation={[0, 0, Math.PI]}>
-          <torusGeometry args={[0.29, 0.06, 8, 16, Math.PI]} /><meshBasicMaterial color="#17223b" fog={false} />
+          <torusGeometry args={[0.29, 0.038, 8, 16, Math.PI]} /><meshBasicMaterial color="#29334a" fog={false} />
         </mesh>
-        <mesh position={[-0.73, -0.12, -0.02]} scale={[0.22, 0.13, 0.09]}>
-          <sphereGeometry args={[1, 12, 8]} /><meshBasicMaterial color={cheekColor} fog={false} />
-        </mesh>
-        <mesh position={[0.73, -0.12, -0.02]} scale={[0.22, 0.13, 0.09]}>
-          <sphereGeometry args={[1, 12, 8]} /><meshBasicMaterial color={cheekColor} fog={false} />
+        <mesh position={[0.22, -0.39, 0]} scale={[0.12, 0.16, 0.05]}>
+          <sphereGeometry args={[1, 12, 8]} /><meshBasicMaterial color="#ff8fb5" fog={false} />
         </mesh>
       </group>
     </group>
