@@ -3,6 +3,8 @@ import { useRef, useState, type PointerEvent } from "react";
 type ControlKey = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
 type ControlKeys = ControlKey | ControlKey[];
 
+type JoystickVector = { x: number; z: number };
+
 function sendControlEvent(
   name: "obby-control-start" | "obby-control-end",
   codes: ControlKeys,
@@ -57,6 +59,10 @@ function TouchButton({
   );
 }
 
+function sendJoystickMove(vector: JoystickVector) {
+  window.dispatchEvent(new CustomEvent<JoystickVector>("obby-joystick-move", { detail: vector }));
+}
+
 function Joystick() {
   const activePointer = useRef<number | null>(null);
   const activeCodes = useRef<ControlKey[]>([]);
@@ -83,20 +89,22 @@ function Joystick() {
     const scale = distance > maxDistance ? maxDistance / distance : 1;
     const x = rawX * scale;
     const y = rawY * scale;
-    const threshold = radius * 0.2;
-    const nextCodes: ControlKey[] = [];
-
-    if (y < -threshold) nextCodes.push("KeyW");
-    if (y > threshold) nextCodes.push("KeyS");
-    if (x < -threshold) nextCodes.push("KeyA");
-    if (x > threshold) nextCodes.push("KeyD");
+    // Use the full drag vector instead of snapping into four directions. The
+    // short dead zone prevents accidental movement, while the curve makes
+    // gentle sideways drags responsive enough to steer around tight jumps.
+    const deadZone = maxDistance * 0.1;
+    const strength = Math.max(0, Math.min(1, (Math.hypot(x, y) - deadZone) / (maxDistance - deadZone)));
+    const response = Math.pow(strength, 0.7);
+    const direction = Math.hypot(x, y) || 1;
+    sendJoystickMove({ x: (x / direction) * response, z: (y / direction) * response });
 
     setKnob({ x, y, active: true });
-    setCodes(nextCodes);
+    setCodes([]);
   };
 
   const release = () => {
     setCodes([]);
+    sendJoystickMove({ x: 0, z: 0 });
     activePointer.current = null;
     setKnob({ x: 0, y: 0, active: false });
   };

@@ -29,6 +29,7 @@ export function Player({
   const position = useRef(spawnPoint.clone());
   const keys = useRef(new Set<string>());
   const virtualKeyCounts = useRef(new Map<string, number>());
+  const joystickMove = useRef(new THREE.Vector2());
   const grounded = useRef(false);
   const coyoteTime = useRef(0);
   const jumpBufferTime = useRef(0);
@@ -56,6 +57,7 @@ export function Player({
     // movement into a modal or a respawn.
     keys.current.clear();
     virtualKeyCounts.current.clear();
+    joystickMove.current.set(0, 0);
     jumpBufferTime.current = 0;
     facing.current = Math.PI;
   };
@@ -91,20 +93,28 @@ export function Player({
     const clearKeys = () => {
       keys.current.clear();
       virtualKeyCounts.current.clear();
+      joystickMove.current.set(0, 0);
     };
     const onVirtualControlStart = (event: Event) => setVirtualKey(event, true);
     const onVirtualControlEnd = (event: Event) => setVirtualKey(event, false);
+    const onJoystickMove = (event: Event) => {
+      const vector = (event as CustomEvent<{ x: number; z: number }>).detail;
+      if (!vector || !Number.isFinite(vector.x) || !Number.isFinite(vector.z)) return;
+      joystickMove.current.set(vector.x, vector.z).clampLength(0, 1);
+    };
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
     window.addEventListener("obby-control-start", onVirtualControlStart);
     window.addEventListener("obby-control-end", onVirtualControlEnd);
+    window.addEventListener("obby-joystick-move", onJoystickMove);
     window.addEventListener("blur", clearKeys);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
       window.removeEventListener("obby-control-start", onVirtualControlStart);
       window.removeEventListener("obby-control-end", onVirtualControlEnd);
+      window.removeEventListener("obby-joystick-move", onJoystickMove);
       window.removeEventListener("blur", clearKeys);
     };
   });
@@ -115,6 +125,7 @@ export function Player({
     if (!playing) {
       keys.current.clear();
       virtualKeyCounts.current.clear();
+      joystickMove.current.set(0, 0);
       jumpBufferTime.current = 0;
     }
   }, [playing]);
@@ -145,6 +156,11 @@ export function Player({
       if (isPressed("KeyS") || isPressed("ArrowDown")) movement.z += 1;
       if (isPressed("KeyA") || isPressed("ArrowLeft")) movement.x -= 1;
       if (isPressed("KeyD") || isPressed("ArrowRight")) movement.x += 1;
+
+      // Touch steering stays analogue, so its exact angle is preserved rather
+      // than being reduced to a forward or diagonal key press.
+      movement.x += joystickMove.current.x;
+      movement.z += joystickMove.current.y;
 
       if (movement.lengthSq()) {
         movement.normalize();
@@ -208,6 +224,7 @@ export function Player({
         if (platform.section !== undefined && platform.section > checkpoint) {
           keys.current.clear();
           virtualKeyCounts.current.clear();
+          joystickMove.current.set(0, 0);
           jumpBufferTime.current = 0;
           onCheckpoint(platform.section);
         }
