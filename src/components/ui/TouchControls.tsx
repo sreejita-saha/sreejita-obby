@@ -1,4 +1,4 @@
-import { useRef, useState, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 type ControlKey = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
 type ControlKeys = ControlKey | ControlKey[];
@@ -42,6 +42,33 @@ function TouchButton({
       sendControlEvent("obby-control-end", codes);
     }
   };
+
+  useEffect(() => {
+    // Some mobile browsers can lose pointer capture when the page is briefly
+    // interrupted (for example by a browser gesture or notification). Listen
+    // globally as a fallback so Jump is never left in a stale pressed state.
+    const releasePointer = (event: globalThis.PointerEvent) => release(event.pointerId);
+    const releaseAll = () => {
+      if (!activePointers.current.size) return;
+      activePointers.current.clear();
+      sendControlEvent("obby-control-end", codes);
+    };
+    const releaseWhenHidden = () => {
+      if (document.visibilityState === "hidden") releaseAll();
+    };
+
+    window.addEventListener("pointerup", releasePointer);
+    window.addEventListener("pointercancel", releasePointer);
+    window.addEventListener("blur", releaseAll);
+    document.addEventListener("visibilitychange", releaseWhenHidden);
+    return () => {
+      window.removeEventListener("pointerup", releasePointer);
+      window.removeEventListener("pointercancel", releasePointer);
+      window.removeEventListener("blur", releaseAll);
+      document.removeEventListener("visibilitychange", releaseWhenHidden);
+      releaseAll();
+    };
+  }, [codes]);
 
   return (
     <button
