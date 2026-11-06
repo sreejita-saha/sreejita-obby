@@ -4,10 +4,17 @@ type MusicToggleProps = {
   canPlay: boolean;
   enabled: boolean;
   onToggle: () => void;
+  /** Stop and discard audio when the browser backgrounds the page. */
+  onUnload: () => void;
 };
 const MUSIC_SOURCE = "/audio/obby-theme.mp3";
 const MUSIC_VOLUME = 0.05;
-export function MusicToggle({ canPlay, enabled, onToggle }: MusicToggleProps) {
+export function MusicToggle({
+  canPlay,
+  enabled,
+  onToggle,
+  onUnload,
+}: MusicToggleProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   useEffect(() => {
     const audio = audioRef.current;
@@ -22,27 +29,40 @@ export function MusicToggle({ canPlay, enabled, onToggle }: MusicToggleProps) {
       }
     };
 
-    // Mobile browsers can keep an open tab alive after the visitor switches
-    // apps or locks their phone, so explicitly pause instead of relying on the
-    // browser to suspend the audio for us.
-    const pauseWhenHidden = () => syncPlayback();
+    // Fully discard the audio when the visitor leaves. This avoids retaining a
+    // paused system media session on phones; returning visitors can opt in by
+    // pressing Music again.
+    const unloadAudio = () => {
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+      onUnload();
+    };
+    const unloadWhenHidden = () => {
+      if (document.visibilityState === "hidden") unloadAudio();
+    };
 
-    document.addEventListener("visibilitychange", pauseWhenHidden);
-    window.addEventListener("pagehide", pauseWhenHidden);
+    document.addEventListener("visibilitychange", unloadWhenHidden);
+    window.addEventListener("pagehide", unloadAudio);
     window.addEventListener("pageshow", syncPlayback);
     syncPlayback();
 
     return () => {
-      document.removeEventListener("visibilitychange", pauseWhenHidden);
-      window.removeEventListener("pagehide", pauseWhenHidden);
+      document.removeEventListener("visibilitychange", unloadWhenHidden);
+      window.removeEventListener("pagehide", unloadAudio);
       window.removeEventListener("pageshow", syncPlayback);
       audio.pause();
     };
-  }, [canPlay, enabled]);
+  }, [canPlay, enabled, onUnload]);
   const isOn = canPlay && enabled;
   return (
     <>
-      <audio ref={audioRef} src={MUSIC_SOURCE} loop preload="metadata" />
+      <audio
+        ref={audioRef}
+        src={enabled ? MUSIC_SOURCE : undefined}
+        loop
+        preload={enabled ? "metadata" : "none"}
+      />
       <button
         type="button"
         className={`music-toggle ${isOn ? "is-on" : "is-off"}`}

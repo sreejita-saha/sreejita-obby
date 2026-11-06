@@ -1,6 +1,6 @@
 // App coordinates the game canvas and all HTML overlays. Edit this file when
 // changing the overall game flow, menus, restart behaviour, or quality mode.
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { creditsSection, portfolio } from "./data/portfolio";
 import { ObbyScene } from "./components/scene/ObbyScene";
@@ -66,6 +66,7 @@ function LegacyApp() {
   const [popupsEnabled, setPopupsEnabled] = useState(true);
   const [loaderDismissed, setLoaderDismissed] = useState(false);
   const lowPower = useLowPowerMode();
+  const unloadMusic = useCallback(() => setMusicEnabled(false), []);
 
   useEffect(() => {
     // Browser back/forward navigation can restore this app from the bfcache,
@@ -185,6 +186,7 @@ function LegacyApp() {
         canPlay={started}
         enabled={musicEnabled}
         onToggle={() => setMusicEnabled((enabled) => !enabled)}
+        onUnload={unloadMusic}
       />
       <RatingWidget />
       <TooltipLayer />

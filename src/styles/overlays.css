@@ -257,21 +257,20 @@
     padding: 32px 22px 24px;
   }
   .section-card--with-image {
-    /* On narrow screens, reserve a row for the avatar instead of squeezing
-       the readable text into the remaining sliver beside it. */
-    padding-top: 128px;
-    padding-left: 22px;
+    padding-left: 126px;
   }
   .section-card--about .eyebrow,
   .section-card--about h2 {
-    margin-left: 0;
+    margin-left: -104px;
   }
   .modal-avatar {
-    top: 16px;
-    right: 58px;
-    bottom: auto;
-    left: auto;
-    width: 96px;
+    position: absolute;
+    top: auto;
+    right: auto;
+    bottom: 110px;
+    left: 10px;
+    width: 100px;
+    margin: 0;
   }
   .portfolio-menu > .close {
     top: max(12px, env(safe-area-inset-top));
@@ -283,5 +282,8 @@
   }
   .portfolio-menu__intro {
     padding-right: 46px;
+  }
+  .portfolio-menu__intro h2 {
+    font-size: clamp(2.25rem, 10vw, 3rem);
   }
 }

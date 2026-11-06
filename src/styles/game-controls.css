@@ -158,7 +158,7 @@
   display: none;
 }
 
-@media (pointer: coarse), (max-width: 700px) {
+@media (pointer: coarse) {
   .controls {
     display: none;
   }
@@ -173,11 +173,67 @@
       max(14px, env(safe-area-inset-left));
     pointer-events: none;
   }
+  .touch-controls__hint {
+    position: absolute;
+    bottom: calc(5px + env(safe-area-inset-bottom));
+    left: 50%;
+    margin: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 3px 0 var(--ink);
+    color: var(--ink);
+    font: 800 0.64rem/1 "DM Sans", sans-serif;
+    padding: 5px 8px;
+  }
   .touch-dpad {
     position: relative;
     width: 150px;
     height: 150px;
     pointer-events: auto;
+  }
+  .touch-joystick {
+    position: relative;
+    width: 126px;
+    height: 126px;
+    border: 3px solid rgba(23, 34, 59, 0.82);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.14);
+    pointer-events: auto;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .touch-joystick__ring,
+  .touch-joystick__knob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .touch-joystick__ring {
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(23, 34, 59, 0.28);
+  }
+  .touch-joystick__knob {
+    width: 48px;
+    height: 48px;
+    margin: -24px 0 0 -24px;
+    border: 3px solid var(--ink);
+    background: rgba(255, 216, 77, 0.92);
+    box-shadow: 0 4px 0 var(--ink);
+    transition: transform 70ms ease-out, background 120ms ease-out;
+  }
+  .touch-joystick__knob.is-active {
+    background: #ff9fca;
   }
   .touch-control {
     position: absolute;
@@ -270,11 +326,11 @@
   .touch-control--down-right .touch-control__glyph {
     transform: rotate(135deg);
   }
-  /* A uniform left-side stack sits above the D-pad and away from Jump. */
+  /* A uniform left-side stack sits above the joystick and away from Jump. */
   .quick-actions {
     top: auto !important;
     right: auto !important;
-    bottom: 314px !important;
+    bottom: 286px !important;
     left: 14px !important;
     gap: 6px;
   }
@@ -290,17 +346,17 @@
   .rating-toggle {
     top: auto !important;
     right: auto !important;
-    bottom: 270px !important;
+    bottom: 242px !important;
     left: 14px !important;
   }
   .music-toggle {
     right: auto !important;
-    bottom: 226px !important;
+    bottom: 198px !important;
     left: 14px !important;
   }
   .hud .hud-utility--popups {
     right: auto !important;
-    bottom: 182px !important;
+    bottom: 154px !important;
     left: 14px !important;
   }
 }

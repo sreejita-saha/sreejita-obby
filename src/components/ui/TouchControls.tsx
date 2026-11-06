@@ -1,4 +1,4 @@
-import { useRef, type PointerEvent } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 
 type ControlKey = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
 type ControlKeys = ControlKey | ControlKey[];
@@ -57,67 +57,84 @@ function TouchButton({
   );
 }
 
+function Joystick() {
+  const activePointer = useRef<number | null>(null);
+  const activeCodes = useRef<ControlKey[]>([]);
+  const [knob, setKnob] = useState({ x: 0, y: 0, active: false });
+
+  const setCodes = (nextCodes: ControlKey[]) => {
+    if (activeCodes.current.join() === nextCodes.join()) return;
+    if (activeCodes.current.length) {
+      sendControlEvent("obby-control-end", activeCodes.current);
+    }
+    if (nextCodes.length) {
+      sendControlEvent("obby-control-start", nextCodes);
+    }
+    activeCodes.current = nextCodes;
+  };
+
+  const updateJoystick = (event: PointerEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const radius = bounds.width / 2;
+    const rawX = event.clientX - bounds.left - radius;
+    const rawY = event.clientY - bounds.top - radius;
+    const distance = Math.hypot(rawX, rawY);
+    const maxDistance = radius * 0.58;
+    const scale = distance > maxDistance ? maxDistance / distance : 1;
+    const x = rawX * scale;
+    const y = rawY * scale;
+    const threshold = radius * 0.2;
+    const nextCodes: ControlKey[] = [];
+
+    if (y < -threshold) nextCodes.push("KeyW");
+    if (y > threshold) nextCodes.push("KeyS");
+    if (x < -threshold) nextCodes.push("KeyA");
+    if (x > threshold) nextCodes.push("KeyD");
+
+    setKnob({ x, y, active: true });
+    setCodes(nextCodes);
+  };
+
+  const release = () => {
+    setCodes([]);
+    activePointer.current = null;
+    setKnob({ x: 0, y: 0, active: false });
+  };
+
+  return (
+    <div
+      className="touch-joystick"
+      role="application"
+      aria-label="Movement joystick"
+      onPointerDown={(event) => {
+        event.preventDefault();
+        activePointer.current = event.pointerId;
+        event.currentTarget.setPointerCapture(event.pointerId);
+        updateJoystick(event);
+      }}
+      onPointerMove={(event) => {
+        if (event.pointerId === activePointer.current) updateJoystick(event);
+      }}
+      onPointerUp={(event) => {
+        if (event.pointerId === activePointer.current) release();
+      }}
+      onPointerCancel={release}
+      onLostPointerCapture={release}
+    >
+      <span className="touch-joystick__ring" />
+      <span
+        className={`touch-joystick__knob${knob.active ? " is-active" : ""}`}
+        style={{ transform: `translate(${knob.x}px, ${knob.y}px)` }}
+      />
+    </div>
+  );
+}
+
 export function TouchControls() {
   return (
     <div className="touch-controls" aria-label="Touch game controls">
-      <div className="touch-dpad">
-        <TouchButton
-          codes="KeyW"
-          label="Move forward"
-          className="touch-control--up"
-        >
-          {"\u2191"}
-        </TouchButton>
-        <TouchButton
-          codes="KeyA"
-          label="Move left"
-          className="touch-control--left"
-        >
-          {"\u2191"}
-        </TouchButton>
-        <TouchButton
-          codes="KeyS"
-          label="Move backward"
-          className="touch-control--down"
-        >
-          {"\u2191"}
-        </TouchButton>
-        <TouchButton
-          codes="KeyD"
-          label="Move right"
-          className="touch-control--right"
-        >
-          {"\u2191"}
-        </TouchButton>
-        <TouchButton
-          codes={["KeyW", "KeyA"]}
-          label="Move forward and left"
-          className="touch-control--up-left"
-        >
-          {"\u2191"}
-        </TouchButton>
-        <TouchButton
-          codes={["KeyW", "KeyD"]}
-          label="Move forward and right"
-          className="touch-control--up-right"
-        >
-          {"\u2191"}
-        </TouchButton>
-        <TouchButton
-          codes={["KeyS", "KeyA"]}
-          label="Move backward and left"
-          className="touch-control--down-left"
-        >
-          {"\u2191"}
-        </TouchButton>
-        <TouchButton
-          codes={["KeyS", "KeyD"]}
-          label="Move backward and right"
-          className="touch-control--down-right"
-        >
-          {"\u2191"}
-        </TouchButton>
-      </div>
+      <p className="touch-controls__hint">Drag to move · Tap Jump</p>
+      <Joystick />
       <TouchButton codes="Space" label="Jump" className="touch-control--jump">
         Jump
       </TouchButton>
