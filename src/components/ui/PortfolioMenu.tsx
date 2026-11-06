@@ -15,7 +15,7 @@ export function PortfolioMenu({ onClose }: PortfolioMenuProps) {
         aria-label="Close portfolio"
         data-tooltip="Close the portfolio overview"
       >
-        ×
+        &times;
       </button>
       <div className="portfolio-menu__intro">
         <p className="eyebrow">No need to jump :)</p>

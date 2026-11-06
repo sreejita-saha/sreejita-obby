@@ -34,7 +34,7 @@ export function SectionCard({
           aria-label="Close section"
           data-tooltip="Close this checkpoint"
         >
-          ×
+          &times;
         </button>
         <p className="eyebrow">{section.kicker}</p>
         <h2 id={`section-title-${section.id}`}>{section.title}</h2>

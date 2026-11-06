@@ -10,6 +10,13 @@ a {
     url("/images/pointer.png") 4 2,
     pointer;
 }
+button {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
 
 .app-shell {
   width: 100vw;

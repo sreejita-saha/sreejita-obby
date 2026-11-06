@@ -12,9 +12,32 @@ export function MusicToggle({ canPlay, enabled, onToggle }: MusicToggleProps) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.volume = MUSIC_VOLUME;
-    if (canPlay && enabled) void audio.play().catch(() => {});
-    else audio.pause();
+
+    const syncPlayback = () => {
+      audio.volume = MUSIC_VOLUME;
+      if (canPlay && enabled && document.visibilityState === "visible") {
+        void audio.play().catch(() => {});
+      } else {
+        audio.pause();
+      }
+    };
+
+    // Mobile browsers can keep an open tab alive after the visitor switches
+    // apps or locks their phone, so explicitly pause instead of relying on the
+    // browser to suspend the audio for us.
+    const pauseWhenHidden = () => syncPlayback();
+
+    document.addEventListener("visibilitychange", pauseWhenHidden);
+    window.addEventListener("pagehide", pauseWhenHidden);
+    window.addEventListener("pageshow", syncPlayback);
+    syncPlayback();
+
+    return () => {
+      document.removeEventListener("visibilitychange", pauseWhenHidden);
+      window.removeEventListener("pagehide", pauseWhenHidden);
+      window.removeEventListener("pageshow", syncPlayback);
+      audio.pause();
+    };
   }, [canPlay, enabled]);
   const isOn = canPlay && enabled;
   return (

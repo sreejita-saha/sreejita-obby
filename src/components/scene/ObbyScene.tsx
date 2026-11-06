@@ -37,13 +37,14 @@ export function ObbyScene(props: ObbySceneProps) {
   return (
     <>
       {/* The transparent canvas reveals the page's sky gradient beneath it. */}
-      <fog attach="fog" args={["#cceeff", 8, 76]} />
+      {/* Keep atmospheric depth in the distance without washing out nearby platforms. */}
+      <fog attach="fog" args={["#cceeff", 34, 118]} />
       <ambientLight intensity={1.2} />
       <directionalLight
         position={[8, 15, 7]}
         intensity={2.8}
         castShadow
-        shadow-mapSize={[1024, 1024]}
+        shadow-mapSize={[512, 512]}
       />
       <hemisphereLight args={["#dff5ff", "#6fae67", 1.2]} />
 

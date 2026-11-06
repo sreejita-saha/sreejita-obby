@@ -16,11 +16,16 @@ export function ButterBlock({ position, size, color }: ButterBlockProps) {
   return (
     <group>
       <RoundedBox args={size} radius={0.1} smoothness={6} position={position} receiveShadow castShadow>
-        <meshStandardMaterial color={color} roughness={0.55} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={0.12}
+          roughness={0.42}
+        />
       </RoundedBox>
       <mesh position={[x, y + height / 2 + 0.012, z]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[size[0] , size[2] * 0.9]} />
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.18} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0.1} />
       </mesh>
       <Text
         position={[x, y + height / 2 + 0.022, z]}

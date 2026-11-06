@@ -92,7 +92,12 @@ export function Platform({
             receiveShadow
             castShadow
           >
-            <meshStandardMaterial color={data.color} roughness={0.86} />
+            <meshStandardMaterial
+              color={data.color}
+              emissive={data.color}
+              emissiveIntensity={0.1}
+              roughness={0.68}
+            />
           </RoundedBox>
           {!data.rope && (
             <mesh
@@ -100,7 +105,7 @@ export function Platform({
               rotation={[-Math.PI / 2, 0, 0]}
             >
               <planeGeometry args={[width * 0.82, depth * 0.82]} />
-              <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
+              <meshBasicMaterial color="#ffffff" transparent opacity={0.045} />
             </mesh>
           )}
         </>

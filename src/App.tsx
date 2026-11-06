@@ -38,7 +38,8 @@ const SectionCard = lazy(() =>
 
 function useLowPowerMode() {
   // Keep this query aligned with the devices on which you want simpler graphics.
-  const query = "(max-width: 700px), (prefers-reduced-motion: reduce)";
+  const query =
+    "(max-width: 700px), (pointer: coarse), (prefers-reduced-motion: reduce)";
   const [lowPower, setLowPower] = useState(
     () => window.matchMedia(query).matches,
   );
@@ -142,7 +143,9 @@ function LegacyApp() {
       <Canvas
         shadows={!lowPower}
         camera={{ position: [0, 4.8, 10], fov: 48 }}
-        dpr={lowPower ? 1 : [1, 1.5]}
+        // A slightly lower internal resolution keeps touch devices responsive
+        // while retaining a crisp-enough world at normal phone viewing size.
+        dpr={lowPower ? [0.75, 1] : [1, 1.25]}
         gl={{
           antialias: !lowPower,
           alpha: true,
