@@ -19,12 +19,15 @@ button {
 }
 
 .app-shell {
+  --sky-top: #4e9fda;
+  --sky-mid: #82d0ed;
+  --sky-bottom: #d7f4ff;
   width: 100vw;
   height: 100svh;
   min-height: 100dvh;
   overflow: hidden;
   position: relative;
-  background: linear-gradient(180deg, #75c4e6 0%, #9bdcf3 48%, #d8f3ff 100%);
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 52%, var(--sky-bottom) 100%);
   color: #17223b;
 }
 .app-shell canvas {

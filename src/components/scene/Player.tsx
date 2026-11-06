@@ -246,10 +246,10 @@ export function Player({
 
     // Keep the camera behind the route, rather than rotating every time the player turns.
     const targetCameraPosition = cameraTarget.current.copy(position.current);
-    targetCameraPosition.y += 3.8;
-    targetCameraPosition.z += 7.5;
+    targetCameraPosition.y += 2.85;
+    targetCameraPosition.z += 8.2;
     const lookAtTarget = cameraLookAt.current.copy(position.current);
-    lookAtTarget.y += 0.7;
+    lookAtTarget.y += 1.45;
     lookAtTarget.z -= 2.2;
     camera.position.lerp(targetCameraPosition, 1 - Math.pow(0.001, delta));
     camera.lookAt(lookAtTarget);

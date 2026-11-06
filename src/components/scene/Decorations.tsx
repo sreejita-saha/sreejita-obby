@@ -1,5 +1,8 @@
 // Non-interactive background scenery. Cloud positions are configured in data/world.ts.
 import { Instance, Instances, Sparkles } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
+import * as THREE from "three";
 import { cloudPositions } from "../../data/world";
 
 const cloudPuffs = [
@@ -10,22 +13,27 @@ const cloudPuffs = [
   [[-0.86, 0, 0, 0.73], [0, 0.28, 0, 1.02], [0.86, 0.05, 0, 0.76]],
 ] as const;
 
-// Low side clouds add depth without looking like jumpable obstacles.
-const lowerClouds = [
-  { position: [13, -4.2, -21], scale: 1.35 },
-  { position: [-13, -2.8, -53], scale: 1.1 },
-  { position: [11, 9.6, -89], scale: 1.2 },
-] as const;
-
 export function Decorations() {
+  const cloudBank = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    if (!cloudBank.current) return;
+    const time = clock.getElapsedTime();
+    // A slow sideways breeze keeps the background feeling alive without
+    // interfering with jumps or making the course feel like it is moving.
+    cloudBank.current.position.x = Math.sin(time * 0.09) * 3.5;
+    cloudBank.current.position.z = Math.cos(time * 0.06) * 1.2;
+  });
+
   return (
     <>
+      <group ref={cloudBank}>
       <Instances limit={cloudPositions.length * 3}>
         <sphereGeometry args={[1, 16, 12]} />
         <meshStandardMaterial color="#ffffff" roughness={0.9} />
         {cloudPositions.flatMap((position, index) => {
           const cloudScale = 1.25 + (index % 2) * 0.25;
-          return cloudPuffs[index].map(([x, y, z, size], puffIndex) => (
+          return cloudPuffs[index % cloudPuffs.length].map(([x, y, z, size], puffIndex) => (
             <Instance
               key={`${index}-${puffIndex}`}
               position={[
@@ -51,24 +59,7 @@ export function Decorations() {
         opacity={0.55}
         color="#fff4aa"
       />
-      {lowerClouds.map((cloud, index) => (
-        <group
-          key={cloud.position.join("-")}
-          position={cloud.position}
-          scale={cloud.scale}
-        >
-          {cloudPuffs[index % cloudPuffs.length].map(([x, y, z, size], puffIndex) => (
-            <mesh
-              key={puffIndex}
-              position={[x, y, z]}
-              scale={[size, size * 0.72, size * 0.82]}
-            >
-              <sphereGeometry args={[1, 16, 12]} />
-              <meshStandardMaterial color="#ffffff" roughness={0.9} />
-            </mesh>
-          ))}
-        </group>
-      ))}
+      </group>
     </>
   );
 }

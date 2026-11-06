@@ -6,6 +6,7 @@ import { checkpointAreas } from "../../data/world";
 import { Platform } from "./Platform";
 import { Player, type PlayerProps } from "./Player";
 import { preloadSceneModels } from "./SceneModel";
+import { DayNightCycle } from "./DayNightCycle";
 
 const sceneModelUrls = [
   ...new Set(
@@ -47,6 +48,7 @@ export function ObbyScene(props: ObbySceneProps) {
         shadow-mapSize={[512, 512]}
       />
       <hemisphereLight args={["#dff5ff", "#6fae67", 1.2]} />
+      <DayNightCycle />
 
       <Decorations />
       {checkpointAreas.map((area) => (
