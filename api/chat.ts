@@ -73,7 +73,7 @@ export async function POST(request: Request) {
       .join("\n\n---\n\n");
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-lite",
+      model: "gemini-3.5-flash-lite",
       contents: `Visitor question: ${question}\n\nPortfolio context:\n${context}`,
       config: {
         systemInstruction: `
@@ -85,8 +85,9 @@ Do not invent skills, dates, achievements, links, or personal information.
 Be concise, friendly, and professional.
 Do not mention "the context", "retrieval", or "sources" in the answer.
         `.trim(),
+        thinkingConfig: { thinkingLevel: "minimal" },
         temperature: 0.2,
-        maxOutputTokens: 350,
+        maxOutputTokens: 220,
       },
     });
 

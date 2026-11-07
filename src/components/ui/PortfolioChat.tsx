@@ -57,11 +57,15 @@ export function PortfolioChat() {
       { role: "user", text: trimmedQuestion },
     ]);
 
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 25_000);
+
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmedQuestion }),
+        signal: controller.signal,
       });
 
       const payload = await response.json();
@@ -80,11 +84,14 @@ export function PortfolioChat() {
       ]);
     } catch (requestError) {
       setError(
-        requestError instanceof Error
+        requestError instanceof DOMException && requestError.name === "AbortError"
+          ? "That took too long. Please try again in a moment."
+          : requestError instanceof Error
           ? requestError.message
           : "The assistant could not answer just now.",
       );
     } finally {
+      window.clearTimeout(timeoutId);
       setIsSending(false);
     }
   };
