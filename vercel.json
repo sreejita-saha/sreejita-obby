@@ -1,11 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "crons": [
-    {
+  "schedules": {
+    "keep-supabase-awake": {
+      "schedule": "0 6 * * *",
       "path": "/api/keep-supabase-awake",
-      "schedule": "0 6 * * *"
+      "requestMethod": "GET"
     }
-  ],
+  },
   "headers": [
     {
       "source": "/models/(.*)",
