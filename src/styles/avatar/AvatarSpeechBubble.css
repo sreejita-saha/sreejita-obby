@@ -12,7 +12,7 @@
   position: relative;
   width: max-content;
   max-width: 220px;
-  border: 2px solid var(--avatar-bubble-outline);
+  border: 4px solid var(--avatar-bubble-outline);
   border-radius: 12px;
   background: var(--avatar-bubble-background);
   box-shadow: 5px 5px 0 #17223b;

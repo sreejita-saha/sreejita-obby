@@ -106,6 +106,9 @@ export function Platform({ data, showLabel, onOpenCheckpoint }: PlatformProps) {
           quote={data.quoteBoard.quote}
           author={data.quoteBoard.author}
           theme={data.quoteBoard.theme}
+          fontSize={data.quoteBoard.fontSize}
+          boardHeight={data.quoteBoard.boardHeight}
+          textOffsetY={data.quoteBoard.textOffsetY}
         />
       )}
       {section && (

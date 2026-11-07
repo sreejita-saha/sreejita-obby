@@ -44,6 +44,22 @@ function useLowPowerMode() {
   return lowPower;
 }
 
+function useDesktopMusic() {
+  // Touch-primary devices and phone/tablet-sized windows do not load music.
+  const query = "(max-width: 1024px), (pointer: coarse)";
+  const [isDesktop, setIsDesktop] = useState(() => !window.matchMedia(query).matches);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const update = () => setIsDesktop(!media.matches);
+    media.addEventListener("change", update);
+    update();
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return isDesktop;
+}
+
 function ObbyApp() {
   // `checkpoint` is -1 at the start, then matches the portfolio/checkpoint index.
   const [started, setStarted] = useState(false);
@@ -56,6 +72,7 @@ function ObbyApp() {
   const [popupsEnabled, setPopupsEnabled] = useState(true);
   const [loaderDismissed, setLoaderDismissed] = useState(false);
   const lowPower = useLowPowerMode();
+  const desktopMusic = useDesktopMusic();
   const unloadMusic = useCallback(() => setMusicEnabled(false), []);
 
   useEffect(() => {
@@ -208,12 +225,14 @@ function ObbyApp() {
         popupsEnabled={popupsEnabled}
         onTogglePopups={() => setPopupsEnabled((enabled) => !enabled)}
       />
-      <MusicToggle
-        canPlay={started}
-        enabled={musicEnabled}
-        onToggle={() => setMusicEnabled((enabled) => !enabled)}
-        onUnload={unloadMusic}
-      />
+      {desktopMusic && (
+        <MusicToggle
+          canPlay={started}
+          enabled={musicEnabled}
+          onToggle={() => setMusicEnabled((enabled) => !enabled)}
+          onUnload={unloadMusic}
+        />
+      )}
       <RatingWidget />
       <PortfolioChat onOpenSection={openPortfolioSection} />
       <TooltipLayer />

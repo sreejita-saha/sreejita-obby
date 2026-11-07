@@ -6,15 +6,21 @@ type QuoteBoardProps = {
   quote: string;
   author: string;
   theme?: "wood" | "danger";
+  fontSize?: number;
+  boardHeight?: number;
+  textOffsetY?: number;
 };
 
 /** A freestanding, readable wooden sign for a checkpoint platform. */
 export function QuoteBoard({
-  position,
+  position = [0, -2, 0],
   rotation = [0, 0, 0],
   quote,
   author,
   theme = "wood",
+  fontSize = 0.2,
+  boardHeight = 0.9,
+  textOffsetY = 0,
 }: QuoteBoardProps) {
   const colors =
     theme === "danger"
@@ -31,7 +37,7 @@ export function QuoteBoard({
 
       {/* Dark wooden outer frame: args are [width, height, depth]. */}
       <RoundedBox
-        args={[1.5, 0.9, 0.1]}
+        args={[1.5, boardHeight, 0.1]}
         radius={0.06}
         smoothness={4}
         position={[0, 0.96, 0]}
@@ -41,7 +47,7 @@ export function QuoteBoard({
       </RoundedBox>
       {/* Cream paper inset. Make this smaller to create a thicker wood border. */}
       <RoundedBox
-        args={[1.3, 0.735, 0.04]}
+        args={[1.3, boardHeight - 0.165, 0.04]}
         radius={0.025}
         smoothness={3}
         position={[0, 0.96, 0.09]}
@@ -52,9 +58,9 @@ export function QuoteBoard({
 
       {/* Main quote text. fontSize and maxWidth are the primary readability controls. */}
       <Text
-        position={[0, 1.03, 0.115]}
+        position={[0, 1.03 + textOffsetY, 0.115]}
         fontStyle="italic"
-        fontSize={0.115}
+        fontSize={fontSize}
         maxWidth={1.16}
         lineHeight={1.16}
         textAlign="center"

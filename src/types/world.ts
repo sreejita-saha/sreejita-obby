@@ -32,6 +32,11 @@ export type PlatformData = {
     /** Fine-tune this individual board's [x, y, z] rotation in radians. */
     rotation?: Vector3Tuple;
     theme?: "wood" | "danger";
+    /** Overrides the default quote text size for this individual board. */
+    fontSize?: number;
+    /** Overrides the default sign-face height for this individual board. */
+    boardHeight?: number;
+    textOffsetY?: number;
   };
 };
 
