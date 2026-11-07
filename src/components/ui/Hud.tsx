@@ -33,7 +33,7 @@ export function Hud({
           aria-controls="avatar-welcome"
           aria-label="Open Sreejita's welcome message"
         >
-        <img src="/images/myprofilepic-logo-closeup.png" alt="Sreejita's profile" />
+          <img src="/images/myprofilepic-logo-closeup.png" alt="Sreejita's profile" />
         </button>
         {isWelcomeOpen && (
           <div className="brand-welcome ui-panel" id="avatar-welcome">
@@ -84,9 +84,7 @@ export function Hud({
             onClick={onTogglePopups}
             aria-pressed={popupsEnabled}
             data-tooltip={
-              popupsEnabled
-                ? "Hide checkpoint popups"
-                : "Show checkpoint popups"
+              popupsEnabled ? "Hide checkpoint popups" : "Show checkpoint popups"
             }
             data-tooltip-position="bottom"
           >

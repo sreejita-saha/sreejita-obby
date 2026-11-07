@@ -42,7 +42,9 @@ export function Player({
   const { camera } = useThree();
 
   const moveToCheckpoint = (checkpointIndex: number) => {
-    const checkpointPlatform = platforms.find((platform) => platform.section === checkpointIndex);
+    const checkpointPlatform = platforms.find(
+      (platform) => platform.section === checkpointIndex,
+    );
 
     position.current.set(
       checkpointPlatform?.position[0] ?? spawnPoint.x,
@@ -82,7 +84,9 @@ export function Player({
       if (target?.matches("input, textarea, select, [contenteditable='true']")) return;
 
       keys.current.add(event.code);
-      if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code)) {
+      if (
+        ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code)
+      ) {
         event.preventDefault();
       }
       if (!playing || event.repeat) return;
@@ -164,8 +168,16 @@ export function Player({
 
       if (movement.lengthSq()) {
         movement.normalize();
-        velocity.current.x = THREE.MathUtils.lerp(velocity.current.x, movement.x * 5.2, 0.2);
-        velocity.current.z = THREE.MathUtils.lerp(velocity.current.z, movement.z * 5.2, 0.2);
+        velocity.current.x = THREE.MathUtils.lerp(
+          velocity.current.x,
+          movement.x * 5.2,
+          0.2,
+        );
+        velocity.current.z = THREE.MathUtils.lerp(
+          velocity.current.z,
+          movement.z * 5.2,
+          0.2,
+        );
         facing.current = Math.atan2(movement.x, movement.z);
       } else {
         velocity.current.x *= 0.82;
@@ -201,19 +213,33 @@ export function Player({
       // The safe rope rises into checkpoint 5, so its walkable surface needs to
       // rise with it rather than behaving like a flat invisible plank.
       const platformTop = platform.rope
-        ? ropeHeightAt(platform.rope.start, platform.rope.end, position.current.x, position.current.z)
+        ? ropeHeightAt(
+            platform.rope.start,
+            platform.rope.end,
+            position.current.x,
+            position.current.z,
+          )
         : platformY + height / 2;
       const feet = position.current.y - 0.9;
       const previousFeet = previousY - 0.9;
       const isOverPlatform = platform.rope
-        ? isOverRope(platform.rope.start, platform.rope.end, position.current.x, position.current.z)
+        ? isOverRope(
+            platform.rope.start,
+            platform.rope.end,
+            position.current.x,
+            position.current.z,
+          )
         : Math.abs(position.current.x - platformX) < width / 2 + 0.28 &&
           Math.abs(position.current.z - platformZ) < depth / 2 + 0.28;
 
-      const isLanding = velocity.current.y <= 0 && previousFeet >= platformTop - 0.12 && feet <= platformTop;
+      const isLanding =
+        velocity.current.y <= 0 &&
+        previousFeet >= platformTop - 0.12 &&
+        feet <= platformTop;
       // Lets a player walk up a gently rising bridge / rope instead of clipping
       // into the destination platform's side and falling through the level.
-      const isSmallStepUp = wasGrounded && platformTop > previousFeet && platformTop - previousFeet <= 0.2;
+      const isSmallStepUp =
+        wasGrounded && platformTop > previousFeet && platformTop - previousFeet <= 0.2;
 
       if (isOverPlatform && (isLanding || isSmallStepUp)) {
         position.current.y = platformTop + 0.9;
@@ -235,7 +261,6 @@ export function Player({
 
     // Falling is a checkpoint respawn. Only the R key restarts the full obby.
     if (position.current.y < -8) moveToCheckpoint(checkpoint);
-
 
     group.current.position.copy(position.current);
     const turnDifference = Math.atan2(
@@ -262,20 +287,39 @@ export function Player({
   );
 }
 
-function ropeProgressAt(start: [number, number, number], end: [number, number, number], x: number, z: number) {
+function ropeProgressAt(
+  start: [number, number, number],
+  end: [number, number, number],
+  x: number,
+  z: number,
+) {
   const directionX = end[0] - start[0];
   const directionZ = end[2] - start[2];
   const lengthSquared = directionX ** 2 + directionZ ** 2;
-  return THREE.MathUtils.clamp(((x - start[0]) * directionX + (z - start[2]) * directionZ) / lengthSquared, 0, 1);
+  return THREE.MathUtils.clamp(
+    ((x - start[0]) * directionX + (z - start[2]) * directionZ) / lengthSquared,
+    0,
+    1,
+  );
 }
 
-function ropeHeightAt(start: [number, number, number], end: [number, number, number], x: number, z: number) {
+function ropeHeightAt(
+  start: [number, number, number],
+  end: [number, number, number],
+  x: number,
+  z: number,
+) {
   const progress = ropeProgressAt(start, end, x, z);
   // The rope tube is slightly thicker than its centre line, so stand on its top.
   return THREE.MathUtils.lerp(start[1], end[1], progress) + 0.105;
 }
 
-function isOverRope(start: [number, number, number], end: [number, number, number], x: number, z: number) {
+function isOverRope(
+  start: [number, number, number],
+  end: [number, number, number],
+  x: number,
+  z: number,
+) {
   const progress = ropeProgressAt(start, end, x, z);
   const ropeX = THREE.MathUtils.lerp(start[0], end[0], progress);
   const ropeZ = THREE.MathUtils.lerp(start[2], end[2], progress);

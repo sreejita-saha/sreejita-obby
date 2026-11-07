@@ -1,13 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
-import {
-  OUT_OF_TOKENS_MESSAGE,
-  STARTER_CHAT_MESSAGE,
-} from "../chat/chat.constants";
-import type { ChatMessage, ChatSource } from "../chat/chat.types";
-import { ChatComposer } from "../chat/ChatComposer";
-import { ChatMessageRow } from "../chat/ChatMessageRow";
-import "../../styles/ui/PortfolioChat.css";
+import { OUT_OF_TOKENS_MESSAGE, STARTER_CHAT_MESSAGE } from "./chat.constants";
+import type { ChatMessage, ChatSource } from "./chat.types";
+import { ChatComposer } from "./ChatComposer";
+import { ChatMessageRow } from "./ChatMessageRow";
+import "../../styles/chat/PortfolioChat.css";
 
 type PortfolioChatProps = {
   onOpenSection: (sectionId: string) => void;
@@ -76,10 +73,7 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
     setQuestion("");
     setError("");
     setIsSending(true);
-    setMessages((current) => [
-      ...current,
-      { role: "user", text: trimmedQuestion },
-    ]);
+    setMessages((current) => [...current, { role: "user", text: trimmedQuestion }]);
 
     const controller = new AbortController();
     const timeoutId = window.setTimeout(() => controller.abort(), 25_000);
@@ -117,8 +111,8 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
         requestError instanceof DOMException && requestError.name === "AbortError"
           ? "That took too long. Please try again in a moment."
           : requestError instanceof Error
-          ? requestError.message
-          : "The assistant could not answer just now.";
+            ? requestError.message
+            : "The assistant could not answer just now.";
 
       if (message === OUT_OF_TOKENS_MESSAGE) {
         setMessages((current) => [

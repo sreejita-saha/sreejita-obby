@@ -1,11 +1,5 @@
 export type PortfolioSectionId =
-  | "about"
-  | "education"
-  | "experience"
-  | "projects"
-  | "skills"
-  | "contact"
-  | "credits";
+  "about" | "education" | "experience" | "projects" | "skills" | "contact" | "credits";
 
 export type PortfolioLink = {
   label: string;

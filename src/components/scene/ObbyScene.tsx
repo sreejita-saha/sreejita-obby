@@ -7,7 +7,7 @@ import { Platform } from "./Platform";
 import { Player, type PlayerProps } from "./Player";
 import { preloadSceneModels } from "./SceneModel";
 import { DayNightCycle } from "./DayNightCycle";
-import { AvatarModel } from "./AvatarModel";
+import { AvatarModel } from "../avatar/AvatarModel";
 import "../../styles/scene/WorldLabels.css";
 
 const sceneModelUrls = [
@@ -76,11 +76,7 @@ type CheckpointAreaProps = {
   onOpenCheckpoint: (index: number) => void;
 };
 
-function CheckpointArea({
-  area,
-  showLabel,
-  onOpenCheckpoint,
-}: CheckpointAreaProps) {
+function CheckpointArea({ area, showLabel, onOpenCheckpoint }: CheckpointAreaProps) {
   return (
     <group>
       {area.platforms.map((platform) => (

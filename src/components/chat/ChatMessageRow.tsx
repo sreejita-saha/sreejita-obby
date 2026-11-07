@@ -8,11 +8,7 @@ type ChatMessageRowProps = {
 };
 
 /** One left-aligned Sreejita answer or right-aligned visitor message. */
-export function ChatMessageRow({
-  message,
-  index,
-  onOpenSection,
-}: ChatMessageRowProps) {
+export function ChatMessageRow({ message, index, onOpenSection }: ChatMessageRowProps) {
   return (
     <div
       className={`portfolio-chat__message-row portfolio-chat__message-row--${message.role}`}

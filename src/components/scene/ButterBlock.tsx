@@ -15,7 +15,14 @@ export function ButterBlock({ position, size, color }: ButterBlockProps) {
 
   return (
     <group>
-      <RoundedBox args={size} radius={0.1} smoothness={6} position={position} receiveShadow castShadow>
+      <RoundedBox
+        args={size}
+        radius={0.1}
+        smoothness={6}
+        position={position}
+        receiveShadow
+        castShadow
+      >
         <meshStandardMaterial
           color={color}
           emissive={color}
@@ -24,7 +31,7 @@ export function ButterBlock({ position, size, color }: ButterBlockProps) {
         />
       </RoundedBox>
       <mesh position={[x, y + height / 2 + 0.012, z]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[size[0] , size[2] * 0.9]} />
+        <planeGeometry args={[size[0], size[2] * 0.9]} />
         <meshBasicMaterial color="#ffffff" transparent opacity={0.1} />
       </mesh>
       <Text
@@ -35,7 +42,7 @@ export function ButterBlock({ position, size, color }: ButterBlockProps) {
         anchorX="center"
         anchorY="middle"
       >
-        4oz  BUTTER
+        4oz BUTTER
       </Text>
     </group>
   );

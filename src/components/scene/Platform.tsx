@@ -1,12 +1,5 @@
 // Converts one PlatformData record into its 3D platform, scenery, and checkpoint UI.
-import {
-  Float,
-  Html,
-  Instance,
-  Instances,
-  RoundedBox,
-  Text,
-} from "@react-three/drei";
+import { Float, Html, Instance, Instances, RoundedBox, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { portfolio } from "../../data/portfolio";
 import type { PlatformData } from "../../types/world";
@@ -31,15 +24,9 @@ const CHECKPOINT_FLAG_COLORS = [
   "#ffd84d",
 ];
 
-export function Platform({
-  data,
-  showLabel,
-  onOpenCheckpoint,
-}: PlatformProps) {
-  const section =
-    data.section === undefined ? undefined : portfolio[data.section];
-  const labelSide =
-    data.section !== undefined && data.section % 2 === 0 ? -1 : 1;
+export function Platform({ data, showLabel, onOpenCheckpoint }: PlatformProps) {
+  const section = data.section === undefined ? undefined : portfolio[data.section];
+  const labelSide = data.section !== undefined && data.section % 2 === 0 ? -1 : 1;
   const [width, height, depth] = data.size;
   const [x, y, z] = data.position;
   const top = y + height / 2;
@@ -51,27 +38,20 @@ export function Platform({
   const [modelOffsetX, modelOffsetY, modelOffsetZ] = data.modelLabelOffset ?? [
     0, 0.25, 0,
   ];
-  const [boardOffsetX, boardOffsetY, boardOffsetZ] = data.quoteBoard
-    ?.positionOffset ?? [0, 0, 0];
+  const [boardOffsetX, boardOffsetY, boardOffsetZ] = data.quoteBoard?.positionOffset ?? [
+    0, 0, 0,
+  ];
 
   return (
     <group>
       {data.rope ? (
         <RopeBridge start={data.rope.start} end={data.rope.end} />
       ) : data.surface === "baseplate" ? (
-        <RobloxBaseplate
-          position={data.position}
-          size={data.size}
-          color={data.color}
-        />
+        <RobloxBaseplate position={data.position} size={data.size} color={data.color} />
       ) : data.surface === "bridge" ? (
         <WoodBridge position={data.position} size={data.size} />
       ) : data.surface === "butter" ? (
-        <ButterBlock
-          position={data.position}
-          size={data.size}
-          color={data.color}
-        />
+        <ButterBlock position={data.position} size={data.size} color={data.color} />
       ) : data.surface === "floating-stone" ? (
         <FloatingStoneIsland
           position={data.position}
@@ -96,10 +76,7 @@ export function Platform({
             />
           </RoundedBox>
           {!data.rope && (
-            <mesh
-              position={[x, top + 0.025, z]}
-              rotation={[-Math.PI / 2, 0, 0]}
-            >
+            <mesh position={[x, top + 0.025, z]} rotation={[-Math.PI / 2, 0, 0]}>
               <planeGeometry args={[width * 0.82, depth * 0.82]} />
               <meshBasicMaterial color="#ffffff" transparent opacity={0.045} />
             </mesh>
@@ -112,8 +89,7 @@ export function Platform({
           size={data.size}
           lush={data.gardenDensity === "lush"}
           varied={
-            data.id === "checkpoint-03-approach" ||
-            data.id === "checkpoint-03-approach-b"
+            data.id === "checkpoint-03-approach" || data.id === "checkpoint-03-approach-b"
           }
         />
       )}
@@ -145,11 +121,7 @@ export function Platform({
             {data.model && (
               <SceneModel
                 {...data.model}
-                position={[
-                  labelX + modelOffsetX,
-                  top + modelOffsetY,
-                  z + modelOffsetZ,
-                ]}
+                position={[labelX + modelOffsetX, top + modelOffsetY, z + modelOffsetZ]}
                 anchor="top"
               />
             )}
@@ -183,11 +155,7 @@ export function Platform({
       ))}
       {showLabel && section && (
         <Html
-          position={[
-            labelX,
-            data.position[1] + data.size[1] / 2 + 1.8,
-            data.position[2],
-          ]}
+          position={[labelX, data.position[1] + data.size[1] / 2 + 1.8, data.position[2]]}
           center
           distanceFactor={8}
           transform
@@ -201,8 +169,7 @@ export function Platform({
             tabIndex={0}
             onClick={onOpenCheckpoint}
             onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ")
-                onOpenCheckpoint?.();
+              if (event.key === "Enter" || event.key === " ") onOpenCheckpoint?.();
             }}
             style={{ cursor: "url('/images/pointer.png') 4 2, pointer" }}
           >
@@ -350,9 +317,7 @@ function WoodBridge({
               receiveShadow
               castShadow
             >
-              <boxGeometry
-                args={[paverWidth - 0.075, 0.09, paverLength - 0.075]}
-              />
+              <boxGeometry args={[paverWidth - 0.075, 0.09, paverLength - 0.075]} />
               <meshStandardMaterial
                 color={paverColors[(row + column) % paverColors.length]}
                 roughness={0.98}
@@ -417,12 +382,7 @@ function FloatingStoneIsland({
   return (
     <group>
       {/* A low, faceted stone shelf gives the player a readable landing area. */}
-      <mesh
-        position={[x, y, z]}
-        rotation={[0, angle, 0]}
-        receiveShadow
-        castShadow
-      >
+      <mesh position={[x, y, z]} rotation={[0, angle, 0]} receiveShadow castShadow>
         <cylinderGeometry args={[radius, radius * 0.92, height, 9]} />
         <meshStandardMaterial color="#78818a" roughness={0.94} flatShading />
       </mesh>
@@ -580,12 +540,7 @@ function CheckpointMarker({
       rotation={[-Math.PI / 2, 0, 0]}
     >
       <ringGeometry args={[radius * 0.82, radius, 32]} />
-      <meshBasicMaterial
-        color={color}
-        transparent
-        opacity={0.85}
-        toneMapped={false}
-      />
+      <meshBasicMaterial color={color} transparent opacity={0.85} toneMapped={false} />
     </mesh>
   );
 }

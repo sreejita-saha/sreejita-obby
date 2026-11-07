@@ -185,7 +185,9 @@
     background: rgba(255, 255, 255, 0.88);
     box-shadow: 0 3px 0 var(--ink);
     color: var(--ink);
-    font: 800 0.64rem/1 "DM Sans", sans-serif;
+    font:
+      800 0.64rem/1 "DM Sans",
+      sans-serif;
     padding: 5px 8px;
   }
   .touch-dpad {
@@ -230,7 +232,9 @@
     border: 3px solid var(--ink);
     background: rgba(255, 216, 77, 0.92);
     box-shadow: 0 4px 0 var(--ink);
-    transition: transform 70ms ease-out, background 120ms ease-out;
+    transition:
+      transform 70ms ease-out,
+      background 120ms ease-out;
   }
   .touch-joystick__knob.is-active {
     background: #ff9fca;

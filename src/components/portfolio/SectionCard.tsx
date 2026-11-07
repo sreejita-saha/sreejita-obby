@@ -1,8 +1,8 @@
 import type { CSSProperties } from "react";
 import type { PortfolioSection } from "../../types/portfolio";
 import { SectionContent } from "./SectionContent";
-import "../../styles/ui/PortfolioPanels.css";
-import "../../styles/ui/WelcomeScreen.css";
+import "../../styles/portfolio/PortfolioPanels.css";
+import "../../styles/screens/WelcomeScreen.css";
 import "../../styles/ui-primitives.css";
 
 type SectionCardProps = {
@@ -12,11 +12,7 @@ type SectionCardProps = {
   onContinue: () => void;
 };
 
-export function SectionCard({
-  section,
-  onClose,
-  onContinue,
-}: SectionCardProps) {
+export function SectionCard({ section, onClose, onContinue }: SectionCardProps) {
   const style = { "--section-color": section.color } as CSSProperties;
   const isFinalSection = section.id === "contact";
 
@@ -57,11 +53,7 @@ export function SectionCard({
             ))}
           </div>
         )}
-        <button
-          className="continue ui-button"
-          type="button"
-          onClick={onContinue}
-        >
+        <button className="continue ui-button" type="button" onClick={onContinue}>
           {isFinalSection ? "Play again" : "Continue obby"}
         </button>
       </article>

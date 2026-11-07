@@ -23,10 +23,14 @@
   border-radius: 12px;
   background: linear-gradient(135deg, #d8f3ce, #aaf08c);
   color: var(--ink);
-  font: 900 0.9rem "DM Sans", sans-serif;
+  font:
+    900 0.9rem "DM Sans",
+    sans-serif;
   padding: 9px 10px;
   box-shadow: 0 5px 0 var(--ink);
-  cursor: url("/images/pointer.png") 4 2, pointer;
+  cursor:
+    url("/images/pointer.png") 4 2,
+    pointer;
 }
 
 .portfolio-chat__toggle:hover {

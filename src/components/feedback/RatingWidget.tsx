@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { ControlIcon } from "./ControlIcon";
-import "../../styles/ui/RatingWidget.css";
+import { ControlIcon } from "../ui/ControlIcon";
+import "../../styles/feedback/RatingWidget.css";
 import "../../styles/ui/GameControls.css";
 import "../../styles/ui-primitives.css";
 
@@ -73,9 +73,7 @@ export function RatingWidget() {
       if (!response.ok) throw new Error("Rating request failed");
       setSubmitted(true);
     } catch {
-      setError(
-        "That did not send. Please check your connection and try again.",
-      );
+      setError("That did not send. Please check your connection and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -98,11 +96,7 @@ export function RatingWidget() {
       </button>
       {isOpen &&
         createPortal(
-          <div
-            className="rating-backdrop"
-            role="presentation"
-            onMouseDown={close}
-          >
+          <div className="rating-backdrop" role="presentation" onMouseDown={close}>
             <section
               className="rating-modal ui-panel"
               role="dialog"

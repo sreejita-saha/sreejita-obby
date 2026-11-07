@@ -15,7 +15,11 @@ const petalGeometry = new THREE.SphereGeometry(1, 10, 8);
 const centreGeometry = new THREE.SphereGeometry(1, 12, 8);
 const stemMaterial = new THREE.MeshStandardMaterial({ color: "#4f9c4f", roughness: 0.9 });
 const leafMaterial = new THREE.MeshStandardMaterial({ color: "#65b85b", roughness: 0.9 });
-const centreMaterial = new THREE.MeshStandardMaterial({ color: "#ffd84d", emissive: "#ffd84d", emissiveIntensity: 0.15 });
+const centreMaterial = new THREE.MeshStandardMaterial({
+  color: "#ffd84d",
+  emissive: "#ffd84d",
+  emissiveIntensity: 0.15,
+});
 const petalMaterials = new Map<string, THREE.MeshStandardMaterial>();
 
 function getPetalMaterial(color: string) {
@@ -44,7 +48,11 @@ export function Flower({ position, scale = 1, petalColor = "#fff0f7" }: FlowerPr
         <primitive attach="geometry" object={stemGeometry} />
         <primitive attach="material" object={stemMaterial} />
       </mesh>
-      <mesh position={[0.1, 0.14, 0]} rotation={[0, 0, -0.65]} scale={[0.09, 0.035, 0.04]}>
+      <mesh
+        position={[0.1, 0.14, 0]}
+        rotation={[0, 0, -0.65]}
+        scale={[0.09, 0.035, 0.04]}
+      >
         <primitive attach="geometry" object={leafGeometry} />
         <primitive attach="material" object={leafMaterial} />
       </mesh>

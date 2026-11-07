@@ -6,13 +6,15 @@ const boldMarkdown = /(\*\*[^*]+\*\*)/g;
 export function renderChatMessage(text: string): ReactNode {
   return text.split("\n").map((line, lineIndex, lines) => (
     <Fragment key={`${line}-${lineIndex}`}>
-      {line.split(boldMarkdown).map((part, partIndex) =>
-        part.startsWith("**") && part.endsWith("**") ? (
-          <strong key={partIndex}>{part.slice(2, -2)}</strong>
-        ) : (
-          <Fragment key={partIndex}>{part}</Fragment>
-        ),
-      )}
+      {line
+        .split(boldMarkdown)
+        .map((part, partIndex) =>
+          part.startsWith("**") && part.endsWith("**") ? (
+            <strong key={partIndex}>{part.slice(2, -2)}</strong>
+          ) : (
+            <Fragment key={partIndex}>{part}</Fragment>
+          ),
+        )}
       {lineIndex < lines.length - 1 && <br />}
     </Fragment>
   ));

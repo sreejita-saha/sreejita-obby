@@ -27,7 +27,12 @@ button {
   min-height: 100dvh;
   overflow: hidden;
   position: relative;
-  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 52%, var(--sky-bottom) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--sky-top) 0%,
+    var(--sky-mid) 52%,
+    var(--sky-bottom) 100%
+  );
   color: #17223b;
 }
 .app-shell canvas {

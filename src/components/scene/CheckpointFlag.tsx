@@ -19,7 +19,12 @@ export function CheckpointFlag({ position, color }: CheckpointFlagProps) {
       {/* Triangular pennant. Change 0.28 for a larger or smaller triangle. */}
       <mesh position={[0.15, 1, 0]} rotation={[0, 0, 0]}>
         <circleGeometry args={[0.28, 3]} />
-        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.35} side={THREE.DoubleSide} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={0.35}
+          side={THREE.DoubleSide}
+        />
       </mesh>
     </group>
   );

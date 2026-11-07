@@ -8,7 +8,9 @@ const outOfTokensMessage = "Oops sorry, I am out of tokens, sorry about that :P"
 
 function isQuotaError(error: unknown) {
   const message = error instanceof Error ? error.message : String(error);
-  return /resource[_ ]exhausted|quota|token limit|rate limit|status.?429|\b429\b/i.test(message);
+  return /resource[_ ]exhausted|quota|token limit|rate limit|status.?429|\b429\b/i.test(
+    message,
+  );
 }
 
 type PortfolioChunk = {
@@ -28,9 +30,7 @@ function createClientFingerprint(request: Request, salt: string) {
     "unknown";
   const clientIp = forwardedFor.split(",")[0].trim();
 
-  return createHash("sha256")
-    .update(`${salt}:${clientIp}`)
-    .digest("hex");
+  return createHash("sha256").update(`${salt}:${clientIp}`).digest("hex");
 }
 
 export async function POST(request: Request) {
@@ -38,10 +38,7 @@ export async function POST(request: Request) {
     const { question } = await request.json();
 
     if (typeof question !== "string" || question.trim().length === 0) {
-      return Response.json(
-        { error: "Please provide a question." },
-        { status: 400 },
-      );
+      return Response.json({ error: "Please provide a question." }, { status: 400 });
     }
 
     if (question.length > 500) {

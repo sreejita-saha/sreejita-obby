@@ -18,9 +18,7 @@ type TooltipTarget = {
 };
 
 function getTarget(node: EventTarget | null) {
-  return node instanceof Element
-    ? node.closest<HTMLElement>("[data-tooltip]")
-    : null;
+  return node instanceof Element ? node.closest<HTMLElement>("[data-tooltip]") : null;
 }
 
 /** Uses Floating UI to keep every hint and its arrow attached to its trigger. */
@@ -29,9 +27,7 @@ export function TooltipLayer() {
   const arrowRef = useRef<HTMLDivElement>(null);
   const preferredSide = target?.preferredSide ?? "top";
   const fallbackPlacements: Placement[] =
-    preferredSide === "top"
-      ? ["bottom", "right", "left"]
-      : ["top", "right", "left"];
+    preferredSide === "top" ? ["bottom", "right", "left"] : ["top", "right", "left"];
   const { refs, floatingStyles, placement, middlewareData } = useFloating({
     open: Boolean(target),
     placement: preferredSide,
@@ -70,8 +66,7 @@ export function TooltipLayer() {
       setTarget({
         element,
         label: element.dataset.tooltip ?? "",
-        preferredSide:
-          element.dataset.tooltipPosition === "bottom" ? "bottom" : "top",
+        preferredSide: element.dataset.tooltipPosition === "bottom" ? "bottom" : "top",
         lockSide: element.dataset.tooltipLockSide === "true",
       });
     const onMouseOver = (event: MouseEvent) => {
@@ -80,8 +75,7 @@ export function TooltipLayer() {
     };
     const onMouseOut = (event: MouseEvent) => {
       const leaving = getTarget(event.target);
-      if (leaving && leaving !== getTarget(event.relatedTarget))
-        setTarget(null);
+      if (leaving && leaving !== getTarget(event.relatedTarget)) setTarget(null);
     };
     const onFocusIn = (event: FocusEvent) => {
       const next = getTarget(event.target);

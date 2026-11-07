@@ -40,7 +40,11 @@ export function ChatComposer({
         maxLength={500}
         disabled={isSending}
       />
-      {error && <p className="portfolio-chat__error" role="alert">{error}</p>}
+      {error && (
+        <p className="portfolio-chat__error" role="alert">
+          {error}
+        </p>
+      )}
       <button
         className="portfolio-chat__send ui-button"
         type="submit"

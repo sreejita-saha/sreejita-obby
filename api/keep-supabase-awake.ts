@@ -16,25 +16,25 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await fetch(
-      `${supabaseUrl}/rest/v1/ratings?select=id&limit=1`,
-      {
-        headers: {
-          apikey: secretKey,
-          Authorization: `Bearer ${secretKey}`,
-        },
-        cache: "no-store",
+    const response = await fetch(`${supabaseUrl}/rest/v1/ratings?select=id&limit=1`, {
+      headers: {
+        apikey: secretKey,
+        Authorization: `Bearer ${secretKey}`,
       },
-    );
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       console.error("Supabase keep-alive failed", response.status);
       return new Response("Supabase request failed", { status: 502 });
     }
 
-    return Response.json({ ok: true }, {
-      headers: { "Cache-Control": "no-store" },
-    });
+    return Response.json(
+      { ok: true },
+      {
+        headers: { "Cache-Control": "no-store" },
+      },
+    );
   } catch (error) {
     console.error("Supabase keep-alive request failed", error);
     return new Response("Supabase request failed", { status: 502 });

@@ -4,11 +4,30 @@ export const checkpoint03: CheckpointArea = {
   id: "checkpoint-03",
   platforms: [
     checkpoint(2, {
-      at: [0.3, 3.5, -40.95], dimensions: [5.6, 0.7, 4.1], surface: "grass", gardenDensity: "lush",
-      model: { url: "/models/laptop.glb", displaySize: 2.7, rotation: [0, Math.PI / 4, 0] },
+      at: [0.3, 3.5, -40.95],
+      dimensions: [5.6, 0.7, 4.1],
+      surface: "grass",
+      gardenDensity: "lush",
+      model: {
+        url: "/models/laptop.glb",
+        displaySize: 2.7,
+        rotation: [0, Math.PI / 4, 0],
+      },
       modelLabelOffset: [-1.05, 0.75, 0],
-      scenery: [{ url: "/models/tree.glb", displaySize: 2.17, rotation: [0, Math.PI / 4, 0], position: [2.8, 4.2, -42.55] }],
-      quoteBoard: { quote: "Nature does not hurry, yet everything is accomplished.", author: "— Lao Tzu", positionOffset: [-0.2, -0.2, 0.4], rotation: [0, -0.29, 0] },
+      scenery: [
+        {
+          url: "/models/tree.glb",
+          displaySize: 2.17,
+          rotation: [0, Math.PI / 4, 0],
+          position: [2.8, 4.2, -42.55],
+        },
+      ],
+      quoteBoard: {
+        quote: "Nature does not hurry, yet everything is accomplished.",
+        author: "— Lao Tzu",
+        positionOffset: [-0.2, -0.2, 0.4],
+        rotation: [0, -0.29, 0],
+      },
     }),
     // Outgoing balance-beam route to checkpoint 04.
     balanceBeam("checkpoint-03-obstacle-01", [0.15, 3.6, -44.15], [0.8, 0.5, 2.5]),

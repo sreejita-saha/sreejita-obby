@@ -47,11 +47,9 @@ function chunkMarkdown(source: string, markdown: string): Chunk[] {
 
     chunks.push({
       chunkKey,
-      content: [
-        section !== title ? `Section: ${section}` : "",
-        `Title: ${title}`,
-        text,
-      ].filter(Boolean).join("\n\n"),
+      content: [section !== title ? `Section: ${section}` : "", `Title: ${title}`, text]
+        .filter(Boolean)
+        .join("\n\n"),
       source,
       title,
       metadata: {
@@ -83,8 +81,9 @@ function chunkMarkdown(source: string, markdown: string): Chunk[] {
 }
 
 async function indexPortfolio() {
-  const fileNames = (await readdir(dataDirectory))
-    .filter((fileName) => fileName.endsWith(".md"));
+  const fileNames = (await readdir(dataDirectory)).filter((fileName) =>
+    fileName.endsWith(".md"),
+  );
 
   const chunks = (
     await Promise.all(

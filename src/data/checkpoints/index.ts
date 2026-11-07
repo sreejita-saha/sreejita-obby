@@ -10,7 +10,17 @@ import { start } from "./start";
 import type { PlatformData } from "../../types/world";
 
 /** Level order. Add, remove, or reorder whole checkpoint modules here. */
-export const checkpointAreas = [start, checkpoint01, checkpoint02, checkpoint03, checkpoint04, checkpoint05, checkpoint06];
+export const checkpointAreas = [
+  start,
+  checkpoint01,
+  checkpoint02,
+  checkpoint03,
+  checkpoint04,
+  checkpoint05,
+  checkpoint06,
+];
 
 /** Render-friendly form consumed by ObbyScene. */
-export const platforms: PlatformData[] = checkpointAreas.flatMap(({ platforms }) => platforms);
+export const platforms: PlatformData[] = checkpointAreas.flatMap(
+  ({ platforms }) => platforms,
+);

@@ -88,7 +88,9 @@ function TouchButton({
 }
 
 function sendJoystickMove(vector: JoystickVector) {
-  window.dispatchEvent(new CustomEvent<JoystickVector>("obby-joystick-move", { detail: vector }));
+  window.dispatchEvent(
+    new CustomEvent<JoystickVector>("obby-joystick-move", { detail: vector }),
+  );
 }
 
 function Joystick() {
@@ -121,7 +123,10 @@ function Joystick() {
     // short dead zone prevents accidental movement, while the curve makes
     // gentle sideways drags responsive enough to steer around tight jumps.
     const deadZone = maxDistance * 0.1;
-    const strength = Math.max(0, Math.min(1, (Math.hypot(x, y) - deadZone) / (maxDistance - deadZone)));
+    const strength = Math.max(
+      0,
+      Math.min(1, (Math.hypot(x, y) - deadZone) / (maxDistance - deadZone)),
+    );
     const response = Math.pow(strength, 0.7);
     const direction = Math.hypot(x, y) || 1;
     sendJoystickMove({ x: (x / direction) * response, z: (y / direction) * response });

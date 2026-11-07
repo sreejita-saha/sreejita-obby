@@ -112,9 +112,7 @@ export const portfolio: PortfolioSection[] = [
       paragraph(
         "I have enjoyed getting to try different parts of software engineering through both coursework and projects. The variety has helped me become comfortable learning new tools, working through unfamiliar problems, and building things from the ground up.",
       ),
-      paragraph(
-        "I am also a recipient of the Transact Campus Scholarship.",
-      ),
+      paragraph("I am also a recipient of the Transact Campus Scholarship."),
     ],
     color: "#ff7aa8",
   },
@@ -204,10 +202,7 @@ export const portfolio: PortfolioSection[] = [
       ),
     ],
     links: [
-      link(
-        "Email: sreejita_saha@outlook.com",
-        "mailto:sreejita_saha@outlook.com",
-      ),
+      link("Email: sreejita_saha@outlook.com", "mailto:sreejita_saha@outlook.com"),
       link("GitHub: sreejita-saha", "https://github.com/sreejita-saha"),
       link("LinkedIn: sreejita-s", "https://www.linkedin.com/in/sreejita-s"),
       link("CV", "doc/Sreejita_Saha_CV.pdf"),

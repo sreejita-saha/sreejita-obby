@@ -62,14 +62,9 @@ export function SceneModel({
 }
 
 /** Warm the GLTF cache for models in an upcoming checkpoint. */
-export function preloadSceneModels(
-  urls: Iterable<string>,
-  gl: THREE.WebGLRenderer,
-) {
+export function preloadSceneModels(urls: Iterable<string>, gl: THREE.WebGLRenderer) {
   const ktx2Loader = getKtx2Loader(gl);
   for (const url of new Set(urls)) {
-    useGLTF.preload(url, true, true, (loader) =>
-      loader.setKTX2Loader(ktx2Loader),
-    );
+    useGLTF.preload(url, true, true, (loader) => loader.setKTX2Loader(ktx2Loader));
   }
 }

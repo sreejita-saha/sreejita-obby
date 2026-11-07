@@ -5,13 +5,13 @@ import { Canvas } from "@react-three/fiber";
 import { creditsSection, portfolio } from "./data/portfolio";
 import { ObbyScene } from "./components/scene/ObbyScene";
 import { Hud } from "./components/ui/Hud";
-import { WelcomeScreen } from "./components/ui/WelcomeScreen";
+import { WelcomeScreen } from "./components/screens/WelcomeScreen";
 import { MusicToggle } from "./components/ui/MusicToggle";
-import { RatingWidget } from "./components/ui/RatingWidget";
-import { LoadingScreen } from "./components/ui/LoadingScreen";
+import { RatingWidget } from "./components/feedback/RatingWidget";
+import { LoadingScreen } from "./components/screens/LoadingScreen";
 import { TouchControls } from "./components/ui/TouchControls";
 import { TooltipLayer } from "./components/ui/TooltipLayer";
-import { PortfolioChat } from "./components/ui/PortfolioChat";
+import { PortfolioChat } from "./components/chat/PortfolioChat";
 // import "./styles/maintenance/MaintenancePage.css";
 // import { BackgroundDecorations } from "./components/maintenance/BackgroundDecorations";
 // import { MaintenanceCard } from "./components/maintenance/MaintenanceCard";
@@ -19,23 +19,20 @@ import "./styles/global.css";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
 const PortfolioMenu = lazy(() =>
-  import("./components/ui/PortfolioMenu").then(({ PortfolioMenu }) => ({
+  import("./components/portfolio/PortfolioMenu").then(({ PortfolioMenu }) => ({
     default: PortfolioMenu,
   })),
 );
 const SectionCard = lazy(() =>
-  import("./components/ui/SectionCard").then(({ SectionCard }) => ({
+  import("./components/portfolio/SectionCard").then(({ SectionCard }) => ({
     default: SectionCard,
   })),
 );
 
 function useLowPowerMode() {
   // Keep this query aligned with the devices on which you want simpler graphics.
-  const query =
-    "(max-width: 700px), (pointer: coarse), (prefers-reduced-motion: reduce)";
-  const [lowPower, setLowPower] = useState(
-    () => window.matchMedia(query).matches,
-  );
+  const query = "(max-width: 700px), (pointer: coarse), (prefers-reduced-motion: reduce)";
+  const [lowPower, setLowPower] = useState(() => window.matchMedia(query).matches);
 
   useEffect(() => {
     const media = window.matchMedia(query);
@@ -47,7 +44,7 @@ function useLowPowerMode() {
   return lowPower;
 }
 
-function LegacyApp() {
+function ObbyApp() {
   // `checkpoint` is -1 at the start, then matches the portfolio/checkpoint index.
   const [started, setStarted] = useState(false);
   const [checkpoint, setCheckpoint] = useState(-1);
@@ -68,8 +65,15 @@ function LegacyApp() {
       const target = event.target as HTMLElement | null;
       if (target?.matches("input, textarea, select, [contenteditable='true']")) return;
       const movementKeys = [
-        "KeyW", "KeyA", "KeyS", "KeyD",
-        "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space",
+        "KeyW",
+        "KeyA",
+        "KeyS",
+        "KeyD",
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "Space",
       ];
       if (!movementKeys.includes(event.code)) return;
       event.preventDefault();
@@ -102,8 +106,7 @@ function LegacyApp() {
     };
   }, []);
 
-  const isPlaying =
-    started && openSection === null && !creditsOpen && !menuOpen;
+  const isPlaying = started && openSection === null && !creditsOpen && !menuOpen;
 
   const restartObby = () => {
     setCheckpoint(-1);
@@ -214,9 +217,7 @@ function LegacyApp() {
       <PortfolioChat onOpenSection={openPortfolioSection} />
       <TooltipLayer />
 
-      {!loaderDismissed && (
-        <LoadingScreen onReady={() => setLoaderDismissed(true)} />
-      )}
+      {!loaderDismissed && <LoadingScreen onReady={() => setLoaderDismissed(true)} />}
 
       {!started && <WelcomeScreen onStart={() => setStarted(true)} />}
       {started && openSection === null && !creditsOpen && !menuOpen && (
@@ -249,7 +250,7 @@ function LegacyApp() {
 }
 
 function App() {
-  return <LegacyApp />;
+  return <ObbyApp />;
   // return (
   //   <main className="maintenance-page">
   //     <BackgroundDecorations />
@@ -259,4 +260,4 @@ function App() {
 }
 
 export default App;
-export { LegacyApp };
+export { ObbyApp };

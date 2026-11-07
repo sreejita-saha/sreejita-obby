@@ -23,7 +23,8 @@ Deno.serve(async (request) => {
 
   const headers = { ...corsHeaders, "Access-Control-Allow-Origin": allowedOrigin };
   if (request.method === "OPTIONS") return new Response("ok", { headers });
-  if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers });
+  if (request.method !== "POST")
+    return new Response("Method not allowed", { status: 405, headers });
 
   try {
     const body: unknown = await request.json();
@@ -33,7 +34,8 @@ Deno.serve(async (request) => {
       throw new Error("Invalid request");
     }
 
-    const forwardedFor = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+    const forwardedFor =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
     const userAgent = request.headers.get("user-agent") ?? "unknown";
     const salt = Deno.env.get("RATING_FINGERPRINT_SALT");
     if (!salt) throw new Error("Server is not configured");

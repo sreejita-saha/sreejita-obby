@@ -10,12 +10,7 @@ type MusicToggleProps = {
 };
 const MUSIC_SOURCE = "/audio/obby-theme.mp3";
 const MUSIC_VOLUME = 0.05;
-export function MusicToggle({
-  canPlay,
-  enabled,
-  onToggle,
-  onUnload,
-}: MusicToggleProps) {
+export function MusicToggle({ canPlay, enabled, onToggle, onUnload }: MusicToggleProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   useEffect(() => {
     const audio = audioRef.current;
@@ -69,13 +64,9 @@ export function MusicToggle({
         className={`music-toggle ${isOn ? "is-on" : "is-off"}`}
         onClick={onToggle}
         aria-pressed={isOn}
-        aria-label={
-          isOn ? "Disable background music" : "Enable background music"
-        }
+        aria-label={isOn ? "Disable background music" : "Enable background music"}
         data-tooltip={
-          isOn
-            ? "Turn off the background music"
-            : "Turn on the background music"
+          isOn ? "Turn off the background music" : "Turn on the background music"
         }
         data-tooltip-lock-side="true"
       >

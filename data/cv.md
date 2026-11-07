@@ -7,10 +7,10 @@
 
 Final-year Immersive Software Engineering student with experience building practical web, desktop, mobile, and systems software. Enjoys turning ambiguous ideas into clear, useful products through thoughtful problem-solving, collaboration, and an eye for the user experience.
 
-
 ## Experience
 
 ### Product Engineering Intern — Fin from Salesforce
+
 **June 2026 – August 2026**
 
 - Investigated and resolved customer-facing issues in Fin Messenger across web and mobile products.
@@ -18,6 +18,7 @@ Final-year Immersive Software Engineering student with experience building pract
 - Built a feature for automatically disabling time-sensitive notices after a configured period.
 
 ### Software Engineering Intern — Cloudcards
+
 **June 2025 – December 2025**
 
 - Helped build a desktop application for uploading large aviation datasets.
@@ -27,6 +28,7 @@ Final-year Immersive Software Engineering student with experience building pract
 ## Education
 
 ### University of Limerick
+
 **BSc, Immersive Software Engineering — final year**
 
 Relevant areas of study include programming, databases, operating systems, artificial intelligence, cybersecurity, mobile development, software testing, and project management.

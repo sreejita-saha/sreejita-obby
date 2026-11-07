@@ -6,8 +6,23 @@ export const start: CheckpointArea = {
   platforms: [
     // Keep the original studded Roblox baseplate treatment, with a small gap
     // before the first approach block so the expanded start island reads clearly.
-    block("start-platform", { at: [0, -0.5, 4], dimensions: [10, 1, 10], color: "#949497", surface: "baseplate" }),
-    block("checkpoint-01-approach-a", { at: [0, 0.15, -4], dimensions: [3.4, 0.6, 3.2], color: "#f5828f", surface: "stone" }),
-    block("checkpoint-01-approach-b", { at: [2.2, 0.75, -8], dimensions: [3.2, 0.6, 3], color: "#959cf7", surface: "stone" }),
+    block("start-platform", {
+      at: [0, -0.5, 4],
+      dimensions: [10, 1, 10],
+      color: "#949497",
+      surface: "baseplate",
+    }),
+    block("checkpoint-01-approach-a", {
+      at: [0, 0.15, -4],
+      dimensions: [3.4, 0.6, 3.2],
+      color: "#f5828f",
+      surface: "stone",
+    }),
+    block("checkpoint-01-approach-b", {
+      at: [2.2, 0.75, -8],
+      dimensions: [3.2, 0.6, 3],
+      color: "#959cf7",
+      surface: "stone",
+    }),
   ],
 };

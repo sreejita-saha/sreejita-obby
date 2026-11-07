@@ -51,10 +51,10 @@ Supabase Free project from being paused for inactivity.
 In **Vercel → Project → Settings → Environment Variables**, add these values
 for the Production environment:
 
-| Variable | Value |
-| --- | --- |
-| `CRON_SECRET` | A newly generated random string (at least 16 characters) |
-| `SUPABASE_URL` | Your project URL, e.g. `https://abc123.supabase.co` |
+| Variable              | Value                                                                |
+| --------------------- | -------------------------------------------------------------------- |
+| `CRON_SECRET`         | A newly generated random string (at least 16 characters)             |
+| `SUPABASE_URL`        | Your project URL, e.g. `https://abc123.supabase.co`                  |
 | `SUPABASE_SECRET_KEY` | The server-only Secret key from Supabase Project Settings → API Keys |
 
 Never add `SUPABASE_SECRET_KEY` to a `VITE_` variable or commit it to the
@@ -76,9 +76,9 @@ If you are developing a production application, we recommend updating the config
 
 ```js
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
 
@@ -93,42 +93,40 @@ export default defineConfig([
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
-
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       // Other configs...
       // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
+      reactX.configs["recommended-typescript"],
       // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
     },
   },
-])
-
+]);
 ```

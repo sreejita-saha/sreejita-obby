@@ -11,7 +11,8 @@ export type PlatformData = {
   rope?: { start: Vector3Tuple; end: Vector3Tuple };
   /** Flat text decals for platform guidance. */
   floorText?: Array<{ text: string; position: Vector3Tuple }>;
-  surface?: "grass" | "flowers" | "baseplate" | "stone" | "bridge" | "butter" | "floating-stone";
+  surface?:
+    "grass" | "flowers" | "baseplate" | "stone" | "bridge" | "butter" | "floating-stone";
   /** Makes a grass surface use the denser meadow decoration. */
   gardenDensity?: "lush";
   section?: number;

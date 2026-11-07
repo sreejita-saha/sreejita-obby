@@ -1,6 +1,6 @@
 import { useProgress } from "@react-three/drei";
 import { useEffect, useState } from "react";
-import "../../styles/ui/LoadingScreen.css";
+import "../../styles/screens/LoadingScreen.css";
 
 type LoadingScreenProps = { onReady: () => void };
 
@@ -22,10 +22,7 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
 
   useEffect(() => {
     const startedAt = performance.now();
-    const timer = window.setInterval(
-      () => setElapsed(performance.now() - startedAt),
-      80,
-    );
+    const timer = window.setInterval(() => setElapsed(performance.now() - startedAt), 80);
     return () => window.clearInterval(timer);
   }, []);
   useEffect(() => {
@@ -38,8 +35,7 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
     );
   }, [completed, hasObservedLoading, progress]);
 
-  const ready =
-    hasObservedLoading && !active && progress >= 100 && elapsed > 900;
+  const ready = hasObservedLoading && !active && progress >= 100 && elapsed > 900;
   useEffect(() => {
     if (ready) setCompleted(true);
   }, [ready]);

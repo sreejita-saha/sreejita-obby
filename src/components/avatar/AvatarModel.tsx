@@ -3,7 +3,7 @@ import { useLoader } from "@react-three/fiber";
 import { useMemo } from "react";
 import * as THREE from "three";
 import { MTLLoader, OBJLoader } from "three-stdlib";
-import { AvatarSpeechBubble } from "../avatar/AvatarSpeechBubble";
+import { AvatarSpeechBubble } from "./AvatarSpeechBubble";
 
 type AvatarModelProps = {
   /** Hide interactive UI whenever an app-level modal is open. */
@@ -43,9 +43,7 @@ function useAvatarModel() {
         });
       });
 
-      object.material = Array.isArray(object.material)
-        ? nextMaterials
-        : nextMaterials[0];
+      object.material = Array.isArray(object.material) ? nextMaterials : nextMaterials[0];
     });
     return avatar;
   }, [source]);

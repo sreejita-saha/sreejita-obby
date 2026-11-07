@@ -8,7 +8,12 @@ type QuoteBoardProps = {
 };
 
 /** A freestanding, readable wooden sign for a checkpoint platform. */
-export function QuoteBoard({ position, rotation = [0, 0, 0], quote, author }: QuoteBoardProps) {
+export function QuoteBoard({
+  position,
+  rotation = [0, 0, 0],
+  quote,
+  author,
+}: QuoteBoardProps) {
   return (
     <group position={position} rotation={rotation}>
       {/* Single centered wooden support. Change its height in the second boxGeometry value. */}
@@ -18,11 +23,23 @@ export function QuoteBoard({ position, rotation = [0, 0, 0], quote, author }: Qu
       </mesh>
 
       {/* Dark wooden outer frame: args are [width, height, depth]. */}
-      <RoundedBox args={[1.5, 0.9, 0.1]} radius={0.06} smoothness={4} position={[0, 0.96, 0]} castShadow>
+      <RoundedBox
+        args={[1.5, 0.9, 0.1]}
+        radius={0.06}
+        smoothness={4}
+        position={[0, 0.96, 0]}
+        castShadow
+      >
         <meshStandardMaterial color="#b54b1e" roughness={0.88} />
       </RoundedBox>
       {/* Cream paper inset. Make this smaller to create a thicker wood border. */}
-      <RoundedBox args={[1.3, 0.735, 0.04]} radius={0.025} smoothness={3} position={[0, 0.96, 0.09]} castShadow>
+      <RoundedBox
+        args={[1.3, 0.735, 0.04]}
+        radius={0.025}
+        smoothness={3}
+        position={[0, 0.96, 0.09]}
+        castShadow
+      >
         <meshStandardMaterial color="#fff1cf" roughness={0.98} />
       </RoundedBox>
 

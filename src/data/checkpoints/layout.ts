@@ -12,7 +12,10 @@ type Layout = Omit<PlatformData, "id" | "position" | "size"> & {
 };
 
 /** Use this for any normal piece of level geometry. */
-export function block(id: string, { at, dimensions, ...appearance }: Layout): PlatformData {
+export function block(
+  id: string,
+  { at, dimensions, ...appearance }: Layout,
+): PlatformData {
   return { id, position: at, size: dimensions, ...appearance };
 }
 
@@ -30,10 +33,26 @@ export function butterStone(id: string, at: Vector3Tuple, color: string): Platfo
   return block(id, { at, dimensions: [2, 0.55, 0.8], color, surface: "butter" });
 }
 
-export function balanceBeam(id: string, at: Vector3Tuple, dimensions: Vector3Tuple): PlatformData {
+export function balanceBeam(
+  id: string,
+  at: Vector3Tuple,
+  dimensions: Vector3Tuple,
+): PlatformData {
   return block(id, { at, dimensions, color: "#ff8fbe" });
 }
 
-export function rope(id: string, at: Vector3Tuple, start: Vector3Tuple, end: Vector3Tuple, collidable = true): PlatformData {
-  return block(id, { at, dimensions: [0.42, 0.28, 5.8], color: "#9a6437", collidable, rope: { start, end } });
+export function rope(
+  id: string,
+  at: Vector3Tuple,
+  start: Vector3Tuple,
+  end: Vector3Tuple,
+  collidable = true,
+): PlatformData {
+  return block(id, {
+    at,
+    dimensions: [0.42, 0.28, 5.8],
+    color: "#9a6437",
+    collidable,
+    rope: { start, end },
+  });
 }
