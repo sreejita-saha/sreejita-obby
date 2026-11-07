@@ -6,7 +6,7 @@
   width: min(560px, calc(100% - 32px));
   transform: translateX(-50%);
   padding: 25px 28px 22px;
-  --surface: linear-gradient(180deg, #6fbef6 0%, #82d0ed 52%, #83dbfc 100%);
+  --surface: #fff;
   border-radius: 20px;
   box-shadow: 9px 9px 0 var(--ink);
   text-align: center;

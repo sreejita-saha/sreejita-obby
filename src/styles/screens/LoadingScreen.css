@@ -5,8 +5,8 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  color: #fff;
-  background: linear-gradient(180deg, #4e9fda 0%, #82d0ed 52%, #d7f4ff 100%);
+  color: #4e9fda;
+  background: #fff;
 }
 
 .obby-loader--leaving {
@@ -37,13 +37,13 @@
   height: 6px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgb(255 255 255 / 35%);
+  background: #dceefa;
 }
 
 .obby-loader__bar-fill {
   height: 100%;
   border-radius: inherit;
-  background: #fff;
+  background: #4e9fda;
   transition: width 0.4s ease;
 }
 
