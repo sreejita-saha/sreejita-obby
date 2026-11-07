@@ -11,6 +11,12 @@
   padding: 6px 16px;
   pointer-events: none;
 }
+.brand-area {
+  position: relative;
+  width: fit-content;
+  justify-self: start;
+  pointer-events: auto;
+}
 .brand {
   display: inline-flex;
   align-items: left;
@@ -23,6 +29,8 @@
   background: #ffd8e6;
   box-shadow: 2px 3px 0 rgba(23, 34, 59, 0.3);
   pointer-events: auto;
+  padding: 0;
+  cursor: url("/images/pointer.png") 4 2, pointer;
 }
 .brand img {
   display: block;
@@ -33,8 +41,52 @@
   object-position: center;
   transform: translateX(-1%);
 }
+.brand-welcome {
+  position: absolute;
+  top: 8px;
+  left: calc(100% + 14px);
+  width: 210px;
+  padding: 13px;
+  border: 3px solid #17223b;
+  border-radius: 14px 14px 14px 14px;
+  background: #fffdf6;
+  box-shadow: 5px 5px 0 #17223b;
+  animation: brand-welcome-pop 0.2s ease-out;
+}
+.brand-welcome::before {
+  position: absolute;
+  top: 24px;
+  left: -10px;
+  width: 16px;
+  height: 16px;
+  border-top: 3px solid #17223b;
+  border-left: 3px solid #17223b;
+  background: #fffdf6;
+  content: "";
+  transform: rotate(-45deg);
+}
+.brand-welcome p {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+.brand-welcome button {
+  width: 100%;
+  border: 2px solid #17223b;
+  border-radius: 9px;
+  background: #aaf08c;
+  color: #17223b;
+  font: 900 0.78rem "DM Sans", sans-serif;
+  padding: 7px 9px;
+  box-shadow: 0 3px 0 #17223b;
+  cursor: pointer;
+}
+@keyframes brand-welcome-pop {
+  from { transform: translateY(-7px) scale(0.94); opacity: 0; }
+}
 .menu-button,
-.hud button {
+.hud-actions button {
   justify-self: end;
   border: 3px solid #17223b;
   border-radius: 12px;
@@ -48,9 +100,12 @@
 .menu-button {
   position: fixed;
   z-index: 13;
-  right: 20px;
+  right: 24px;
   bottom: 18px;
   background: linear-gradient(135deg, #ffb3d2 0%, #ff8fba 100%);
+  box-sizing: border-box;
+  width: 100px;
+  justify-content: center;
 }
 .progress {
   display: flex;

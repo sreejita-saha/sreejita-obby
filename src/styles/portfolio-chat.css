@@ -15,15 +15,18 @@
 .portfolio-chat__toggle {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
+  box-sizing: border-box;
+  width: 100px;
+  justify-content: center;
   border: 3px solid var(--ink);
   border-radius: 12px;
   background: linear-gradient(135deg, #d8f3ce, #aaf08c);
   color: var(--ink);
   font: 900 0.9rem "DM Sans", sans-serif;
-  padding: 10px 14px;
+  padding: 9px 10px;
   box-shadow: 0 5px 0 var(--ink);
-  cursor: pointer;
+  cursor: url("/images/pointer.png") 4 2, pointer;
 }
 
 .portfolio-chat__toggle:hover {

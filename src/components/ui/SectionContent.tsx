@@ -27,12 +27,22 @@ function renderInlineLinks(text: string) {
   return nodes.length ? nodes : text;
 }
 
-type SectionContentProps = { content: readonly PortfolioContentBlock[] };
+type SectionContentProps = {
+  content: readonly PortfolioContentBlock[];
+  leadingImage?: { src: string; alt: string; className?: string };
+};
 
 /** Renders the structured, editable body of a checkpoint modal. */
-export function SectionContent({ content }: SectionContentProps) {
+export function SectionContent({ content, leadingImage }: SectionContentProps) {
   return (
     <div className="section-card__content">
+      {leadingImage && (
+        <img
+          className={leadingImage.className}
+          src={leadingImage.src}
+          alt={leadingImage.alt}
+        />
+      )}
       {content.map((block, index) => {
         const key = `${block.type}-${index}`;
         if (block.type === "heading")

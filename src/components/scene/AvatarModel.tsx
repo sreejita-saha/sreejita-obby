@@ -1,6 +1,7 @@
 // Roblox avatar exported in public/models/me.
 import { useLoader } from "@react-three/fiber";
 import { useMemo } from "react";
+import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { MTLLoader, OBJLoader } from "three-stdlib";
 
@@ -57,6 +58,21 @@ export function AvatarModel() {
 
   return (
     <group position={[-2.5, 0, 0.8]} rotation={[0, Math.PI + 0.7, 0]} scale={fit.scale}>
+      <Html
+        position={[0, 6.9, -0.3]}
+        center
+        distanceFactor={6}
+      >
+        <div className="avatar-speech-bubble">
+          <p>Heyy, I’m Sreejita!<br />Come explore my little world :D</p>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event("obby-open-ai-chat"))}
+          >
+            Talk to me
+          </button>
+        </div>
+      </Html>
       {/* Roblox exports the face decal as an alpha-only head mesh. Supply the
           missing opaque head beneath it so the eyes and mouth have skin behind. */}
       <mesh position={[0, 3.7, -0.3]}>

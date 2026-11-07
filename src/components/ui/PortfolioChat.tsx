@@ -19,6 +19,7 @@ const starterMessage: Message = {
   role: "assistant",
   text: "Hi! You can ask me about my projects, experience, education, or skills.",
 };
+const outOfTokensMessage = "Oops sorry, I am out of tokens, sorry about that :P";
 
 const boldMarkdown = /(\*\*[^*]+\*\*)/g;
 
@@ -92,6 +93,15 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
   }, [closeChat, isOpen]);
 
   useEffect(() => {
+    const openChat = () => {
+      setIsClosing(false);
+      setIsOpen(true);
+    };
+    window.addEventListener("obby-open-ai-chat", openChat);
+    return () => window.removeEventListener("obby-open-ai-chat", openChat);
+  }, []);
+
+  useEffect(() => {
     messageListRef.current?.scrollTo({
       top: messageListRef.current.scrollHeight,
       behavior: "smooth",
@@ -131,7 +141,13 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
         signal: controller.signal,
       });
 
-      const payload = await response.json();
+      const responseBody = await response.text();
+      let payload: { answer?: string; sources?: Source[]; error?: string };
+      try {
+        payload = JSON.parse(responseBody) as typeof payload;
+      } catch {
+        throw new Error("The chat service is temporarily unavailable.");
+      }
 
       if (!response.ok) {
         throw new Error(payload.error || "The assistant could not answer just now.");
@@ -141,18 +157,26 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
         ...current,
         {
           role: "assistant",
-          text: payload.answer,
+          text: payload.answer || "I could not generate an answer just now.",
           sources: payload.sources,
         },
       ]);
     } catch (requestError) {
-      setError(
+      const message =
         requestError instanceof DOMException && requestError.name === "AbortError"
           ? "That took too long. Please try again in a moment."
           : requestError instanceof Error
           ? requestError.message
-          : "The assistant could not answer just now.",
-      );
+          : "The assistant could not answer just now.";
+
+      if (message === outOfTokensMessage) {
+        setMessages((current) => [
+          ...current,
+          { role: "assistant", text: outOfTokensMessage },
+        ]);
+      } else {
+        setError(message);
+      }
     } finally {
       window.clearTimeout(timeoutId);
       setIsSending(false);

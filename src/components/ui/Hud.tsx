@@ -1,5 +1,6 @@
 import { portfolio } from "../../data/portfolio";
 import { ControlIcon } from "./ControlIcon";
+import { useState } from "react";
 type HudProps = {
   checkpoint: number;
   onOpenPortfolio: () => void;
@@ -16,11 +17,36 @@ export function Hud({
   popupsEnabled,
   onTogglePopups,
 }: HudProps) {
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
+
   return (
     <header className="hud">
-      <a className="brand" href="#top" aria-label="Sreejita's Obby home">
+      <div className="brand-area">
+        <button
+          className="brand"
+          type="button"
+          onClick={() => setIsWelcomeOpen((open) => !open)}
+          aria-expanded={isWelcomeOpen}
+          aria-controls="avatar-welcome"
+          aria-label="Open Sreejita's welcome message"
+        >
         <img src="/images/myprofilepic-logo-closeup.png" alt="Sreejita's profile" />
-      </a>
+        </button>
+        {isWelcomeOpen && (
+          <div className="brand-welcome ui-panel" id="avatar-welcome">
+            <p>Hii, how are you?</p>
+            <button
+              type="button"
+              onClick={() => {
+                window.dispatchEvent(new Event("obby-open-ai-chat"));
+                setIsWelcomeOpen(false);
+              }}
+            >
+              Chat with me
+            </button>
+          </div>
+        )}
+      </div>
       <div
         className="progress"
         aria-label={`${checkpoint + 1} of ${portfolio.length} checkpoints`}

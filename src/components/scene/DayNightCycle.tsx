@@ -56,7 +56,8 @@ export function DayNightCycle() {
     // parallax as the course camera travels forward.
     stars.current?.position.copy(camera.position);
     if (sun.current) sun.current.rotation.z = 0;
-    if (moon.current) moon.current.rotation.z = 0;
+    // A slight tilt gives the crescent a more natural, storybook silhouette.
+    if (moon.current) moon.current.rotation.z = 0.38;
 
     // Blend three sky stops through separate dawn/day/sunset palettes.
     const horizonGradient = Math.cos(phase) >= 0 ? dawnGradient : sunsetGradient;
@@ -118,18 +119,23 @@ const CelestialCharacter = forwardRef<THREE.Group, { kind: CelestialKind }>(func
       {/* Keep the face just ahead of the sphere surface so depth testing cannot
           intermittently hide its features while the body moves through the sky. */}
       <group position={isSun ? [0, -0.02, 0.89] : [-0.31, -0.02, 0.04]}>
-        <mesh position={[-0.26, 0.08, 0]} rotation={[0, 0, -0.18]}>
-          <torusGeometry args={[0.12, 0.026, 6, 12, Math.PI]} />
+        {(isSun ? [-0.26, 0.26] : [-0.14]).map((x) => (
+          <mesh
+            key={x}
+            position={[x, 0.08, 0]}
+            rotation={[0, 0, x < 0 ? -0.18 : -Math.PI + 0.18]}
+          >
+            <torusGeometry args={[0.12, 0.026, 6, 12, Math.PI]} />
+            <meshBasicMaterial color={featureColor} fog={false} />
+          </mesh>
+        ))}
+        <mesh
+          position={isSun ? [0, -0.29, 0] : [0.07, -0.2, 0]}
+          rotation={[0, 0, Math.PI]}
+        >
+          <torusGeometry args={[isSun ? 0.2 : 0.11, 0.020, 6, 12, Math.PI]} />
           <meshBasicMaterial color={featureColor} fog={false} />
         </mesh>
-        <mesh position={[0.26, 0.08, 0]} rotation={[0, 0, -Math.PI + 0.18]}>
-          <torusGeometry args={[0.12, 0.026, 6, 12, Math.PI]} />
-          <meshBasicMaterial color={featureColor} fog={false} />
-        </mesh>
-        {isSun && <mesh position={[0, -0.28, 0]} rotation={[0, 0, Math.PI]}>
-          <torusGeometry args={[0.16, 0.022, 6, 12, Math.PI]} />
-          <meshBasicMaterial color={featureColor} fog={false} />
-        </mesh>}
       </group>
     </group>
   );

@@ -4,6 +4,12 @@ import { createHash } from "node:crypto";
 
 const rateLimitMaxRequests = 10;
 const rateLimitWindowSeconds = 60 * 60;
+const outOfTokensMessage = "Oops sorry, I am out of tokens, sorry about that :P";
+
+function isQuotaError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  return /resource[_ ]exhausted|quota|token limit|rate limit|status.?429|\b429\b/i.test(message);
+}
 
 type PortfolioChunk = {
   title: string;
@@ -74,7 +80,7 @@ export async function POST(request: Request) {
 
     if (!allowed) {
       return Response.json(
-        { error: "Too many questions. Please try again in an hour." },
+        { error: outOfTokensMessage },
         {
           status: 429,
           headers: { "Retry-After": String(rateLimitWindowSeconds) },
@@ -121,7 +127,8 @@ export async function POST(request: Request) {
 You are Sreejita Saha's portfolio assistant. Speak as Sreejita in the first person: use wording such as "I built", "I worked on", and "my experience". Never describe Sreejita in the third person.
 
 Answer only from the supplied portfolio context.
-If the context does not contain the answer, say that you do not have that detail.
+If a question is unrelated to my portfolio (for example, live news, today's date, weather, or general trivia), say: "I can only help with questions about my portfolio, projects, experience, education, and skills."
+If the context does not contain a portfolio answer, say that you do not have that detail.
 Do not invent skills, dates, achievements, links, or personal information.
 Be concise, friendly, and professional.
 Do not mention "the context", "retrieval", or "sources" in the answer.
@@ -147,8 +154,12 @@ Do not mention "the context", "retrieval", or "sources" in the answer.
     console.error("Chat request failed:", error);
 
     return Response.json(
-      { error: "The chat service is temporarily unavailable." },
-      { status: 500 },
+      {
+        error: isQuotaError(error)
+          ? outOfTokensMessage
+          : "The chat service is temporarily unavailable.",
+      },
+      { status: isQuotaError(error) ? 429 : 500 },
     );
   }
 }

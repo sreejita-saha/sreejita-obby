@@ -144,15 +144,23 @@
   background: var(--section-color);
 }
 .modal-avatar {
-  position: absolute;
-  left: 14px;
-  bottom: 60px;
+  float: left;
   width: 130px;
   height: auto;
+  margin: 2px 18px 10px 0;
   pointer-events: none;
 }
 .section-card--with-image {
-  padding-left: 164px;
+  padding-left: 38px;
+}
+.section-card--about .eyebrow,
+.section-card--about h2 {
+  margin-left: 0;
+}
+
+/* The portrait floats inside the content, letting paragraphs wrap beside it. */
+.section-card--about .modal-avatar {
+  margin-top: 2px;
 }
 .section-card--about {
   width: min(680px, calc(100vw - 48px));
@@ -169,16 +177,15 @@
    they hit the phone-width breakpoint. Keep the portrait clear of the title. */
 @media (max-height: 700px) and (min-width: 641px) {
   .section-card--with-image {
-    padding-left: 126px;
+    padding-left: 32px;
   }
   .modal-avatar {
-    left: 18px;
-    bottom: 48px;
     width: 92px;
+    margin-right: 14px;
   }
   .section-card--about .eyebrow,
   .section-card--about h2 {
-    margin-left: -88px;
+    margin-left: 0;
   }
 }
 

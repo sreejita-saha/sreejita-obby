@@ -38,14 +38,7 @@ export function SectionCard({
         </button>
         <p className="eyebrow">{section.kicker}</p>
         <h2 id={`section-title-${section.id}`}>{section.title}</h2>
-        <SectionContent content={section.content} />
-        {section.image && (
-          <img
-            className={section.image.className}
-            src={section.image.src}
-            alt={section.image.alt}
-          />
-        )}
+        <SectionContent content={section.content} leadingImage={section.image} />
         {section.links && (
           <div className="section-card__links">
             {section.links.map((link) => (

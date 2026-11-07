@@ -32,3 +32,48 @@
   text-transform: uppercase;
   opacity: 0.6;
 }
+
+.avatar-speech-bubble {
+  position: relative;
+  width: max-content;
+  max-width: 220px;
+  border: 2px solid #17223b;
+  border-radius: 12px 12px 12px 12px;
+  background: #fffdf6;
+  box-shadow: 3px 3px 0 rgba(23, 34, 59, 0.55);
+  color: #17223b;
+  font: 800 14px/1.35 "DM Sans", sans-serif;
+  padding: 10px 12px;
+  text-align: center;
+  white-space: normal;
+}
+.avatar-speech-bubble::after {
+  position: absolute;
+  bottom: -13px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid #17223b;
+  border-bottom: 2px solid #17223b;
+  background: #fffdf6;
+  content: "";
+  transform: translateX(-50%) rotate(45deg);
+}
+.avatar-speech-bubble p {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 9px;
+}
+.avatar-speech-bubble button {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border: 2px solid #17223b;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffc0d7, #ff91ba);
+  color: #17223b;
+  box-shadow: 0 2px 0 #17223b;
+  cursor: url("/images/pointer.png") 4 2, pointer;
+  font: 900 13px "DM Sans", sans-serif;
+  padding: 7px 9px;
+}
