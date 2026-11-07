@@ -7,6 +7,7 @@
 
 Final-year Immersive Software Engineering student with experience building practical web, desktop, mobile, and systems software. Enjoys turning ambiguous ideas into clear, useful products through thoughtful problem-solving, collaboration, and an eye for the user experience.
 
+
 ## Experience
 
 ### Product Engineering Intern — Fin from Salesforce
