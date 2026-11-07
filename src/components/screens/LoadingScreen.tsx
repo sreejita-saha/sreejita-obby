@@ -1,4 +1,3 @@
-
 import { useProgress } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import "../../styles/screens/LoadingScreen.css";
@@ -8,7 +7,7 @@ type LoadingScreenProps = {
 };
 
 export function LoadingScreen({ onReady }: LoadingScreenProps) {
-  const { active, progress, total, loaded } = useProgress();
+  const { active, progress } = useProgress();
 
   const [displayProgress, setDisplayProgress] = useState(0);
   const [completed, setCompleted] = useState(false);
@@ -26,10 +25,7 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
   useEffect(() => {
     if (completed) return;
 
-    const target = Math.min(
-      99,
-      Math.max(0, Math.round(progress)),
-    );
+    const target = Math.min(99, Math.max(0, Math.round(progress)));
 
     setDisplayProgress((current) => Math.max(current, target));
   }, [progress, completed]);
@@ -77,118 +73,23 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
       className={`obby-loader ${
         completed ? "obby-loader--complete" : ""
       } ${leaving ? "obby-loader--leaving" : ""}`}
-      role="status"
+      role="region"
       aria-label="Loading Sreejita's portfolio"
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={percentage}
     >
-      {/* Background */}
-      <div className="obby-loader__sky" aria-hidden="true" />
-
-      {/* Clouds */}
-      <div className="obby-cloud obby-cloud--one" aria-hidden="true" />
-      <div className="obby-cloud obby-cloud--two" aria-hidden="true" />
-      <div className="obby-cloud obby-cloud--three" aria-hidden="true" />
-      <div className="obby-cloud obby-cloud--four" aria-hidden="true" />
-      <div className="obby-cloud obby-cloud--five" aria-hidden="true" />
-      <div className="obby-cloud obby-cloud--six" aria-hidden="true" />
-
-      {/* Sun */}
-      <div className="obby-sun" aria-hidden="true">
-        <span className="obby-sun__face">ᴗ</span>
-      </div>
-
-      {/* Top checkpoint indicators */}
-      <div className="obby-loader__checkpoints" aria-hidden="true">
-        {Array.from({ length: 7 }, (_, index) => (
-          <span
-            key={index}
-            className={
-              percentage >= ((index + 1) / 7) * 100
-                ? "is-filled"
-                : ""
-            }
-          />
-        ))}
-      </div>
-
-      {/* Title */}
-      <header className="obby-loader__header">
-        <div className="obby-loader__title">
-          <span className="obby-loader__sparkle">✦</span>
-          <h1>Sreejita's World</h1>
-          <span className="obby-loader__sparkle">✦</span>
-        </div>
-
-        <div className="obby-loader__subtitle">
-          {completed ? "Ready!" : "Loading..."}
-        </div>
-      </header>
-
-      {/* Decorative floating platforms */}
-      <div className="obby-scenery" aria-hidden="true">
-        <div className="obby-platform obby-platform--left-bottom" />
-        <div className="obby-platform obby-platform--left-top" />
-
-        <div className="obby-platform obby-platform--right-bottom" />
-        <div className="obby-platform obby-platform--right-middle" />
-
-        <div className="obby-platform obby-platform--checkpoint">
-          <div className="obby-flag">
-            <span />
-          </div>
-        </div>
-      </div>
-
-      {/* Floating Roblox avatar */}
-      <div className="obby-loader__character" aria-hidden="true">
-        <div className="obby-loader__avatar">
-          <img
-            src="/images/loading-avatar.png"
-            alt=""
-            draggable={false}
-          />
-
-          <div className="obby-loader__avatar-sparkles">
-            <span />
-            <span />
-            <span />
-          </div>
-        </div>
-
-        <div className="obby-loader__shadow" />
-      </div>
-
-      {/* Loading progress */}
-      <div className="obby-loader__footer">
+      <div className="obby-loader__content">
         <div
-          className="obby-loader__progress"
+          className="obby-loader__percentage"
           role="progressbar"
           aria-label="World loading progress"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={percentage}
         >
-          <div
-            className="obby-loader__progress-fill"
-            style={{ width: `${percentage}%` }}
-          />
-
-          <span className="obby-loader__percentage">
-            {percentage}%
-          </span>
+          {percentage}%
         </div>
-
-        <p className="obby-loader__status">
-          <span className="obby-loader__cube" aria-hidden="true">
-            ◈
-          </span>
-
-          {completed
-            ? "YOUR WORLD IS READY!"
-            : "BUILDING YOUR PORTFOLIO WORLD..."}
-        </p>
+        <div className="obby-loader__bar" aria-hidden="true">
+          <div className="obby-loader__bar-fill" style={{ width: `${percentage}%` }} />
+        </div>
       </div>
     </section>
   );

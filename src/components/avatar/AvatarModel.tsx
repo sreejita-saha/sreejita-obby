@@ -1,5 +1,5 @@
 // Loads the Roblox OBJ avatar and applies its export-specific material fixes.
-import { useLoader } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { useMemo } from "react";
 import * as THREE from "three";
 import { MTLLoader, OBJLoader } from "three-stdlib";
@@ -11,8 +11,9 @@ type AvatarModelProps = {
 };
 
 const AVATAR_POSITION: [number, number, number] = [-2.5, 0, 0.8];
-const AVATAR_ROTATION: [number, number, number] = [0, Math.PI + 0.7, 0];
+const AVATAR_ROTATION: [number, number, number] = [0, Math.PI + 0.45, 0];
 const DISPLAY_SIZE = 1.69;
+const RIGHT_SHOULDER = new THREE.Vector3(-74.6, 26.35, 265.15);
 
 function useAvatarModel() {
   const materials = useLoader(MTLLoader, "/models/me/sreejita.mtl");
@@ -45,12 +46,28 @@ function useAvatarModel() {
 
       object.material = Array.isArray(object.material) ? nextMaterials : nextMaterials[0];
     });
+    // The OBJ is not rigged, but its right arm is exported as three separate meshes.
+    // Group them around the shoulder so they can move together without changing the source.
+    const arm = new THREE.Group();
+    arm.name = "waving-right-arm";
+    arm.position.copy(RIGHT_SHOULDER);
+    for (const name of ["Rig1", "Rig2", "Rig3"]) {
+      const part = avatar.getObjectByName(name);
+      if (!part) continue;
+      part.position.sub(RIGHT_SHOULDER);
+      arm.add(part);
+    }
+    avatar.add(arm);
     return avatar;
   }, [source]);
 }
 
 export function AvatarModel({ showChatBubble }: AvatarModelProps) {
   const model = useAvatarModel();
+  const wavingArm = useMemo(() => model.getObjectByName("waving-right-arm"), [model]);
+  useFrame(({ clock }) => {
+    if (wavingArm) wavingArm.rotation.z = -1.35 + Math.sin(clock.elapsedTime * 3.5) * 0.22;
+  });
   const fit = useMemo(() => {
     const box = new THREE.Box3().setFromObject(model);
     const size = box.getSize(new THREE.Vector3());
