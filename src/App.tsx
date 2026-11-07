@@ -11,6 +11,7 @@ import { RatingWidget } from "./components/ui/RatingWidget";
 import { LoadingScreen } from "./components/ui/LoadingScreen";
 import { TouchControls } from "./components/ui/TouchControls";
 import { TooltipLayer } from "./components/ui/TooltipLayer";
+import { PortfolioChat } from "./components/ui/PortfolioChat";
 // import "./styles/maintenance/MaintenancePage.css";
 // import { BackgroundDecorations } from "./components/maintenance/BackgroundDecorations";
 // import { MaintenanceCard } from "./components/maintenance/MaintenanceCard";
@@ -23,6 +24,7 @@ import "./styles/rating.css";
 import "./styles/welcome.css";
 import "./styles/overlays.css";
 import "./styles/world-ui.css";
+import "./styles/portfolio-chat.css";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
 const PortfolioMenu = lazy(() =>
@@ -189,6 +191,7 @@ function LegacyApp() {
         onUnload={unloadMusic}
       />
       <RatingWidget />
+      <PortfolioChat />
       <TooltipLayer />
 
       {!loaderDismissed && (
