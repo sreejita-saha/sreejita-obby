@@ -8,6 +8,7 @@ import { Player, type PlayerProps } from "./Player";
 import { preloadSceneModels } from "./SceneModel";
 import { DayNightCycle } from "./DayNightCycle";
 import { AvatarModel } from "./AvatarModel";
+import "../../styles/scene/WorldLabels.css";
 
 const sceneModelUrls = [
   ...new Set(

@@ -1,3 +1,10 @@
+# Sreejita's Obby
+
+## Quick visual edits
+
+- **Bubble above the in-world avatar:** change the five named colour values at the top of [AvatarSpeechBubble.css](src/styles/avatar/AvatarSpeechBubble.css). That is the only file for this bubble.
+- **Anything else visual:** start with [UI_EDITING_MAP.md](UI_EDITING_MAP.md). It maps every on-screen feature to its exact code and stylesheet.
+
 # React + TypeScript + Vite
 
 ## Compressing 3D models

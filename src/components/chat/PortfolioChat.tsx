@@ -5,10 +5,9 @@ import {
   STARTER_CHAT_MESSAGE,
 } from "../chat/chat.constants";
 import type { ChatMessage, ChatSource } from "../chat/chat.types";
-import {
-  getPortfolioSectionId,
-  renderChatMessage,
-} from "../chat/chat.utils";
+import { ChatComposer } from "../chat/ChatComposer";
+import { ChatMessageRow } from "../chat/ChatMessageRow";
+import "../../styles/ui/PortfolioChat.css";
 
 type PortfolioChatProps = {
   onOpenSection: (sectionId: string) => void;
@@ -18,7 +17,7 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [question, setQuestion] = useState("");
-  const [messages, setMessages] = useState<Message[]>([starterMessage]);
+  const [messages, setMessages] = useState<ChatMessage[]>([STARTER_CHAT_MESSAGE]);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState("");
   const messageListRef = useRef<HTMLDivElement>(null);
@@ -49,8 +48,8 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
       setIsClosing(false);
       setIsOpen(true);
     };
-    window.addEventListener("obby-open-ai-chat", openChat);
-    return () => window.removeEventListener("obby-open-ai-chat", openChat);
+    window.addEventListener(OPEN_PORTFOLIO_CHAT_EVENT, openChat);
+    return () => window.removeEventListener(OPEN_PORTFOLIO_CHAT_EVENT, openChat);
   }, []);
 
   useEffect(() => {
@@ -94,7 +93,7 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
       });
 
       const responseBody = await response.text();
-      let payload: { answer?: string; sources?: Source[]; error?: string };
+      let payload: { answer?: string; sources?: ChatSource[]; error?: string };
       try {
         payload = JSON.parse(responseBody) as typeof payload;
       } catch {
@@ -121,10 +120,10 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
           ? requestError.message
           : "The assistant could not answer just now.";
 
-      if (message === outOfTokensMessage) {
+      if (message === OUT_OF_TOKENS_MESSAGE) {
         setMessages((current) => [
           ...current,
-          { role: "assistant", text: outOfTokensMessage },
+          { role: "assistant", text: OUT_OF_TOKENS_MESSAGE },
         ]);
       } else {
         setError(message);
@@ -163,84 +162,29 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
             aria-live="polite"
           >
             {messages.map((message, index) => (
-              <div
+              <ChatMessageRow
                 key={`${message.role}-${index}`}
-                className={`portfolio-chat__message-row portfolio-chat__message-row--${message.role}`}
-              >
-                {message.role === "assistant" && (
-                  <img
-                    className="portfolio-chat__message-avatar"
-                    src="/images/myprofilepic-transparent.png"
-                    alt="Sreejita"
-                  />
-                )}
-                <article className={`portfolio-chat__message portfolio-chat__message--${message.role}`}>
-                  <p>{renderMessageText(message.text)}</p>
-                  {message.sources && message.sources.length > 0 && (
-                    <div className="portfolio-chat__sources">
-                      <span>Relevant portfolio sections</span>
-                      <ul>
-                        {message.sources.map((source) => {
-                          const sectionId = getPortfolioSectionId(source);
-                          return (
-                            <li key={`${source.source}-${source.title}`}>
-                              {sectionId ? (
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    closeChat();
-                                    onOpenSection(sectionId);
-                                  }}
-                                  aria-label={`Open the ${sectionId} portfolio section`}
-                                >
-                                  {source.title}
-                                </button>
-                              ) : (
-                                source.title
-                              )}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-                </article>
-              </div>
+                message={message}
+                index={index}
+                onOpenSection={(sectionId) => {
+                  closeChat();
+                  onOpenSection(sectionId);
+                }}
+              />
             ))}
             {isSending && (
               <p className="portfolio-chat__thinking">Looking through the portfolio...</p>
             )}
           </div>
 
-          <form className="portfolio-chat__form" onSubmit={sendQuestion}>
-            <label className="sr-only" htmlFor="portfolio-question">
-              Ask a question about Sreejita's portfolio
-            </label>
-            <textarea
-              id="portfolio-question"
-              ref={questionInputRef}
-              value={question}
-              onChange={(event) => setQuestion(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" && !event.shiftKey) {
-                  event.preventDefault();
-                  event.currentTarget.form?.requestSubmit();
-                }
-              }}
-              placeholder="Ask about projects, experience, or skills..."
-              rows={2}
-              maxLength={500}
-              disabled={isSending}
-            />
-            {error && <p className="portfolio-chat__error" role="alert">{error}</p>}
-            <button
-              className="portfolio-chat__send ui-button"
-              type="submit"
-              disabled={!question.trim() || isSending}
-            >
-              {isSending ? "Thinking..." : "Ask"}
-            </button>
-          </form>
+          <ChatComposer
+            question={question}
+            error={error}
+            isSending={isSending}
+            inputRef={questionInputRef}
+            onQuestionChange={setQuestion}
+            onSubmit={sendQuestion}
+          />
         </section>
       )}
 

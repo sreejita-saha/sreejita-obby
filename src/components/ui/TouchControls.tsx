@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type PointerEvent } from "react";
+import "../../styles/ui/GameControls.css";
 
 type ControlKey = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
 type ControlKeys = ControlKey | ControlKey[];

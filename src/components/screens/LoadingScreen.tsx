@@ -1,5 +1,6 @@
 import { useProgress } from "@react-three/drei";
 import { useEffect, useState } from "react";
+import "../../styles/ui/LoadingScreen.css";
 
 type LoadingScreenProps = { onReady: () => void };
 

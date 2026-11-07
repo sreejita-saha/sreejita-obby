@@ -2,6 +2,8 @@ import { portfolio } from "../../data/portfolio";
 import { ControlIcon } from "./ControlIcon";
 import { useState } from "react";
 import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
+import "../../styles/ui/Hud.css";
+import "../../styles/ui/GameControls.css";
 type HudProps = {
   checkpoint: number;
   onOpenPortfolio: () => void;

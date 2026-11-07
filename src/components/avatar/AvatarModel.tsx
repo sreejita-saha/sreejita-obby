@@ -1,36 +1,36 @@
-// Roblox avatar exported in public/models/me.
+// Loads the Roblox OBJ avatar and applies its export-specific material fixes.
 import { useLoader } from "@react-three/fiber";
 import { useMemo } from "react";
-import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { MTLLoader, OBJLoader } from "three-stdlib";
+import { AvatarSpeechBubble } from "../avatar/AvatarSpeechBubble";
 
 type AvatarModelProps = {
+  /** Hide interactive UI whenever an app-level modal is open. */
   showChatBubble: boolean;
 };
 
-export function AvatarModel({ showChatBubble }: AvatarModelProps) {
+const AVATAR_POSITION: [number, number, number] = [-2.5, 0, 0.8];
+const AVATAR_ROTATION: [number, number, number] = [0, Math.PI + 0.7, 0];
+const DISPLAY_SIZE = 1.69;
+
+function useAvatarModel() {
   const materials = useLoader(MTLLoader, "/models/me/sreejita.mtl");
   const source = useLoader(OBJLoader, "/models/me/sreejita.obj", (loader) => {
     materials.preload();
     loader.setMaterials(materials);
   });
-  const model = useMemo(() => {
+
+  return useMemo(() => {
     const avatar = source.clone();
-    // Roblox's exported MTL uses overlay alpha maps for several body textures.
-    // In Three.js that makes the entire avatar read as ghosted, so retain the
-    // colour map but force all avatar materials back to fully opaque.
     avatar.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
-      const importedMaterials = Array.isArray(object.material)
+      const imported = Array.isArray(object.material)
         ? object.material
         : [object.material];
-      // Roblox exports its face as a transparent overlay texture. Base maps
-      // must be untinted, while that single overlay keeps its alpha channel.
-      const opaqueMaterials = importedMaterials.map((material) => {
+
+      const nextMaterials = imported.map((material) => {
         if (material.map) material.map.colorSpace = THREE.SRGBColorSpace;
-        // This export calls its alpha-only facial decal Rig4Mtl. It must stay
-        // transparent so the skin-toned head behind it remains visible.
         const isFaceOverlay = material.name === "Rig4Mtl";
         return new THREE.MeshBasicMaterial({
           color: "#ffffff",
@@ -42,17 +42,22 @@ export function AvatarModel({ showChatBubble }: AvatarModelProps) {
           depthWrite: !isFaceOverlay,
         });
       });
+
       object.material = Array.isArray(object.material)
-        ? opaqueMaterials
-        : opaqueMaterials[0];
+        ? nextMaterials
+        : nextMaterials[0];
     });
     return avatar;
   }, [source]);
+}
+
+export function AvatarModel({ showChatBubble }: AvatarModelProps) {
+  const model = useAvatarModel();
   const fit = useMemo(() => {
     const box = new THREE.Box3().setFromObject(model);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
-    const scale = 1.69 / Math.max(size.x, size.y, size.z, 0.001);
+    const scale = DISPLAY_SIZE / Math.max(size.x, size.y, size.z, 0.001);
 
     return {
       scale,
@@ -61,24 +66,9 @@ export function AvatarModel({ showChatBubble }: AvatarModelProps) {
   }, [model]);
 
   return (
-    <group position={[-2.5, 0, 0.8]} rotation={[0, Math.PI + 0.7, 0]} scale={fit.scale}>
-      {showChatBubble && <Html
-        position={[0, 6.9, -0.3]}
-        center
-        distanceFactor={6}
-      >
-        <div className="avatar-speech-bubble">
-          <p>Heyy, I’m Sreejita!<br />Come explore my little world :D</p>
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new Event("obby-open-ai-chat"))}
-          >
-            Talk to me
-          </button>
-        </div>
-      </Html>}
-      {/* Roblox exports the face decal as an alpha-only head mesh. Supply the
-          missing opaque head beneath it so the eyes and mouth have skin behind. */}
+    <group position={AVATAR_POSITION} rotation={AVATAR_ROTATION} scale={fit.scale}>
+      {showChatBubble && <AvatarSpeechBubble />}
+      {/* The Roblox face decal needs a solid head behind its transparent pixels. */}
       <mesh position={[0, 3.7, -0.3]}>
         <sphereGeometry args={[0.54, 32, 18]} />
         <meshBasicMaterial color="#cb8f66" />

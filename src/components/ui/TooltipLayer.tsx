@@ -8,6 +8,7 @@ import {
   type Placement,
 } from "@floating-ui/react";
 import { useEffect, useRef, useState } from "react";
+import "../../styles/ui-primitives.css";
 
 type TooltipTarget = {
   element: HTMLElement;

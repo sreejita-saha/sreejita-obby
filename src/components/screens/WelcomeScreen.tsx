@@ -2,6 +2,9 @@ type WelcomeScreenProps = {
   onStart: () => void;
 };
 
+import "../../styles/ui/WelcomeScreen.css";
+import "../../styles/ui-primitives.css";
+
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   return (
     <section className="welcome ui-panel">

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { ControlIcon } from "./ControlIcon";
+import "../../styles/ui/GameControls.css";
 type MusicToggleProps = {
   canPlay: boolean;
   enabled: boolean;

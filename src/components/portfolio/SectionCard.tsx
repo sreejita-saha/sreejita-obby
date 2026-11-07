@@ -1,6 +1,9 @@
 import type { CSSProperties } from "react";
 import type { PortfolioSection } from "../../types/portfolio";
 import { SectionContent } from "./SectionContent";
+import "../../styles/ui/PortfolioPanels.css";
+import "../../styles/ui/WelcomeScreen.css";
+import "../../styles/ui-primitives.css";
 
 type SectionCardProps = {
   section: PortfolioSection;

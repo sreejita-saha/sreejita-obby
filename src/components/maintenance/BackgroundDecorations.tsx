@@ -1,4 +1,4 @@
-import "./BackgroundDecorations.css";
+import "../../styles/maintenance/BackgroundDecorations.css";
 
 export function BackgroundDecorations() {
   return (

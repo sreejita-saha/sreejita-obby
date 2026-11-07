@@ -1,0 +1,50 @@
+/*
+ * AVATAR CHAT BUBBLE — change its colours here.
+ * This file controls only the bubble above Sreejita's in-world avatar.
+ */
+.avatar-speech-bubble {
+  --avatar-bubble-background: #fffffe;
+  --avatar-bubble-text: #17223b;
+  --avatar-bubble-outline: #17223b;
+  --avatar-bubble-button-start: #ffc0d7;
+  --avatar-bubble-button-end: #ff91ba;
+
+  position: relative;
+  width: max-content;
+  max-width: 220px;
+  border: 2px solid var(--avatar-bubble-outline);
+  border-radius: 12px;
+  background: var(--avatar-bubble-background);
+  box-shadow: 3px 3px 0 rgba(23, 34, 59, 0.55);
+  color: var(--avatar-bubble-text);
+  font: 800 14px/1.35 "DM Sans", sans-serif;
+  padding: 10px 12px;
+  text-align: center;
+  white-space: normal;
+}
+.avatar-speech-bubble::after {
+  position: absolute;
+  bottom: -13px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid var(--avatar-bubble-outline);
+  border-bottom: 2px solid var(--avatar-bubble-outline);
+  background: var(--avatar-bubble-background);
+  content: "";
+  transform: translateX(-50%) rotate(45deg);
+}
+.avatar-speech-bubble p { position: relative; z-index: 1; margin: 0 0 9px; }
+.avatar-speech-bubble button {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border: 2px solid var(--avatar-bubble-outline);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--avatar-bubble-button-start), var(--avatar-bubble-button-end));
+  color: var(--avatar-bubble-text);
+  box-shadow: 0 2px 0 var(--avatar-bubble-outline);
+  cursor: url("/images/pointer.png") 4 2, pointer;
+  font: 900 13px "DM Sans", sans-serif;
+  padding: 7px 9px;
+}

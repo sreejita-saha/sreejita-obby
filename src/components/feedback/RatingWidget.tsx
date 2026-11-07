@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ControlIcon } from "./ControlIcon";
+import "../../styles/ui/RatingWidget.css";
+import "../../styles/ui/GameControls.css";
+import "../../styles/ui-primitives.css";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;

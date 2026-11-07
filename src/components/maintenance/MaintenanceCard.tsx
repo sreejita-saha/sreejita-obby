@@ -1,4 +1,4 @@
-import "./MaintenanceCard.css";
+import "../../styles/maintenance/MaintenanceCard.css";
 
 export function MaintenanceCard() {
   return (
