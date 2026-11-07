@@ -15,7 +15,7 @@
   border: 2px solid var(--avatar-bubble-outline);
   border-radius: 12px;
   background: var(--avatar-bubble-background);
-  box-shadow: 3px 3px 0 rgba(23, 34, 59, 0.55);
+  box-shadow: 5px 5px 0 #17223b;
   color: var(--avatar-bubble-text);
   font:
     800 14px/1.35 "DM Sans",

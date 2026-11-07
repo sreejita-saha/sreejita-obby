@@ -26,18 +26,23 @@ export function LoadingScreen({ onReady }: LoadingScreenProps) {
     return () => window.clearInterval(timer);
   }, []);
   useEffect(() => {
-    if (active || progress < 100) setHasObservedLoading(true);
+    if (!active && progress >= 100) return;
+    const frame = window.requestAnimationFrame(() => setHasObservedLoading(true));
+    return () => window.cancelAnimationFrame(frame);
   }, [active, progress]);
   useEffect(() => {
     if (!hasObservedLoading || completed) return;
-    setDisplayProgress((current) =>
-      Math.max(current, Math.min(99, Math.round(progress))),
-    );
+    const frame = window.requestAnimationFrame(() => {
+      setDisplayProgress((current) => Math.max(current, Math.min(99, Math.round(progress))));
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [completed, hasObservedLoading, progress]);
 
   const ready = hasObservedLoading && !active && progress >= 100 && elapsed > 900;
   useEffect(() => {
-    if (ready) setCompleted(true);
+    if (!ready) return;
+    const frame = window.requestAnimationFrame(() => setCompleted(true));
+    return () => window.cancelAnimationFrame(frame);
   }, [ready]);
   const progressLabel = completed ? 100 : displayProgress;
   const lineIndex = completed

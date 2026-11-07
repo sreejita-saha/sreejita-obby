@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import "../../styles/ui/GameControls.css";
 
 type ControlKey = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
@@ -37,12 +37,12 @@ function TouchButton({
     }
     activePointers.current.add(event.pointerId);
   };
-  const release = (pointerId: number) => {
+  const release = useCallback((pointerId: number) => {
     const wasActive = activePointers.current.delete(pointerId);
     if (wasActive && activePointers.current.size === 0) {
       sendControlEvent("obby-control-end", codes);
     }
-  };
+  }, [codes]);
 
   useEffect(() => {
     // Some mobile browsers can lose pointer capture when the page is briefly
@@ -69,7 +69,7 @@ function TouchButton({
       document.removeEventListener("visibilitychange", releaseWhenHidden);
       releaseAll();
     };
-  }, [codes]);
+  }, [codes, release]);
 
   return (
     <button

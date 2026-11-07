@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
 import { OUT_OF_TOKENS_MESSAGE, STARTER_CHAT_MESSAGE } from "./chat.constants";
-import type { ChatMessage, ChatSource } from "./chat.types";
+import type { ChatMessage } from "./chat.types";
+import { askPortfolioAssistant } from "../../services/chat";
 import { ChatComposer } from "./ChatComposer";
 import { ChatMessageRow } from "./ChatMessageRow";
 import "../../styles/chat/PortfolioChat.css";
@@ -79,30 +80,13 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
     const timeoutId = window.setTimeout(() => controller.abort(), 25_000);
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: trimmedQuestion }),
-        signal: controller.signal,
-      });
-
-      const responseBody = await response.text();
-      let payload: { answer?: string; sources?: ChatSource[]; error?: string };
-      try {
-        payload = JSON.parse(responseBody) as typeof payload;
-      } catch {
-        throw new Error("The chat service is temporarily unavailable.");
-      }
-
-      if (!response.ok) {
-        throw new Error(payload.error || "The assistant could not answer just now.");
-      }
+      const payload = await askPortfolioAssistant(trimmedQuestion, controller.signal);
 
       setMessages((current) => [
         ...current,
         {
           role: "assistant",
-          text: payload.answer || "I could not generate an answer just now.",
+          text: payload.answer,
           sources: payload.sources,
         },
       ]);

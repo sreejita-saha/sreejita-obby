@@ -7,7 +7,7 @@ import {
   useFloating,
   type Placement,
 } from "@floating-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../../styles/ui-primitives.css";
 
 type TooltipTarget = {
@@ -24,7 +24,7 @@ function getTarget(node: EventTarget | null) {
 /** Uses Floating UI to keep every hint and its arrow attached to its trigger. */
 export function TooltipLayer() {
   const [target, setTarget] = useState<TooltipTarget | null>(null);
-  const arrowRef = useRef<HTMLDivElement>(null);
+  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
   const preferredSide = target?.preferredSide ?? "top";
   const fallbackPlacements: Placement[] =
     preferredSide === "top" ? ["bottom", "right", "left"] : ["top", "right", "left"];
@@ -35,9 +35,13 @@ export function TooltipLayer() {
       offset(10),
       ...(target?.lockSide ? [] : [flip({ fallbackPlacements })]),
       shift({ padding: 8 }),
-      arrow({ element: arrowRef }),
+      ...(arrowElement ? [arrow({ element: arrowElement })] : []),
     ],
   });
+  const setFloatingRef = useCallback(
+    (element: HTMLDivElement | null) => refs.setFloating(element),
+    [refs],
+  );
 
   useEffect(() => {
     refs.setReference(target?.element ?? null);
@@ -107,7 +111,7 @@ export function TooltipLayer() {
   return (
     <FloatingPortal>
       <div
-        ref={refs.setFloating}
+        ref={setFloatingRef}
         className="tooltip-layer"
         data-side={side}
         role="tooltip"
@@ -115,7 +119,7 @@ export function TooltipLayer() {
       >
         {target.label}
         <div
-          ref={arrowRef}
+          ref={setArrowElement}
           className="tooltip-layer__arrow"
           style={{
             left: arrowX ?? "",

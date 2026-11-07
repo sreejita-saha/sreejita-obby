@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { ControlIcon } from "../ui/ControlIcon";
+import { submitRating as sendRating } from "../../services/ratings";
 import "../../styles/feedback/RatingWidget.css";
 import "../../styles/ui/GameControls.css";
 import "../../styles/ui-primitives.css";
@@ -46,31 +47,20 @@ export function RatingWidget() {
       return;
     }
 
-    if (!supabaseUrl || !supabasePublishableKey) {
-      setError("Ratings are not configured yet. Please try again later.");
-      return;
-    }
-
     setError("");
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${supabaseUrl}/functions/v1/submit-rating`, {
-        method: "POST",
-        headers: {
-          apikey: supabasePublishableKey,
-          Authorization: `Bearer ${supabasePublishableKey}`,
-          "Content-Type": "application/json",
-          Prefer: "return=minimal",
-        },
-        body: JSON.stringify({ rating, comment: comment.trim() }),
-      });
+      const result = await sendRating(
+        { url: supabaseUrl, publishableKey: supabasePublishableKey },
+        rating,
+        comment,
+      );
 
-      if (response.status === 429) {
+      if (result === "rate-limited") {
         setError("Thanks — please wait a few minutes before rating again.");
         return;
       }
-      if (!response.ok) throw new Error("Rating request failed");
       setSubmitted(true);
     } catch {
       setError("That did not send. Please check your connection and try again.");

@@ -2,26 +2,13 @@ import { useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { KTX2Loader } from "three-stdlib";
 import type { SceneModelData, Vector3Tuple } from "../../types/world";
+import { getKtx2Loader } from "./sceneModelLoader";
 
 type SceneModelProps = SceneModelData & {
   position: Vector3Tuple;
   anchor?: "bottom" | "top";
 };
-
-// Every model in this canvas uses the same renderer, so they can also share
-// one decoder. Creating a decoder per model wastes memory and worker setup.
-const ktx2Loaders = new WeakMap<THREE.WebGLRenderer, KTX2Loader>();
-
-function getKtx2Loader(gl: THREE.WebGLRenderer) {
-  let loader = ktx2Loaders.get(gl);
-  if (!loader) {
-    loader = new KTX2Loader().setTranscoderPath("/basis/").detectSupport(gl);
-    ktx2Loaders.set(gl, loader);
-  }
-  return loader;
-}
 
 export function SceneModel({
   url,
@@ -59,12 +46,4 @@ export function SceneModel({
       <primitive object={model} position={fit.offset} />
     </group>
   );
-}
-
-/** Warm the GLTF cache for models in an upcoming checkpoint. */
-export function preloadSceneModels(urls: Iterable<string>, gl: THREE.WebGLRenderer) {
-  const ktx2Loader = getKtx2Loader(gl);
-  for (const url of new Set(urls)) {
-    useGLTF.preload(url, true, true, (loader) => loader.setKTX2Loader(ktx2Loader));
-  }
 }

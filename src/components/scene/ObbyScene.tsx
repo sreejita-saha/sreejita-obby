@@ -5,7 +5,7 @@ import { Decorations } from "./Decorations";
 import { checkpointAreas } from "../../data/world";
 import { Platform } from "./Platform";
 import { Player, type PlayerProps } from "./Player";
-import { preloadSceneModels } from "./SceneModel";
+import { preloadSceneModels } from "./sceneModelLoader";
 import { DayNightCycle } from "./DayNightCycle";
 import { AvatarModel } from "../avatar/AvatarModel";
 import "../../styles/scene/WorldLabels.css";
