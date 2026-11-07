@@ -1,5 +1,6 @@
 import { portfolio } from "../../data/portfolio";
 import { ControlIcon } from "./ControlIcon";
+import { ToggleControl } from "./ToggleControl";
 import { useState } from "react";
 import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
 import "../../styles/ui/Hud.css";
@@ -78,19 +79,16 @@ export function Hud({
             <ControlIcon name="skip" />
             <span>Skip</span>
           </button>
-          <button
-            className={`hud-utility hud-utility--popups ${popupsEnabled ? "is-on" : "is-off"}`}
-            type="button"
-            onClick={onTogglePopups}
-            aria-pressed={popupsEnabled}
-            data-tooltip={
-              popupsEnabled ? "Hide checkpoint popups" : "Show checkpoint popups"
-            }
-            data-tooltip-position="bottom"
+          <ToggleControl
+            className="hud-utility hud-utility--popups"
+            enabled={popupsEnabled}
+            label={popupsEnabled ? "Disable checkpoint popups" : "Enable checkpoint popups"}
+            tooltip={popupsEnabled ? "Hide checkpoint popups" : "Show checkpoint popups"}
+            onToggle={onTogglePopups}
           >
             <ControlIcon name="popups" />
             <span>Popups</span>
-          </button>
+          </ToggleControl>
         </div>
         <button
           className="menu-button"

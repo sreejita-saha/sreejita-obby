@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { ControlIcon } from "./ControlIcon";
+import { ToggleControl } from "./ToggleControl";
 import "../../styles/ui/GameControls.css";
 type MusicToggleProps = {
   canPlay: boolean;
@@ -59,20 +60,16 @@ export function MusicToggle({ canPlay, enabled, onToggle, onUnload }: MusicToggl
         loop
         preload={enabled ? "metadata" : "none"}
       />
-      <button
-        type="button"
-        className={`music-toggle ${isOn ? "is-on" : "is-off"}`}
-        onClick={onToggle}
-        aria-pressed={isOn}
-        aria-label={isOn ? "Disable background music" : "Enable background music"}
-        data-tooltip={
-          isOn ? "Turn off the background music" : "Turn on the background music"
-        }
-        data-tooltip-lock-side="true"
+      <ToggleControl
+        className="music-toggle"
+        enabled={isOn}
+        label={isOn ? "Disable background music" : "Enable background music"}
+        tooltip={isOn ? "Turn off the background music" : "Turn on the background music"}
+        onToggle={onToggle}
       >
         <ControlIcon name={isOn ? "music" : "muted"} />
         <span>Music</span>
-      </button>
+      </ToggleControl>
     </>
   );
 }

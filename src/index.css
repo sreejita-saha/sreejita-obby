@@ -5,6 +5,7 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  cursor: url("/images/default.png") 2 2, default;
 }
 html,
 body,
@@ -17,12 +18,7 @@ body,
 body {
   min-width: 320px;
 }
-html,
-canvas {
-  cursor:
-    url("/images/default.png") 2 2,
-    default;
-}
+canvas { cursor: inherit; }
 button,
 a {
   cursor:
@@ -33,7 +29,15 @@ input,
 textarea {
   cursor:
     url("/images/text.png") 14 16,
-    text;
+    text !important;
+}
+/* One rule keeps every present and future interactive control on-brand. */
+button:not(:disabled),
+a,
+[role="button"] {
+  cursor:
+    url("/images/pointer.png") 4 2,
+    pointer !important;
 }
 .welcome h1,
 .welcome > p,
