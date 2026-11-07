@@ -95,15 +95,15 @@ const CelestialCharacter = forwardRef<THREE.Group, { kind: CelestialKind }>(func
           </mesh>
         );
       })}
-      <mesh castShadow>
+      <mesh castShadow scale={[1, 1, 0.72]}>
         <sphereGeometry args={[1.2, 19, 12]} />
         <meshBasicMaterial color={faceColor} fog={false} />
       </mesh>
       {/* Keep the face just ahead of the sphere surface so depth testing cannot
           intermittently hide its features while the body moves through the sky. */}
-      <group position={[0, 0, 1.27]}>
+      <group position={[0, 0, 0.89]}>
         <mesh position={[-0.36, 0.18, 0]} scale={[0.115, 0.16, 0.07]}>
-          <sphereGeometry args={[1, 16, 12]} /><meshBasicMaterial color="#17223b" fog={false} />
+          <sphereGeometry args={[1, 16, 14]} /><meshBasicMaterial color="#17223b" fog={false} />
         </mesh>
         <mesh position={[0.36, 0.18, 0]} scale={[0.115, 0.16, 0.07]}>
           <sphereGeometry args={[1, 16, 12]} /><meshBasicMaterial color="#17223b" fog={false} />
