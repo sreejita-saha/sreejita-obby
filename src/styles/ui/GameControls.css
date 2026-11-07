@@ -49,7 +49,7 @@
   min-width: 98px;
   padding: 0 10px;
   border-radius: 12px;
-  background: #76d6ff;
+  background: linear-gradient(135deg, #c9f2ff, #76d6ff);
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
@@ -59,14 +59,14 @@
   height: 18px;
 }
 .hud .hud-utility--skip:hover {
-  background: #a5e6ff;
+  background: linear-gradient(135deg, #e2f9ff, #a5e6ff);
 }
 .hud .hud-utility--popups {
   position: fixed;
   z-index: 12;
   bottom: 18px;
   left: 116px;
-  background: #8ff3ae;
+  background: linear-gradient(135deg, #d4ffdf, #8ff3ae);
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
@@ -76,7 +76,7 @@
   z-index: 12;
   left: 10px;
   bottom: 18px;
-  background: #ff9fca;
+  background: linear-gradient(135deg, #ffd9e9, #ff9fca);
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
@@ -86,14 +86,14 @@
   z-index: 12;
   top: calc(31vh + 52px);
   left: 10px;
-  background: #ffe65b;
+  background: linear-gradient(135deg, #fff8b8, #ffe65b);
   box-shadow:
     0 5px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 .hud-utility.is-off,
 .music-toggle.is-off {
-  background: #d6d9df;
+  background: linear-gradient(135deg, #f0f1f4, #d6d9df);
   color: #a4aab3;
   box-shadow: 0 5px 0 #89919c;
 }

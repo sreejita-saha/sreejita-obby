@@ -15,7 +15,11 @@
 .menu-button {
   border: var(--control-border);
   border-radius: var(--control-radius);
-  background: var(--button-color, var(--accent));
+  background: linear-gradient(
+    135deg,
+    var(--button-highlight, #fff3a3),
+    var(--button-color, var(--accent))
+  );
   color: var(--ink);
   font-weight: 900;
   box-shadow: var(--control-shadow);

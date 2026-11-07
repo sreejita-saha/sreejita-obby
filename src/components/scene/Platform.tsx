@@ -38,6 +38,7 @@ export function Platform({ data, showLabel, onOpenCheckpoint }: PlatformProps) {
   const [modelOffsetX, modelOffsetY, modelOffsetZ] = data.modelLabelOffset ?? [
     0, 0.25, 0,
   ];
+  const [labelOffsetX, labelOffsetY, labelOffsetZ] = data.worldLabelOffset ?? [0, 0, 0];
   const [boardOffsetX, boardOffsetY, boardOffsetZ] = data.quoteBoard?.positionOffset ?? [
     0, 0, 0,
   ];
@@ -104,6 +105,7 @@ export function Platform({ data, showLabel, onOpenCheckpoint }: PlatformProps) {
           rotation={data.quoteBoard.rotation ?? [0, -0.22, 0]}
           quote={data.quoteBoard.quote}
           author={data.quoteBoard.author}
+          theme={data.quoteBoard.theme}
         />
       )}
       {section && (
@@ -155,7 +157,11 @@ export function Platform({ data, showLabel, onOpenCheckpoint }: PlatformProps) {
       ))}
       {showLabel && section && (
         <Html
-          position={[labelX, data.position[1] + data.size[1] / 2 + 1.8, data.position[2]]}
+          position={[
+            labelX + labelOffsetX,
+            data.position[1] + data.size[1] / 2 + 1.8 + labelOffsetY,
+            data.position[2] + labelOffsetZ,
+          ]}
           center
           distanceFactor={8}
           transform

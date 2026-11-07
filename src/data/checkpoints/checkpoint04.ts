@@ -16,27 +16,34 @@ export const checkpoint04: CheckpointArea = {
           position: [0.03, 5, -62.3],
         },
       ],
+      quoteBoard: {
+        quote: "Chose Wisely",
+        author: "",
+        theme: "danger",
+        positionOffset: [-7, 0.1, 3],
+        rotation: [0, 0.4, 0],
+      },
     }),
     // Outgoing route to checkpoint 05. Only the right rope carries the player.
     rope(
       "checkpoint-05-rope-left",
       [-0.85, 5.2, -66.45],
       [-1.7, 5.18, -63.52],
-      [-0.38, 6.25, -69.4],
+      [-0.38, 6.25, -74.4],
       false,
     ),
     rope(
       "checkpoint-05-rope-centre",
       [0, 5.2, -66.45],
       [0, 5.18, -63.52],
-      [0, 6.25, -69.4],
+      [0, 6.25, -74.4],
       false,
     ),
     rope(
       "checkpoint-05-rope-right",
       [0.85, 5.2, -66.45],
       [1.7, 5.18, -63.52],
-      [0.38, 6.25, -69.4],
+      [0.38, 6.25, -74.4],
     ),
   ],
 };

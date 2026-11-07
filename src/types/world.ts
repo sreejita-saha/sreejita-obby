@@ -20,6 +20,8 @@ export type PlatformData = {
   markerColor?: string;
   model?: SceneModelData;
   modelLabelOffset?: Vector3Tuple;
+  /** Moves the clickable checkpoint label without moving its platform. */
+  worldLabelOffset?: Vector3Tuple;
   /** Decorative models placed directly on this platform. */
   scenery?: Array<SceneModelData & { position: Vector3Tuple; anchor?: "bottom" | "top" }>;
   quoteBoard?: {
@@ -29,6 +31,7 @@ export type PlatformData = {
     positionOffset?: Vector3Tuple;
     /** Fine-tune this individual board's [x, y, z] rotation in radians. */
     rotation?: Vector3Tuple;
+    theme?: "wood" | "danger";
   };
 };
 

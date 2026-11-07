@@ -12,6 +12,7 @@ import { LoadingScreen } from "./components/screens/LoadingScreen";
 import { TouchControls } from "./components/ui/TouchControls";
 import { TooltipLayer } from "./components/ui/TooltipLayer";
 import { PortfolioChat } from "./components/chat/PortfolioChat";
+import { releaseUiFocusForMovement } from "./utils/gameKeyboard";
 // import "./styles/maintenance/MaintenancePage.css";
 // import { BackgroundDecorations } from "./components/maintenance/BackgroundDecorations";
 // import { MaintenanceCard } from "./components/maintenance/MaintenanceCard";
@@ -75,6 +76,7 @@ function ObbyApp() {
         "Space",
       ];
       if (!movementKeys.includes(event.code)) return;
+      releaseUiFocusForMovement(event);
       event.preventDefault();
       setStarted(true);
     };

@@ -4,6 +4,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { platforms, spawnPoint } from "../../data/world";
 import { GAME_CONTROL_EVENTS } from "../../config/events";
+import { releaseUiFocusForMovement } from "../../utils/gameKeyboard";
 import { Noob } from "./Noob";
 
 export type PlayerProps = {
@@ -84,6 +85,7 @@ export function Player({
       const target = event.target as HTMLElement | null;
       if (target?.matches("input, textarea, select, [contenteditable='true']")) return;
 
+      releaseUiFocusForMovement(event);
       keys.current.add(event.code);
       if (
         ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code)

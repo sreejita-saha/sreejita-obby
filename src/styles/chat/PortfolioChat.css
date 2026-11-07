@@ -41,6 +41,8 @@
 }
 
 .portfolio-chat__toggle span {
+  position: relative;
+  top: -1px;
   font-size: 1.15rem;
 }
 
@@ -207,7 +209,7 @@
 
 .portfolio-chat__sources button:hover,
 .portfolio-chat__sources button:focus-visible {
-  background: #aaf08c;
+  background: linear-gradient(135deg, #d8f3ce, #aaf08c);
   outline: none;
 }
 
@@ -239,7 +241,7 @@
   width: 100%;
   margin-top: 9px;
   padding: 9px 12px;
-  background: #aaf08c;
+  background: linear-gradient(135deg, #d8f3ce, #aaf08c);
 }
 
 .portfolio-chat__send:disabled {

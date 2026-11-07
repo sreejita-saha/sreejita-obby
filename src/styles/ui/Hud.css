@@ -74,7 +74,7 @@
   width: 100%;
   border: 2px solid #17223b;
   border-radius: 9px;
-  background: #aaf08c;
+  background: linear-gradient(135deg, #d8f3ce, #aaf08c);
   color: #17223b;
   font:
     900 0.78rem "DM Sans",
@@ -100,7 +100,7 @@
   box-shadow: 0 5px 0 #17223b;
   pointer-events: auto;
 }
-.menu-button {
+.hud-actions .menu-button {
   position: fixed;
   z-index: 13;
   right: 24px;
