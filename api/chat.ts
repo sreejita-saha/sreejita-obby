@@ -1,5 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 import { createClient } from "@supabase/supabase-js";
+import { createHash } from "node:crypto";
+
+const rateLimitMaxRequests = 10;
+const rateLimitWindowSeconds = 60 * 60;
 
 type PortfolioChunk = {
   title: string;
@@ -7,6 +11,18 @@ type PortfolioChunk = {
   content: string;
   similarity: number;
 };
+
+function createClientFingerprint(request: Request, salt: string) {
+  const forwardedFor =
+    request.headers.get("x-forwarded-for") ??
+    request.headers.get("x-real-ip") ??
+    "unknown";
+  const clientIp = forwardedFor.split(",")[0].trim();
+
+  return createHash("sha256")
+    .update(`${salt}:${clientIp}`)
+    .digest("hex");
+}
 
 export async function POST(request: Request) {
   try {
@@ -29,8 +45,9 @@ export async function POST(request: Request) {
     const geminiApiKey = process.env.GEMINI_API_KEY;
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
+    const rateLimitSalt = process.env.CHAT_RATE_LIMIT_SALT;
 
-    if (!geminiApiKey || !supabaseUrl || !supabaseSecretKey) {
+    if (!geminiApiKey || !supabaseUrl || !supabaseSecretKey || !rateLimitSalt) {
       console.error("Chat API is missing server environment variables.");
       return Response.json(
         { error: "The chat service is not configured." },
@@ -40,6 +57,27 @@ export async function POST(request: Request) {
 
     const ai = new GoogleGenAI({ apiKey: geminiApiKey });
     const supabase = createClient(supabaseUrl, supabaseSecretKey);
+
+    const { data: allowed, error: rateLimitError } = await supabase.rpc(
+      "check_chat_rate_limit",
+      {
+        p_fingerprint: createClientFingerprint(request, rateLimitSalt),
+        p_limit: rateLimitMaxRequests,
+        p_window_seconds: rateLimitWindowSeconds,
+      },
+    );
+
+    if (rateLimitError) throw rateLimitError;
+
+    if (!allowed) {
+      return Response.json(
+        { error: "Too many questions. Please try again in an hour." },
+        {
+          status: 429,
+          headers: { "Retry-After": String(rateLimitWindowSeconds) },
+        },
+      );
+    }
 
     const embeddingResponse = await ai.models.embedContent({
       model: "gemini-embedding-2",
