@@ -17,8 +17,6 @@ export type PlatformData = {
   section?: number;
   /** Optional colour for the checkpoint ring; defaults to the platform colour. */
   markerColor?: string;
-  /** Adds a decorative finish-line gantry to this platform. */
-  finishGate?: boolean;
   model?: SceneModelData;
   modelLabelOffset?: Vector3Tuple;
   /** Decorative models placed directly on this platform. */

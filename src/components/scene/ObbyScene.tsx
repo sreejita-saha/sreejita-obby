@@ -24,7 +24,6 @@ const sceneModelUrls = [
 type ObbySceneProps = PlayerProps & {
   /** Explicit label clicks should always open their checkpoint modal. */
   onOpenCheckpoint: (index: number) => void;
-  onOpenCredits: () => void;
 };
 
 export function ObbyScene(props: ObbySceneProps) {
@@ -53,7 +52,7 @@ export function ObbyScene(props: ObbySceneProps) {
 
       <Decorations />
       <Suspense fallback={null}>
-        <AvatarModel />
+        <AvatarModel showChatBubble={playing} />
       </Suspense>
       {checkpointAreas.map((area) => (
         <Suspense key={area.id} fallback={null}>
@@ -62,7 +61,6 @@ export function ObbyScene(props: ObbySceneProps) {
             area={area}
             showLabel={playing}
             onOpenCheckpoint={props.onOpenCheckpoint}
-            onOpenCredits={props.onOpenCredits}
           />
         </Suspense>
       ))}
@@ -75,14 +73,12 @@ type CheckpointAreaProps = {
   area: (typeof checkpointAreas)[number];
   showLabel: boolean;
   onOpenCheckpoint: (index: number) => void;
-  onOpenCredits: () => void;
 };
 
 function CheckpointArea({
   area,
   showLabel,
   onOpenCheckpoint,
-  onOpenCredits,
 }: CheckpointAreaProps) {
   return (
     <group>
@@ -96,7 +92,6 @@ function CheckpointArea({
               ? undefined
               : () => onOpenCheckpoint(platform.section!)
           }
-          onOpenCredits={platform.finishGate ? onOpenCredits : undefined}
         />
       ))}
     </group>

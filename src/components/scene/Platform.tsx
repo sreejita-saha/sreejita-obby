@@ -15,14 +15,11 @@ import { SceneModel } from "./SceneModel";
 import { QuoteBoard } from "./QuoteBoard";
 import { CheckpointFlag } from "./CheckpointFlag";
 import { ButterBlock } from "./ButterBlock";
-import { FinishGate } from "./FinishGate";
-import { FinishBadge } from "./FinishBadge";
 
 type PlatformProps = {
   data: PlatformData;
   showLabel: boolean;
   onOpenCheckpoint?: () => void;
-  onOpenCredits?: () => void;
 };
 
 const CHECKPOINT_FLAG_COLORS = [
@@ -38,7 +35,6 @@ export function Platform({
   data,
   showLabel,
   onOpenCheckpoint,
-  onOpenCredits,
 }: PlatformProps) {
   const section =
     data.section === undefined ? undefined : portfolio[data.section];
@@ -185,10 +181,6 @@ export function Platform({
           {label.text}
         </Text>
       ))}
-      {/* The finish gate sits near the edge opposite the incoming route. */}
-      {data.finishGate && <FinishGate position={[x, top, z + depth * 0.4]} />}
-      {/* Upright spinning badge hovers above the final checkpoint ring. */}
-      {data.finishGate && <FinishBadge position={[x, top + 1, z]} />}
       {showLabel && section && (
         <Html
           position={[
@@ -216,30 +208,6 @@ export function Platform({
           >
             <span>{section.kicker}</span>
             {section.title}
-          </div>
-        </Html>
-      )}
-      {showLabel && onOpenCredits && (
-        <Html
-          position={[x - (width / 2 + 1.5), top + 1.8, z]}
-          center
-          distanceFactor={8}
-          transform
-          pointerEvents="auto"
-          zIndexRange={[5, 0]}
-        >
-          <div
-            className="world-label world-label--credits"
-            role="button"
-            tabIndex={0}
-            onClick={onOpenCredits}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") onOpenCredits();
-            }}
-            style={{ cursor: "url('/images/pointer.png') 4 2, pointer" }}
-          >
-            <span>Extras</span>
-            Credits
           </div>
         </Html>
       )}

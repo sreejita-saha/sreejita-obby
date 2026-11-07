@@ -192,7 +192,7 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
         >
           <header className="portfolio-chat__header">
             <div className="portfolio-chat__title">
-              <p className="eyebrow">Portfolio guide</p>
+              <p className="eyebrow">Noob Ai</p>
               <h2 id="portfolio-chat-title">Ask Sreejita</h2>
             </div>
             <button

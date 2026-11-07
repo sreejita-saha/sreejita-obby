@@ -201,7 +201,6 @@ function LegacyApp() {
               setCheckpoint(index);
               setOpenSection(index);
             }}
-            onOpenCredits={() => setCreditsOpen(true)}
           />
         </Suspense>
       </Canvas>
