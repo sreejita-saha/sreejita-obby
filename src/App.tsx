@@ -141,6 +141,17 @@ function LegacyApp() {
     setResetKey((current) => current + 1);
   };
 
+  const openPortfolioSection = (sectionId: string) => {
+    const sectionIndex = portfolio.findIndex((section) => section.id === sectionId);
+    if (sectionIndex === -1) return;
+
+    setStarted(true);
+    setCheckpoint(sectionIndex);
+    setOpenSection(sectionIndex);
+    setCreditsOpen(false);
+    setMenuOpen(false);
+  };
+
   return (
     <main className="app-shell">
       <Canvas
@@ -191,7 +202,7 @@ function LegacyApp() {
         onUnload={unloadMusic}
       />
       <RatingWidget />
-      <PortfolioChat />
+      <PortfolioChat onOpenSection={openPortfolioSection} />
       <TooltipLayer />
 
       {!loaderDismissed && (

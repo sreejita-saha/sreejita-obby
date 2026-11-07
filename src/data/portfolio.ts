@@ -64,6 +64,11 @@ const projects = [
     "Using native libraries and a Java Swing interface, it shows information such as CPU, memory, storage, and general system details. This project helped me learn more about connecting Java applications with lower-level system information.",
   ),
   ...project(
+    "Java Swing Dino Game",
+    "An interactive Dino Game that I built with Java and Java Swing.",
+    "Building it gave me a hands-on way to apply object-oriented programming, event-driven UI development, and game logic. I enjoyed breaking the experience into smaller components and making the desktop game respond to player input.",
+  ),
+  ...project(
     "This Website :)",
     "An interactive portfolio inspired by Roblox obbies, where visitors move through checkpoints to explore my education, experience, and projects.",
     "I built it with React, TypeScript, Three.js, and React Three Fiber. I was inspired by [Bruno Simon’s portfolio](https://bruno-simon.com/) and [Jesse Zhou’s website](https://www.jesse-zhou.com/), especially the way they make browsing a portfolio feel more like an experience than simply reading a page. Building this taught me a lot about 3D models, interaction design, and making the web feel a little more playful.",

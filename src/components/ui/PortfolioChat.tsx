@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
 
 type Source = {
   title: string;
   source: string;
   similarity: number;
+  metadata?: {
+    section?: string;
+  };
 };
 
 type Message = {
@@ -17,7 +20,48 @@ const starterMessage: Message = {
   text: "Hi! Ask me about Sreejita's projects, experience, education, or skills.",
 };
 
-export function PortfolioChat() {
+const boldMarkdown = /(\*\*[^*]+\*\*)/g;
+
+function renderMessageText(text: string): ReactNode {
+  return text.split("\n").map((line, lineIndex, lines) => (
+    <Fragment key={`${line}-${lineIndex}`}>
+      {line.split(boldMarkdown).map((part, partIndex) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <strong key={partIndex}>{part.slice(2, -2)}</strong>
+        ) : (
+          <Fragment key={partIndex}>{part}</Fragment>
+        ),
+      )}
+      {lineIndex < lines.length - 1 && <br />}
+    </Fragment>
+  ));
+}
+
+function getPortfolioSectionId(source: Source) {
+  if (source.source === "projects.md") return "projects";
+  if (source.source === "education.md") return "education";
+
+  switch (source.metadata?.section?.toLowerCase()) {
+    case "profile":
+      return "about";
+    case "education":
+      return "education";
+    case "experience":
+      return "experience";
+    case "technical skills":
+      return "skills";
+    case "selected projects":
+      return "projects";
+    default:
+      return undefined;
+  }
+}
+
+type PortfolioChatProps = {
+  onOpenSection: (sectionId: string) => void;
+};
+
+export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState<Message[]>([starterMessage]);
@@ -128,16 +172,32 @@ export function PortfolioChat() {
                 key={`${message.role}-${index}`}
                 className={`portfolio-chat__message portfolio-chat__message--${message.role}`}
               >
-                <p>{message.text}</p>
+                <p>{renderMessageText(message.text)}</p>
                 {message.sources && message.sources.length > 0 && (
                   <div className="portfolio-chat__sources">
                     <span>Relevant portfolio sections</span>
                     <ul>
-                      {message.sources.map((source) => (
-                        <li key={`${source.source}-${source.title}`}>
-                          {source.title}
-                        </li>
-                      ))}
+                      {message.sources.map((source) => {
+                        const sectionId = getPortfolioSectionId(source);
+                        return (
+                          <li key={`${source.source}-${source.title}`}>
+                            {sectionId ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  onOpenSection(sectionId);
+                                }}
+                                aria-label={`Open the ${sectionId} portfolio section`}
+                              >
+                                {source.title}
+                              </button>
+                            ) : (
+                              source.title
+                            )}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}

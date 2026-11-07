@@ -65,6 +65,12 @@ Python application for managing students and placement roles, including an alloc
 
 **Technologies:** Python
 
+### Java Swing Dino Game
+
+Interactive Dino Game built in Java Swing. Applied object-oriented and event-driven programming to create a responsive desktop game experience.
+
+**Technologies:** Java, Java Swing
+
 ### Interactive Portfolio
 
 Roblox-obby-inspired portfolio built with React, TypeScript, Three.js, and React Three Fiber. Visitors explore education, experience, and projects by moving through interactive checkpoints.

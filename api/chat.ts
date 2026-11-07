@@ -10,6 +10,9 @@ type PortfolioChunk = {
   source: string;
   content: string;
   similarity: number;
+  metadata: {
+    section?: string;
+  };
 };
 
 function createClientFingerprint(request: Request, salt: string) {
@@ -115,7 +118,7 @@ export async function POST(request: Request) {
       contents: `Visitor question: ${question}\n\nPortfolio context:\n${context}`,
       config: {
         systemInstruction: `
-You are Sreejita Saha's portfolio assistant.
+You are Sreejita Saha's portfolio assistant. Speak as Sreejita in the first person: use wording such as "I built", "I worked on", and "my experience". Never describe Sreejita in the third person.
 
 Answer only from the supplied portfolio context.
 If the context does not contain the answer, say that you do not have that detail.
@@ -133,10 +136,11 @@ Do not mention "the context", "retrieval", or "sources" in the answer.
       answer:
         response.text?.trim() ||
         "I could not generate an answer from the available portfolio information.",
-      sources: chunks.map(({ title, source, similarity }) => ({
+      sources: chunks.map(({ title, source, similarity, metadata }) => ({
         title,
         source,
         similarity,
+        metadata,
       })),
     });
   } catch (error) {
