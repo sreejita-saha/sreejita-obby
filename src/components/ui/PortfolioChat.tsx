@@ -1,62 +1,14 @@
-import { Fragment, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
-
-type Source = {
-  title: string;
-  source: string;
-  similarity: number;
-  metadata?: {
-    section?: string;
-  };
-};
-
-type Message = {
-  role: "assistant" | "user";
-  text: string;
-  sources?: Source[];
-};
-
-const starterMessage: Message = {
-  role: "assistant",
-  text: "Hi! You can ask me about my projects, experience, education, or skills.",
-};
-const outOfTokensMessage = "Oops sorry, I am out of tokens, sorry about that :P";
-
-const boldMarkdown = /(\*\*[^*]+\*\*)/g;
-
-function renderMessageText(text: string): ReactNode {
-  return text.split("\n").map((line, lineIndex, lines) => (
-    <Fragment key={`${line}-${lineIndex}`}>
-      {line.split(boldMarkdown).map((part, partIndex) =>
-        part.startsWith("**") && part.endsWith("**") ? (
-          <strong key={partIndex}>{part.slice(2, -2)}</strong>
-        ) : (
-          <Fragment key={partIndex}>{part}</Fragment>
-        ),
-      )}
-      {lineIndex < lines.length - 1 && <br />}
-    </Fragment>
-  ));
-}
-
-function getPortfolioSectionId(source: Source) {
-  if (source.source === "projects.md") return "projects";
-  if (source.source === "education.md") return "education";
-
-  switch (source.metadata?.section?.toLowerCase()) {
-    case "profile":
-      return "about";
-    case "education":
-      return "education";
-    case "experience":
-      return "experience";
-    case "technical skills":
-      return "skills";
-    case "selected projects":
-      return "projects";
-    default:
-      return undefined;
-  }
-}
+import { useCallback, useEffect, useRef, useState } from "react";
+import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
+import {
+  OUT_OF_TOKENS_MESSAGE,
+  STARTER_CHAT_MESSAGE,
+} from "../chat/chat.constants";
+import type { ChatMessage, ChatSource } from "../chat/chat.types";
+import {
+  getPortfolioSectionId,
+  renderChatMessage,
+} from "../chat/chat.utils";
 
 type PortfolioChatProps = {
   onOpenSection: (sectionId: string) => void;

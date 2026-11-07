@@ -1,6 +1,7 @@
 import { portfolio } from "../../data/portfolio";
 import { ControlIcon } from "./ControlIcon";
 import { useState } from "react";
+import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
 type HudProps = {
   checkpoint: number;
   onOpenPortfolio: () => void;
@@ -38,7 +39,7 @@ export function Hud({
             <button
               type="button"
               onClick={() => {
-                window.dispatchEvent(new Event("obby-open-ai-chat"));
+                window.dispatchEvent(new Event(OPEN_PORTFOLIO_CHAT_EVENT));
                 setIsWelcomeOpen(false);
               }}
             >
