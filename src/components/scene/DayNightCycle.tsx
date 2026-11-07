@@ -10,6 +10,14 @@ const dawnGradient = ["#69416f", "#e27c7c", "#ffd28a"].map((color) => new THREE.
 const dayGradient = ["#4e9fda", "#82d0ed", "#d7f4ff"].map((color) => new THREE.Color(color));
 const sunsetGradient = ["#55345f", "#cc6577", "#ffba52"].map((color) => new THREE.Color(color));
 
+// A single, clean silhouette reads as a moon much better than overlapping
+// spheres, particularly against a changing sky gradient.
+const moonCrescent = new THREE.Shape();
+moonCrescent.moveTo(0.18, 1.12);
+moonCrescent.quadraticCurveTo(-1.18, 0.72, -0.96, -0.2);
+moonCrescent.quadraticCurveTo(-0.72, -1.16, 0.27, -0.82);
+moonCrescent.quadraticCurveTo(-0.34, -0.14, 0.18, 1.12);
+
 export function DayNightCycle() {
   const sun = useRef<THREE.Group>(null);
   const moon = useRef<THREE.Group>(null);
@@ -82,38 +90,46 @@ type CelestialKind = "sun" | "moon";
 
 const CelestialCharacter = forwardRef<THREE.Group, { kind: CelestialKind }>(function CelestialCharacter({ kind }, ref) {
   const isSun = kind === "sun";
-  const faceColor = isSun ? "#ffbf27" : "#d9e5ff";
+  const bodyColor = isSun ? "#ffd166" : "#f3f5ff";
+  const featureColor = isSun ? "#9d6b43" : "#6d7694";
 
   return (
     <group ref={ref} scale={isSun ? 10.5 : 7.2}>
-      {isSun && Array.from({ length: 12 }, (_, index) => {
-        const angle = (index / 12) * Math.PI * 2;
+      {isSun && Array.from({ length: 8 }, (_, index) => {
+        const angle = (index / 8) * Math.PI * 2;
         return (
-          <mesh key={index} position={[Math.cos(angle) * 1.35, Math.sin(angle) * 1.35, 0]} rotation={[0, 0, angle - Math.PI / 2]}>
-            <coneGeometry args={[0.46, 0.5, 6]} />
-            <meshBasicMaterial color="#ff9e1c" fog={false} />
+          <mesh key={index} position={[Math.cos(angle) * 1.5, Math.sin(angle) * 1.5, 0]} rotation={[0, 0, angle - Math.PI / 2]}>
+            <capsuleGeometry args={[0.1, 0.38, 4, 8]} />
+            <meshBasicMaterial color="#f7b84b" fog={false} />
           </mesh>
         );
       })}
-      <mesh castShadow scale={[1, 1, 0.72]}>
-        <sphereGeometry args={[1.2, 19, 12]} />
-        <meshBasicMaterial color={faceColor} fog={false} />
-      </mesh>
+      {isSun ? (
+        <mesh scale={[1, 1, 0.72]}>
+          <sphereGeometry args={[1.18, 24, 16]} />
+          <meshBasicMaterial color={bodyColor} fog={false} />
+        </mesh>
+      ) : (
+        <mesh>
+          <shapeGeometry args={[moonCrescent]} />
+          <meshBasicMaterial color={bodyColor} fog={false} side={THREE.DoubleSide} />
+        </mesh>
+      )}
       {/* Keep the face just ahead of the sphere surface so depth testing cannot
           intermittently hide its features while the body moves through the sky. */}
-      <group position={[0, 0, 0.89]}>
-        <mesh position={[-0.36, 0.18, 0]} scale={[0.115, 0.16, 0.07]}>
-          <sphereGeometry args={[1, 16, 14]} /><meshBasicMaterial color="#17223b" fog={false} />
+      <group position={isSun ? [0, -0.02, 0.89] : [-0.31, -0.02, 0.04]}>
+        <mesh position={[-0.26, 0.08, 0]} rotation={[0, 0, -0.18]}>
+          <torusGeometry args={[0.12, 0.026, 6, 12, Math.PI]} />
+          <meshBasicMaterial color={featureColor} fog={false} />
         </mesh>
-        <mesh position={[0.36, 0.18, 0]} scale={[0.115, 0.16, 0.07]}>
-          <sphereGeometry args={[1, 16, 12]} /><meshBasicMaterial color="#17223b" fog={false} />
+        <mesh position={[0.26, 0.08, 0]} rotation={[0, 0, -Math.PI + 0.18]}>
+          <torusGeometry args={[0.12, 0.026, 6, 12, Math.PI]} />
+          <meshBasicMaterial color={featureColor} fog={false} />
         </mesh>
-        <mesh position={[0, -0.22, 0]} rotation={[0, 0, Math.PI]}>
-          <torusGeometry args={[0.29, 0.038, 8, 16, Math.PI]} /><meshBasicMaterial color="#29334a" fog={false} />
-        </mesh>
-        <mesh position={[0.22, -0.39, 0]} scale={[0.12, 0.16, 0.05]}>
-          <sphereGeometry args={[1, 12, 8]} /><meshBasicMaterial color="#ff8fb5" fog={false} />
-        </mesh>
+        {isSun && <mesh position={[0, -0.28, 0]} rotation={[0, 0, Math.PI]}>
+          <torusGeometry args={[0.16, 0.022, 6, 12, Math.PI]} />
+          <meshBasicMaterial color={featureColor} fog={false} />
+        </mesh>}
       </group>
     </group>
   );

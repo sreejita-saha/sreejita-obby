@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 type Source = {
   title: string;
@@ -17,7 +17,7 @@ type Message = {
 
 const starterMessage: Message = {
   role: "assistant",
-  text: "Hi! Ask me about Sreejita's projects, experience, education, or skills.",
+  text: "Hi! You can ask me about my projects, experience, education, or skills.",
 };
 
 const boldMarkdown = /(\*\*[^*]+\*\*)/g;
@@ -63,22 +63,33 @@ type PortfolioChatProps = {
 
 export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState<Message[]>([starterMessage]);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState("");
   const messageListRef = useRef<HTMLDivElement>(null);
+  const questionInputRef = useRef<HTMLTextAreaElement>(null);
+
+  const closeChat = useCallback(() => {
+    if (isClosing) return;
+    setIsClosing(true);
+    window.setTimeout(() => {
+      setIsOpen(false);
+      setIsClosing(false);
+    }, 220);
+  }, [isClosing]);
 
   useEffect(() => {
     if (!isOpen) return;
 
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsOpen(false);
+      if (event.key === "Escape") closeChat();
     };
 
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [isOpen]);
+  }, [closeChat, isOpen]);
 
   useEffect(() => {
     messageListRef.current?.scrollTo({
@@ -86,6 +97,14 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
       behavior: "smooth",
     });
   }, [messages, isSending]);
+
+  // Keep the conversation flowing: after a response the visitor can type the
+  // next question immediately, without clicking back into the text field.
+  useEffect(() => {
+    if (!isOpen || isClosing || isSending) return;
+    const frame = window.requestAnimationFrame(() => questionInputRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [isClosing, isOpen, isSending]);
 
   const sendQuestion = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -144,18 +163,18 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
     <div className="portfolio-chat">
       {isOpen && (
         <section
-          className="portfolio-chat__panel ui-panel"
+          className={`portfolio-chat__panel ui-panel${isClosing ? " is-closing" : ""}`}
           aria-labelledby="portfolio-chat-title"
         >
           <header className="portfolio-chat__header">
-            <div>
+            <div className="portfolio-chat__title">
               <p className="eyebrow">Portfolio guide</p>
-              <h2 id="portfolio-chat-title">Ask AI</h2>
+              <h2 id="portfolio-chat-title">Ask Sreejita</h2>
             </div>
             <button
               className="portfolio-chat__close"
               type="button"
-              onClick={() => setIsOpen(false)}
+              onClick={closeChat}
               aria-label="Close portfolio assistant"
             >
               ×
@@ -168,40 +187,49 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
             aria-live="polite"
           >
             {messages.map((message, index) => (
-              <article
+              <div
                 key={`${message.role}-${index}`}
-                className={`portfolio-chat__message portfolio-chat__message--${message.role}`}
+                className={`portfolio-chat__message-row portfolio-chat__message-row--${message.role}`}
               >
-                <p>{renderMessageText(message.text)}</p>
-                {message.sources && message.sources.length > 0 && (
-                  <div className="portfolio-chat__sources">
-                    <span>Relevant portfolio sections</span>
-                    <ul>
-                      {message.sources.map((source) => {
-                        const sectionId = getPortfolioSectionId(source);
-                        return (
-                          <li key={`${source.source}-${source.title}`}>
-                            {sectionId ? (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setIsOpen(false);
-                                  onOpenSection(sectionId);
-                                }}
-                                aria-label={`Open the ${sectionId} portfolio section`}
-                              >
-                                {source.title}
-                              </button>
-                            ) : (
-                              source.title
-                            )}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
+                {message.role === "assistant" && (
+                  <img
+                    className="portfolio-chat__message-avatar"
+                    src="/images/myprofilepic-transparent.png"
+                    alt="Sreejita"
+                  />
                 )}
-              </article>
+                <article className={`portfolio-chat__message portfolio-chat__message--${message.role}`}>
+                  <p>{renderMessageText(message.text)}</p>
+                  {message.sources && message.sources.length > 0 && (
+                    <div className="portfolio-chat__sources">
+                      <span>Relevant portfolio sections</span>
+                      <ul>
+                        {message.sources.map((source) => {
+                          const sectionId = getPortfolioSectionId(source);
+                          return (
+                            <li key={`${source.source}-${source.title}`}>
+                              {sectionId ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    closeChat();
+                                    onOpenSection(sectionId);
+                                  }}
+                                  aria-label={`Open the ${sectionId} portfolio section`}
+                                >
+                                  {source.title}
+                                </button>
+                              ) : (
+                                source.title
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </article>
+              </div>
             ))}
             {isSending && (
               <p className="portfolio-chat__thinking">Looking through the portfolio...</p>
@@ -214,8 +242,15 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
             </label>
             <textarea
               id="portfolio-question"
+              ref={questionInputRef}
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  event.currentTarget.form?.requestSubmit();
+                }
+              }}
               placeholder="Ask about projects, experience, or skills..."
               rows={2}
               maxLength={500}
@@ -236,7 +271,10 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
       <button
         className="portfolio-chat__toggle"
         type="button"
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={() => {
+          if (isOpen) closeChat();
+          else setIsOpen(true);
+        }}
         aria-expanded={isOpen}
         aria-controls="portfolio-chat-title"
       >

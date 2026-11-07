@@ -26,7 +26,7 @@ map_Ka Rig1_diff.png
 map_Kd Rig1_diff.png
 map_d Rig1_diff.png
 
-newmtl Rig12Mtl
+newmtl Rig4Mtl
 Material Color
 Ka 0.612066 0.275833 0.14198
 Kd 0.612066 0.275833 0.14198
@@ -37,13 +37,13 @@ d 1
 
 Ns 255
 
-map_Ka Rig12_diff.png
-map_Kd Rig12_diff.png
-map_d Rig12_diff.png
+map_Ka Rig4_diff.png
+map_Kd Rig4_diff.png
+map_d Rig4_diff.png
 
-map_Ns Rig12_spec.png
+map_Ns Rig4_spec.png
 
-map_Ke Rig12_emap.png
+map_Ke Rig4_emap.png
 
 rbx_alphamode overlay
 

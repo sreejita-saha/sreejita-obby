@@ -71,6 +71,25 @@ function LegacyApp() {
   const unloadMusic = useCallback(() => setMusicEnabled(false), []);
 
   useEffect(() => {
+    if (started) return;
+
+    const startOnMovement = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.matches("input, textarea, select, [contenteditable='true']")) return;
+      const movementKeys = [
+        "KeyW", "KeyA", "KeyS", "KeyD",
+        "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space",
+      ];
+      if (!movementKeys.includes(event.code)) return;
+      event.preventDefault();
+      setStarted(true);
+    };
+
+    window.addEventListener("keydown", startOnMovement);
+    return () => window.removeEventListener("keydown", startOnMovement);
+  }, [started]);
+
+  useEffect(() => {
     // Browser back/forward navigation can restore this app from the bfcache,
     // including its React state. The portfolio overview is a transient overlay,
     // so never bring it back when the visitor returns to the page.

@@ -1,7 +1,8 @@
 .portfolio-chat {
   position: fixed;
-  z-index: 30;
-  right: 20px;
+  /* Checkpoint modals are z-index 20, so the chat must not cover them. */
+  z-index: 19;
+  right: clamp(12px, 2vw, 24px);
   bottom: 82px;
   pointer-events: none;
 }
@@ -42,35 +43,53 @@
 .portfolio-chat__panel {
   position: absolute;
   right: 0;
-  bottom: 60px;
+  bottom: 58px;
   display: flex;
   flex-direction: column;
-  width: min(390px, calc(100vw - 32px));
-  max-height: min(590px, calc(100dvh - 130px));
+  width: clamp(300px, 29vw, 365px);
+  max-width: calc(100vw - 24px);
+  /* Preserve breathing room above the panel at normal browser zoom. */
+  max-height: min(520px, calc(100dvh - 200px));
   overflow: hidden;
   border-top: 12px solid #aaf08c;
   box-shadow: 8px 8px 0 var(--ink);
-  animation: portfolio-chat-pop 0.2s ease-out;
+  transform-origin: bottom right;
+  animation: portfolio-chat-open 0.28s cubic-bezier(0.22, 0.9, 0.28, 1.15);
 }
 
-@keyframes portfolio-chat-pop {
+@keyframes portfolio-chat-open {
   from {
-    transform: translateY(12px) scale(0.96);
+    transform: translateY(18px) scale(0.86) rotate(1.5deg);
+    opacity: 0;
+  }
+}
+
+.portfolio-chat__panel.is-closing {
+  pointer-events: none;
+  animation: portfolio-chat-close 0.22s ease-in forwards;
+}
+
+@keyframes portfolio-chat-close {
+  to {
+    transform: translateY(14px) scale(0.9) rotate(-1deg);
     opacity: 0;
   }
 }
 
 .portfolio-chat__header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 18px 20px 14px;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
   border-bottom: 2px solid #dce6d7;
 }
 
 .portfolio-chat__header .eyebrow {
   margin: 0 0 3px;
+}
+
+.portfolio-chat__title {
+  flex: 1;
 }
 
 .portfolio-chat__header h2 {
@@ -96,14 +115,14 @@
   flex: 1;
   flex-direction: column;
   gap: 12px;
-  min-height: 180px;
+  min-height: 0;
   overflow-y: auto;
   padding: 16px 20px;
   background: #fffdf6;
 }
 
 .portfolio-chat__message {
-  max-width: 88%;
+  max-width: calc(100% - 44px);
   padding: 10px 12px;
   border: 2px solid var(--ink);
   border-radius: 12px;
@@ -118,13 +137,32 @@
 }
 
 .portfolio-chat__message--assistant {
-  align-self: flex-start;
   background: #e8f8e1;
 }
 
 .portfolio-chat__message--user {
-  align-self: flex-end;
   background: #ffe0ed;
+}
+
+.portfolio-chat__message-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.portfolio-chat__message-row--user {
+  justify-content: flex-end;
+}
+
+.portfolio-chat__message-avatar {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: #ffd8e6;
+  object-fit: cover;
+  object-position: center 38%;
 }
 
 .portfolio-chat__sources {
@@ -187,7 +225,7 @@
 .portfolio-chat__form textarea {
   box-sizing: border-box;
   width: 100%;
-  resize: vertical;
+  resize: none;
   border: 2px solid var(--ink);
   border-radius: 9px;
   padding: 9px;
@@ -233,5 +271,20 @@
   .portfolio-chat__panel {
     bottom: 58px;
     max-height: min(560px, calc(100dvh - 174px));
+  }
+}
+
+@media (max-height: 700px) {
+  .portfolio-chat__panel {
+    max-height: calc(100dvh - 172px);
+  }
+  .portfolio-chat__header {
+    padding: 11px 14px 9px;
+  }
+  .portfolio-chat__messages {
+    padding: 12px 14px;
+  }
+  .portfolio-chat__form {
+    padding: 10px 12px 12px;
   }
 }

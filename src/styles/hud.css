@@ -26,9 +26,12 @@
 }
 .brand img {
   display: block;
-  width: 100%;
+  width: 110%;
   height: 100%;
-  object-fit: cover;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+  transform: translateX(-1%);
 }
 .menu-button,
 .hud button {

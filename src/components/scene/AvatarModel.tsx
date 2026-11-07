@@ -1,12 +1,12 @@
-// OBJ/MTL loader for the Roblox avatar exported in public/models/me.
+// Roblox avatar exported in public/models/me.
 import { useLoader } from "@react-three/fiber";
 import { useMemo } from "react";
 import * as THREE from "three";
 import { MTLLoader, OBJLoader } from "three-stdlib";
 
 export function AvatarModel() {
-  const materials = useLoader(MTLLoader, "/models/New%20folder/sreejita.mtl");
-  const source = useLoader(OBJLoader, "/models/New%20folder/sreejita.obj", (loader) => {
+  const materials = useLoader(MTLLoader, "/models/me/sreejita.mtl");
+  const source = useLoader(OBJLoader, "/models/me/sreejita.obj", (loader) => {
     materials.preload();
     loader.setMaterials(materials);
   });
@@ -24,6 +24,8 @@ export function AvatarModel() {
       // must be untinted, while that single overlay keeps its alpha channel.
       const opaqueMaterials = importedMaterials.map((material) => {
         if (material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+        // This export calls its alpha-only facial decal Rig4Mtl. It must stay
+        // transparent so the skin-toned head behind it remains visible.
         const isFaceOverlay = material.name === "Rig4Mtl";
         return new THREE.MeshBasicMaterial({
           color: "#ffffff",
