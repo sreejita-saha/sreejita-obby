@@ -5,6 +5,8 @@ type ToggleControlProps = {
   enabled: boolean;
   label: string;
   tooltip: string;
+  tooltipPosition?: "top" | "bottom";
+  lockTooltipSide?: boolean;
   onToggle: () => void;
   children: ReactNode;
 };
@@ -15,6 +17,8 @@ export function ToggleControl({
   enabled,
   label,
   tooltip,
+  tooltipPosition,
+  lockTooltipSide = false,
   onToggle,
   children,
 }: ToggleControlProps) {
@@ -26,7 +30,8 @@ export function ToggleControl({
       aria-pressed={enabled}
       aria-label={label}
       data-tooltip={tooltip}
-      data-tooltip-lock-side="true"
+      data-tooltip-position={tooltipPosition}
+      data-tooltip-lock-side={lockTooltipSide || undefined}
     >
       {children}
     </button>

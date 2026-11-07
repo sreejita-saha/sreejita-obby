@@ -171,7 +171,6 @@ export function Platform({ data, showLabel, onOpenCheckpoint }: PlatformProps) {
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") onOpenCheckpoint?.();
             }}
-            style={{ cursor: "url('/images/pointer.png') 4 2, pointer" }}
           >
             <span>{section.kicker}</span>
             {section.title}

@@ -20,7 +20,11 @@ export function MusicToggle({ canPlay, enabled, onToggle, onUnload }: MusicToggl
     const syncPlayback = () => {
       audio.volume = MUSIC_VOLUME;
       if (canPlay && enabled && document.visibilityState === "visible") {
-        void audio.play().catch(() => {});
+        void audio.play().catch((error: unknown) => {
+          if (!(error instanceof DOMException && error.name === "NotAllowedError")) {
+            console.warn("Background music could not start.", error);
+          }
+        });
       } else {
         audio.pause();
       }
@@ -65,6 +69,7 @@ export function MusicToggle({ canPlay, enabled, onToggle, onUnload }: MusicToggl
         enabled={isOn}
         label={isOn ? "Disable background music" : "Enable background music"}
         tooltip={isOn ? "Turn off the background music" : "Turn on the background music"}
+        lockTooltipSide
         onToggle={onToggle}
       >
         <ControlIcon name={isOn ? "music" : "muted"} />

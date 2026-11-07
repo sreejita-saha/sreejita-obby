@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;600;700&display=swap");
+
 :root {
   font-family: "DM Sans", system-ui, sans-serif;
   color: #17223b;
@@ -6,6 +8,20 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   cursor: url("/images/default.png") 2 2, default;
+}
+* {
+  box-sizing: border-box;
+}
+button,
+a {
+  font: inherit;
+}
+button {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 html,
 body,
@@ -18,12 +34,8 @@ body,
 body {
   min-width: 320px;
 }
-canvas { cursor: inherit; }
-button,
-a {
-  cursor:
-    url("/images/pointer.png") 4 2,
-    pointer;
+canvas {
+  cursor: inherit;
 }
 input,
 textarea {
@@ -53,4 +65,32 @@ button:focus-visible,
 a:focus-visible {
   outline: 4px solid #fff;
   outline-offset: 3px;
+}
+
+.app-shell {
+  --sky-top: #4e9fda;
+  --sky-mid: #82d0ed;
+  --sky-bottom: #d7f4ff;
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    var(--sky-top) 0%,
+    var(--sky-mid) 52%,
+    var(--sky-bottom) 100%
+  );
+  color: #17223b;
+}
+.app-shell canvas {
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+  }
 }

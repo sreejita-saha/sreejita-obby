@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { platforms, spawnPoint } from "../../data/world";
+import { GAME_CONTROL_EVENTS } from "../../config/events";
 import { Noob } from "./Noob";
 
 export type PlayerProps = {
@@ -109,16 +110,16 @@ export function Player({
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
-    window.addEventListener("obby-control-start", onVirtualControlStart);
-    window.addEventListener("obby-control-end", onVirtualControlEnd);
-    window.addEventListener("obby-joystick-move", onJoystickMove);
+    window.addEventListener(GAME_CONTROL_EVENTS.start, onVirtualControlStart);
+    window.addEventListener(GAME_CONTROL_EVENTS.end, onVirtualControlEnd);
+    window.addEventListener(GAME_CONTROL_EVENTS.joystickMove, onJoystickMove);
     window.addEventListener("blur", clearKeys);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
-      window.removeEventListener("obby-control-start", onVirtualControlStart);
-      window.removeEventListener("obby-control-end", onVirtualControlEnd);
-      window.removeEventListener("obby-joystick-move", onJoystickMove);
+      window.removeEventListener(GAME_CONTROL_EVENTS.start, onVirtualControlStart);
+      window.removeEventListener(GAME_CONTROL_EVENTS.end, onVirtualControlEnd);
+      window.removeEventListener(GAME_CONTROL_EVENTS.joystickMove, onJoystickMove);
       window.removeEventListener("blur", clearKeys);
     };
   });

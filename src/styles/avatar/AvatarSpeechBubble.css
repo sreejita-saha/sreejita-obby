@@ -54,9 +54,6 @@
   );
   color: var(--avatar-bubble-text);
   box-shadow: 0 2px 0 var(--avatar-bubble-outline);
-  cursor:
-    url("/images/pointer.png") 4 2,
-    pointer;
   font:
     900 13px "DM Sans",
     sans-serif;

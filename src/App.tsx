@@ -15,7 +15,6 @@ import { PortfolioChat } from "./components/chat/PortfolioChat";
 // import "./styles/maintenance/MaintenancePage.css";
 // import { BackgroundDecorations } from "./components/maintenance/BackgroundDecorations";
 // import { MaintenanceCard } from "./components/maintenance/MaintenanceCard";
-import "./styles/global.css";
 
 // These panels are requested only when opened, keeping the initial game load smaller.
 const PortfolioMenu = lazy(() =>

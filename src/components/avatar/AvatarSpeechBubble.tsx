@@ -1,5 +1,5 @@
 import { Html } from "@react-three/drei";
-import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
+import { openPortfolioChat } from "../../config/events";
 import "../../styles/avatar/AvatarSpeechBubble.css";
 
 /** The clickable in-world introduction shown above Sreejita's avatar. */
@@ -14,7 +14,7 @@ export function AvatarSpeechBubble() {
         </p>
         <button
           type="button"
-          onClick={() => window.dispatchEvent(new Event(OPEN_PORTFOLIO_CHAT_EVENT))}
+          onClick={openPortfolioChat}
         >
           Talk to me
         </button>

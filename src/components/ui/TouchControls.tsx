@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { GAME_CONTROL_EVENTS } from "../../config/events";
 import "../../styles/ui/GameControls.css";
 
 type ControlKey = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
@@ -7,7 +8,7 @@ type ControlKeys = ControlKey | ControlKey[];
 type JoystickVector = { x: number; z: number };
 
 function sendControlEvent(
-  name: "obby-control-start" | "obby-control-end",
+  name: typeof GAME_CONTROL_EVENTS.start | typeof GAME_CONTROL_EVENTS.end,
   codes: ControlKeys,
 ) {
   const keys = Array.isArray(codes) ? codes : [codes];
@@ -33,14 +34,14 @@ function TouchButton({
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
     if (activePointers.current.size === 0) {
-      sendControlEvent("obby-control-start", codes);
+      sendControlEvent(GAME_CONTROL_EVENTS.start, codes);
     }
     activePointers.current.add(event.pointerId);
   };
   const release = useCallback((pointerId: number) => {
     const wasActive = activePointers.current.delete(pointerId);
     if (wasActive && activePointers.current.size === 0) {
-      sendControlEvent("obby-control-end", codes);
+      sendControlEvent(GAME_CONTROL_EVENTS.end, codes);
     }
   }, [codes]);
 
@@ -52,7 +53,7 @@ function TouchButton({
     const releaseAll = () => {
       if (!activePointers.current.size) return;
       activePointers.current.clear();
-      sendControlEvent("obby-control-end", codes);
+      sendControlEvent(GAME_CONTROL_EVENTS.end, codes);
     };
     const releaseWhenHidden = () => {
       if (document.visibilityState === "hidden") releaseAll();
@@ -89,7 +90,7 @@ function TouchButton({
 
 function sendJoystickMove(vector: JoystickVector) {
   window.dispatchEvent(
-    new CustomEvent<JoystickVector>("obby-joystick-move", { detail: vector }),
+    new CustomEvent<JoystickVector>(GAME_CONTROL_EVENTS.joystickMove, { detail: vector }),
   );
 }
 
@@ -101,10 +102,10 @@ function Joystick() {
   const setCodes = (nextCodes: ControlKey[]) => {
     if (activeCodes.current.join() === nextCodes.join()) return;
     if (activeCodes.current.length) {
-      sendControlEvent("obby-control-end", activeCodes.current);
+      sendControlEvent(GAME_CONTROL_EVENTS.end, activeCodes.current);
     }
     if (nextCodes.length) {
-      sendControlEvent("obby-control-start", nextCodes);
+      sendControlEvent(GAME_CONTROL_EVENTS.start, nextCodes);
     }
     activeCodes.current = nextCodes;
   };

@@ -2,7 +2,7 @@ import { portfolio } from "../../data/portfolio";
 import { ControlIcon } from "./ControlIcon";
 import { ToggleControl } from "./ToggleControl";
 import { useState } from "react";
-import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
+import { openPortfolioChat } from "../../config/events";
 import "../../styles/ui/Hud.css";
 import "../../styles/ui/GameControls.css";
 type HudProps = {
@@ -42,7 +42,7 @@ export function Hud({
             <button
               type="button"
               onClick={() => {
-                window.dispatchEvent(new Event(OPEN_PORTFOLIO_CHAT_EVENT));
+                openPortfolioChat();
                 setIsWelcomeOpen(false);
               }}
             >
@@ -84,6 +84,7 @@ export function Hud({
             enabled={popupsEnabled}
             label={popupsEnabled ? "Disable checkpoint popups" : "Enable checkpoint popups"}
             tooltip={popupsEnabled ? "Hide checkpoint popups" : "Show checkpoint popups"}
+            tooltipPosition="bottom"
             onToggle={onTogglePopups}
           >
             <ControlIcon name="popups" />
