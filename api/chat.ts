@@ -9,12 +9,28 @@ const minimumRetrievalSimilarity = 0.6;
 const maximumSimilarityDropFromBest = 0.04;
 const outOfTokensMessage = "Oops sorry, I am out of tokens, sorry about that :P";
 
-// Greetings should feel human, but they do not need portfolio retrieval.
-const casualConversationPattern =
-  /^(?:hi|hello|hey|hiya|how are you|how's it going|hows it going|what's up|whats up|thank you|thanks|bye|goodbye)[!?.\s]*$/i;
+// These replies are intentionally deterministic: a simple "hi" should not
+// make the model answer an unasked question such as "how are you?".
+function getCasualReply(question: string) {
+  const message = question.trim().toLowerCase().replace(/[!?.]/g, "").trim();
 
-function isCasualConversation(question: string) {
-  return casualConversationPattern.test(question.trim());
+  if (/^(?:h+i+|he+y+|hello+|hiya+)$/.test(message)) {
+    return "Hiii! It’s so great to meet you. Feel free to ask me about my work, projects, experience, education, or skills!";
+  }
+
+  if (/^(?:how are you|how are you doing|how r u|hows it going|how's it going|whats up|what's up)$/.test(message)) {
+    return "I’m doing well, thank you for asking! I’d love to tell you about my work, projects, or experience.";
+  }
+
+  if (/^(?:thank you|thanks|ty)$/.test(message)) {
+    return "You’re very welcome! Feel free to ask me anything about my portfolio.";
+  }
+
+  if (/^(?:bye|goodbye|see you)$/.test(message)) {
+    return "Bye! Thanks for visiting my portfolio — I hope you enjoyed the obby!";
+  }
+
+  return undefined;
 }
 
 /**
@@ -113,32 +129,35 @@ export async function POST(request: Request) {
       );
     }
 
+    const casualReply = getCasualReply(question);
+    if (casualReply) {
+      return Response.json({ answer: casualReply, sources: [] });
+    }
+
     let chunks: PortfolioChunk[] = [];
 
-    if (!isCasualConversation(question)) {
-      const embeddingResponse = await ai.models.embedContent({
-        model: "gemini-embedding-2",
-        contents: question,
-        config: {
-          taskType: "RETRIEVAL_QUERY",
-          outputDimensionality: 768,
-        },
-      });
+    const embeddingResponse = await ai.models.embedContent({
+      model: "gemini-embedding-2",
+      contents: question,
+      config: {
+        taskType: "RETRIEVAL_QUERY",
+        outputDimensionality: 768,
+      },
+    });
 
-      const queryEmbedding = embeddingResponse.embeddings[0]?.values;
+    const queryEmbedding = embeddingResponse.embeddings[0]?.values;
 
-      if (!queryEmbedding) {
-        throw new Error("Gemini did not return a query embedding.");
-      }
-
-      const { data, error } = await supabase.rpc("match_portfolio_chunks", {
-        query_embedding: queryEmbedding,
-        match_count: 4,
-      });
-
-      if (error) throw error;
-      chunks = selectRelevantChunks((data ?? []) as PortfolioChunk[]);
+    if (!queryEmbedding) {
+      throw new Error("Gemini did not return a query embedding.");
     }
+
+    const { data, error } = await supabase.rpc("match_portfolio_chunks", {
+      query_embedding: queryEmbedding,
+      match_count: 4,
+    });
+
+    if (error) throw error;
+    chunks = selectRelevantChunks((data ?? []) as PortfolioChunk[]);
 
     const context = chunks
       .map(
@@ -154,7 +173,7 @@ export async function POST(request: Request) {
         systemInstruction: `
 You are Sreejita Saha's portfolio assistant. Speak as Sreejita in the first person: use wording such as "I built", "I worked on", and "my experience". Never describe Sreejita in the third person.
 
-Be warm, upbeat, and natural, with a little personality. For greetings, thanks, goodbyes, and casual questions such as "How are you?", reply briefly and warmly. You may invite the visitor to ask about my work afterwards.
+Be warm, upbeat, and natural, with a little personality. For greetings, thanks, and goodbyes, reply briefly and warmly to exactly what the visitor said. Do not answer a question they did not ask: for example, if they say "hi", greet them back but do not say that you are doing well or thank them for asking. Only answer "How are you?" when the visitor actually asks it. You may invite the visitor to ask about my work afterwards.
 
 For questions about my background, projects, experience, education, or skills, answer only from the supplied portfolio context. Prioritise the most directly relevant information and make the answer clear and specific.
 If a portfolio question is not covered by the context, say you do not have that detail rather than guessing.
