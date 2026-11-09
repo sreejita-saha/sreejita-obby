@@ -5,6 +5,8 @@ import { createHash } from "node:crypto";
 const rateLimitMaxRequests = 10;
 const rateLimitWindowSeconds = 60 * 60;
 const maxQuestionLength = 200;
+const minimumRetrievalSimilarity = 0.6;
+const maximumSimilarityDropFromBest = 0.04;
 const outOfTokensMessage = "Oops sorry, I am out of tokens, sorry about that :P";
 
 // Greetings should feel human, but they do not need portfolio retrieval.
@@ -13,6 +15,23 @@ const casualConversationPattern =
 
 function isCasualConversation(question: string) {
   return casualConversationPattern.test(question.trim());
+}
+
+/**
+ * Vector search always returns the closest records, even when none are a
+ * meaningful match. Keep only strong sources that are also close to the best
+ * result, so unrelated portfolio entries cannot steer the answer.
+ */
+function selectRelevantChunks(chunks: PortfolioChunk[]) {
+  const bestSimilarity = chunks[0]?.similarity;
+  if (bestSimilarity === undefined || bestSimilarity < minimumRetrievalSimilarity) return [];
+
+  const cutoff = Math.max(
+    minimumRetrievalSimilarity,
+    bestSimilarity - maximumSimilarityDropFromBest,
+  );
+
+  return chunks.filter((chunk) => chunk.similarity >= cutoff);
 }
 
 function isQuotaError(error: unknown) {
@@ -118,7 +137,7 @@ export async function POST(request: Request) {
       });
 
       if (error) throw error;
-      chunks = (data ?? []) as PortfolioChunk[];
+      chunks = selectRelevantChunks((data ?? []) as PortfolioChunk[]);
     }
 
     const context = chunks

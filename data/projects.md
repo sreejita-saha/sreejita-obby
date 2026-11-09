@@ -80,8 +80,10 @@ I built this interactive portfolio as a Roblox-obby-inspired experience. Instead
 
 I built it with React, TypeScript, Three.js, React Three Fiber, Vite, and Supabase. It brings together my interest in web development, game ideas, and user experience, and shows how I use technology to make information more engaging.
 
-**Technologies:** React, TypeScript, Three.js, React Three Fiber, Vite, Supabase
+I also built a RAG-powered portfolio assistant using Gemini, Supabase vector search, and Vercel serverless functions. It retrieves relevant portfolio content before answering questions, which keeps answers about my background and work grounded in the information I have provided. I added rate limiting and feedback collection so the feature is practical to deploy as well as interactive.
 
-**Skills demonstrated:** interactive 3D web development, frontend engineering, user experience, game-inspired interface design
+**Technologies:** React, TypeScript, Three.js, React Three Fiber, Vite, Gemini, Supabase vector search, Vercel serverless functions
+
+**Skills demonstrated:** interactive 3D web development, frontend engineering, RAG architecture, vector search, serverless APIs, user experience, game-inspired interface design
 
 [View my GitHub](https://github.com/sreejita-saha)
