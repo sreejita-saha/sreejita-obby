@@ -65,6 +65,13 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
     return () => window.cancelAnimationFrame(frame);
   }, [isClosing, isOpen, isSending]);
 
+  // On phones the chat is a focused overlay. This class lets the global HUD
+  // step aside while it is open, then restores it immediately on close.
+  useEffect(() => {
+    document.body.classList.toggle("portfolio-chat-open", isOpen);
+    return () => document.body.classList.remove("portfolio-chat-open");
+  }, [isOpen]);
+
   const sendQuestion = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 

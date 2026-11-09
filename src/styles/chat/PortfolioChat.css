@@ -297,8 +297,20 @@
   }
 
   .portfolio-chat__panel {
+    width: calc(100vw - 24px);
     height: min(600px, calc(100dvh - 9.5rem));
     max-height: calc(100dvh - 9.5rem);
+  }
+
+  /* The chat owns the screen while it is open; HUD controls stay available
+     again as soon as the visitor closes it. */
+  body.portfolio-chat-open .hud,
+  body.portfolio-chat-open .rating-toggle,
+  body.portfolio-chat-open .music-toggle,
+  body.portfolio-chat-open .touch-controls,
+  body.portfolio-chat-open .controls {
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
