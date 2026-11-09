@@ -1,4 +1,4 @@
-# Project structure
+# Project architecture
 
 The code is organised by what it owns, not by random technical labels.
 
