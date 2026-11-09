@@ -113,7 +113,7 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
   };
 
   return (
-    <div className={`portfolio-chat${isOpen ? " portfolio-chat--open" : ""}`}>
+    <div className="portfolio-chat">
       {isOpen && (
         <section
           className={`portfolio-chat__panel ui-panel${isClosing ? " is-closing" : ""}`}
@@ -166,18 +166,19 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
         </section>
       )}
 
-      {!isOpen && (
-        <button
-          className="portfolio-chat__toggle"
-          type="button"
-          onClick={() => setIsOpen(true)}
-          aria-expanded={false}
-          aria-controls="portfolio-chat-title"
-        >
-          <span aria-hidden="true">✦</span>
-          Ask AI
-        </button>
-      )}
+      <button
+        className="portfolio-chat__toggle"
+        type="button"
+        onClick={() => {
+          if (isOpen) closeChat();
+          else setIsOpen(true);
+        }}
+        aria-expanded={isOpen}
+        aria-controls="portfolio-chat-title"
+      >
+        <span aria-hidden="true">✦</span>
+        {isOpen ? "Close" : "Ask AI"}
+      </button>
     </div>
   );
 }

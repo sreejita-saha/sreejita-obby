@@ -12,16 +12,6 @@
   pointer-events: auto;
 }
 
-/* The header close button is the only close action while the panel is open.
-   This prevents the chat control from competing with the Portfolio control. */
-.portfolio-chat--open {
-  bottom: var(--viewport-bottom);
-}
-
-.portfolio-chat--open .portfolio-chat__panel {
-  bottom: 0;
-}
-
 .portfolio-chat__toggle {
   display: inline-flex;
   align-items: center;
@@ -59,7 +49,8 @@
 .portfolio-chat__panel {
   position: absolute;
   right: 0;
-  bottom: 58px;
+  /* The panel is anchored above its own toggle, regardless of text scaling. */
+  bottom: calc(100% + 0.75rem);
   display: flex;
   flex-direction: column;
   width: clamp(300px, 29vw, 365px);
@@ -284,14 +275,6 @@
 
   .portfolio-chat__panel {
     max-height: min(560px, calc(100dvh - 1.5rem));
-  }
-
-  .portfolio-chat--open {
-    bottom: var(--viewport-bottom);
-  }
-
-  .portfolio-chat--open .portfolio-chat__panel {
-    bottom: 0;
   }
 }
 

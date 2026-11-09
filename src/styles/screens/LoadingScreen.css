@@ -11,7 +11,7 @@
 
 .obby-loader--leaving {
   pointer-events: none;
-  animation: loader-to-welcome 0.7s ease-in-out forwards;
+  animation: loader-fade-out 0.7s ease-in-out forwards;
 }
 
 .obby-loader__content {
@@ -47,22 +47,20 @@
   transition: width 0.4s ease;
 }
 
-@keyframes loader-to-welcome {
-  0% { clip-path: inset(0 round 0); opacity: 1; }
-  75% { clip-path: inset(clamp(88px, 13vh, 150px) max(16px, calc((100% - 560px) / 2)) 50% round 20px); opacity: 1; }
-  100% { clip-path: inset(clamp(88px, 13vh, 150px) max(16px, calc((100% - 560px) / 2)) 50% round 20px); opacity: 0; }
-}
-
-@media (max-width: 640px) {
-  @keyframes loader-to-welcome {
-    0% { clip-path: inset(0 round 0); opacity: 1; }
-    75% { clip-path: inset(82px 16px 50% round 20px); opacity: 1; }
-    100% { clip-path: inset(82px 16px 50% round 20px); opacity: 0; }
+@keyframes loader-fade-out {
+  to {
+    opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .obby-loader--leaving { animation-duration: 0.01ms; }
-  .obby-loader--leaving .obby-loader__content { transition-duration: 0.01ms; }
-  .obby-loader__bar-fill { transition-duration: 0.01ms; }
+  .obby-loader--leaving {
+    animation-duration: 0.01ms;
+  }
+  .obby-loader--leaving .obby-loader__content {
+    transition-duration: 0.01ms;
+  }
+  .obby-loader__bar-fill {
+    transition-duration: 0.01ms;
+  }
 }
