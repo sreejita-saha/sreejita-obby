@@ -2,14 +2,24 @@
   position: fixed;
   /* Checkpoint modals are z-index 20, so the chat must not cover them. */
   z-index: 19;
-  right: clamp(12px, 2vw, 24px);
-  bottom: 82px;
+  right: var(--viewport-gutter);
+  bottom: calc(var(--viewport-bottom) + 4rem);
   pointer-events: none;
 }
 
 .portfolio-chat__toggle,
 .portfolio-chat__panel {
   pointer-events: auto;
+}
+
+/* The header close button is the only close action while the panel is open.
+   This prevents the chat control from competing with the Portfolio control. */
+.portfolio-chat--open {
+  bottom: var(--viewport-bottom);
+}
+
+.portfolio-chat--open .portfolio-chat__panel {
+  bottom: 0;
 }
 
 .portfolio-chat__toggle {
@@ -268,13 +278,20 @@
 
 @media (max-width: 640px) {
   .portfolio-chat {
-    right: 12px;
-    bottom: 148px;
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(var(--viewport-bottom) + 4rem);
   }
 
   .portfolio-chat__panel {
-    bottom: 58px;
-    max-height: min(560px, calc(100dvh - 174px));
+    max-height: min(560px, calc(100dvh - 1.5rem));
+  }
+
+  .portfolio-chat--open {
+    bottom: var(--viewport-bottom);
+  }
+
+  .portfolio-chat--open .portfolio-chat__panel {
+    bottom: 0;
   }
 }
 

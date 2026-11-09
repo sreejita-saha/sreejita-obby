@@ -22,6 +22,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "dotenv": "^18.0.9",
+    "modern-normalize": "^3.0.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "three": "^0.186.1"

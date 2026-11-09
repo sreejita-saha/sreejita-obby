@@ -1,18 +1,59 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;600;700&display=swap");
+/* Fonts are bundled locally so privacy settings and content blockers cannot
+   change the page's text metrics or layout. */
+@font-face {
+  font-family: "Archivo Black";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/archivo-black-400.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/dm-sans-400.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/dm-sans-600.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/dm-sans-700.ttf") format("truetype");
+}
 
 :root {
+  --viewport-gutter: clamp(0.75rem, 2vw, 1.5rem);
+  --viewport-bottom: max(1rem, env(safe-area-inset-bottom));
   font-family: "DM Sans", system-ui, sans-serif;
   color: #17223b;
   background: #87ceeb;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  cursor: url("/images/default.png") 2 2, default;
+  cursor:
+    url("/images/default.png") 2 2,
+    default;
 }
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 button,
+input,
+textarea,
+select,
 a {
   font: inherit;
 }
@@ -31,7 +72,15 @@ body,
   margin: 0;
   overflow: hidden;
 }
+/* Keep rem-based UI typography consistent when browsers use different default
+   font-size preferences. Browser zoom still scales the complete interface. */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 body {
+  min-height: 100%;
   min-width: 320px;
 }
 canvas {
@@ -42,6 +91,12 @@ textarea {
   cursor:
     url("/images/text.png") 14 16,
     text !important;
+}
+@media (max-width: 40em) {
+  input,
+  textarea {
+    font-size: max(1rem, 16px);
+  }
 }
 /* One rule keeps every present and future interactive control on-brand. */
 button:not(:disabled),

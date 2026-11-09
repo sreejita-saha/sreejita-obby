@@ -4,8 +4,10 @@
   left: 50%;
   top: clamp(88px, 13vh, 150px);
   width: min(560px, calc(100% - 32px));
+  max-height: calc(100dvh - 2rem);
   transform: translateX(-50%);
   padding: 25px 28px 22px;
+  overflow-y: auto;
   --surface: #fff;
   border-radius: 20px;
   box-shadow: 9px 9px 0 var(--ink);

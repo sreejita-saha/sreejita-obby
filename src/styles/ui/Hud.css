@@ -103,8 +103,8 @@
 .hud-actions .menu-button {
   position: fixed;
   z-index: 13;
-  right: 24px;
-  bottom: 18px;
+  right: var(--viewport-gutter);
+  bottom: var(--viewport-bottom);
   background: linear-gradient(135deg, #ffb3d2 0%, #ff8fba 100%);
   box-sizing: border-box;
   width: 100px;
@@ -192,9 +192,9 @@
     width: 18px;
     height: 8px;
   }
-  .menu-button {
-    right: 12px;
-    bottom: 96px;
+  .hud-actions .menu-button {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: calc(var(--viewport-bottom) + 4.875rem);
   }
   .controls {
     bottom: 10px;

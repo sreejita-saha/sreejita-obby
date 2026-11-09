@@ -7,8 +7,8 @@
 .quick-actions {
   position: fixed;
   z-index: 12;
-  top: 31vh;
-  left: 10px;
+  top: clamp(10rem, 31vh, 22rem);
+  left: var(--viewport-gutter);
   display: grid;
   gap: 10px;
 }
@@ -64,8 +64,8 @@
 .hud .hud-utility--popups {
   position: fixed;
   z-index: 12;
-  bottom: 18px;
-  left: 116px;
+  bottom: var(--viewport-bottom);
+  left: calc(var(--viewport-gutter) + 6.625rem);
   background: linear-gradient(135deg, #d4ffdf, #8ff3ae);
   box-shadow:
     0 5px 0 #17223b,
@@ -74,8 +74,8 @@
 .music-toggle {
   position: fixed;
   z-index: 12;
-  left: 10px;
-  bottom: 18px;
+  left: var(--viewport-gutter);
+  bottom: var(--viewport-bottom);
   background: linear-gradient(135deg, #ffd9e9, #ff9fca);
   box-shadow:
     0 5px 0 #17223b,
@@ -84,8 +84,8 @@
 .rating-toggle {
   position: fixed;
   z-index: 12;
-  top: calc(31vh + 52px);
-  left: 10px;
+  top: calc(clamp(10rem, 31vh, 22rem) + 3.25rem);
+  left: var(--viewport-gutter);
   background: linear-gradient(135deg, #fff8b8, #ffe65b);
   box-shadow:
     0 5px 0 #17223b,
