@@ -1,5 +1,7 @@
 import type { FormEvent, KeyboardEvent, RefObject } from "react";
 
+export const MAX_QUESTION_LENGTH = 200;
+
 type ChatComposerProps = {
   question: string;
   error: string;
@@ -29,17 +31,22 @@ export function ChatComposer({
       <label className="sr-only" htmlFor="portfolio-question">
         Ask a question about Sreejita's portfolio
       </label>
-      <textarea
-        id="portfolio-question"
-        ref={inputRef}
-        value={question}
-        onChange={(event) => onQuestionChange(event.target.value)}
-        onKeyDown={submitOnEnter}
-        placeholder="Ask about projects, experience, or skills..."
-        rows={2}
-        maxLength={500}
-        disabled={isSending}
-      />
+      <div className="portfolio-chat__input-wrap">
+        <textarea
+          id="portfolio-question"
+          ref={inputRef}
+          value={question}
+          onChange={(event) => onQuestionChange(event.target.value)}
+          onKeyDown={submitOnEnter}
+          placeholder="Ask about projects, experience, or skills..."
+          rows={2}
+          maxLength={MAX_QUESTION_LENGTH}
+          disabled={isSending}
+        />
+        <span className="portfolio-chat__character-count" aria-live="polite">
+          {question.length}/{MAX_QUESTION_LENGTH}
+        </span>
+      </div>
       {error && (
         <p className="portfolio-chat__error" role="alert">
           {error}

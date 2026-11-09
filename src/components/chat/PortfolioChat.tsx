@@ -3,7 +3,7 @@ import { OPEN_PORTFOLIO_CHAT_EVENT } from "../../config/events";
 import { OUT_OF_TOKENS_MESSAGE, STARTER_CHAT_MESSAGE } from "./chat.constants";
 import type { ChatMessage } from "./chat.types";
 import { askPortfolioAssistant } from "../../services/chat";
-import { ChatComposer } from "./ChatComposer";
+import { ChatComposer, MAX_QUESTION_LENGTH } from "./ChatComposer";
 import { ChatMessageRow } from "./ChatMessageRow";
 import "../../styles/chat/PortfolioChat.css";
 
@@ -160,7 +160,7 @@ export function PortfolioChat({ onOpenSection }: PortfolioChatProps) {
             error={error}
             isSending={isSending}
             inputRef={questionInputRef}
-            onQuestionChange={setQuestion}
+            onQuestionChange={(value) => setQuestion(value.slice(0, MAX_QUESTION_LENGTH))}
             onSubmit={sendQuestion}
           />
         </section>
