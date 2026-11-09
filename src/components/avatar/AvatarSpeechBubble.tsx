@@ -12,10 +12,7 @@ export function AvatarSpeechBubble() {
           <br />
           Come explore my little world :D
         </p>
-        <button
-          type="button"
-          onClick={openPortfolioChat}
-        >
+        <button type="button" onClick={openPortfolioChat}>
           Talk to me
         </button>
       </div>

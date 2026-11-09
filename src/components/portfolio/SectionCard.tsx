@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
 import type { PortfolioSection } from "../../types/portfolio";
 import { SectionContent } from "./SectionContent";
 import "../../styles/portfolio/PortfolioPanels.css";
@@ -17,46 +18,49 @@ export function SectionCard({ section, onClose, onContinue }: SectionCardProps) 
   const isFinalSection = section.id === "contact";
 
   return (
-    <div className="panel-backdrop" role="presentation" onMouseDown={onClose}>
-      <article
-        className={`section-card ui-panel section-card--${section.id}${section.image ? " section-card--with-image" : ""}`}
-        style={style}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={`section-title-${section.id}`}
-        onMouseDown={(event) => event.stopPropagation()}
-      >
-        <button
-          className="close"
-          type="button"
-          onClick={onClose}
-          aria-label="Close section"
-          data-tooltip="Close this checkpoint"
+    <Dialog.Root open onOpenChange={(open) => !open && onClose()}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="panel-backdrop" />
+        <Dialog.Content
+          className={`section-card ui-panel section-card--${section.id}${section.image ? " section-card--with-image" : ""}`}
+          style={style}
+          aria-describedby={undefined}
         >
-          &times;
-        </button>
-        <p className="eyebrow">{section.kicker}</p>
-        <h2 id={`section-title-${section.id}`}>{section.title}</h2>
-        <SectionContent content={section.content} leadingImage={section.image} />
-        {section.links && (
-          <div className="section-card__links">
-            {section.links.map((link) => (
-              <a
-                key={link.href}
-                className="card-link"
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {link.label} ↗
-              </a>
-            ))}
-          </div>
-        )}
-        <button className="continue ui-button" type="button" onClick={onContinue}>
-          {isFinalSection ? "Play again" : "Continue obby"}
-        </button>
-      </article>
-    </div>
+          <Dialog.Close asChild>
+            <button
+              className="close"
+              type="button"
+              aria-label="Close section"
+              data-tooltip="Close this checkpoint"
+            >
+              &times;
+            </button>
+          </Dialog.Close>
+          <p className="eyebrow">{section.kicker}</p>
+          <Dialog.Title asChild>
+            <h2 id={`section-title-${section.id}`}>{section.title}</h2>
+          </Dialog.Title>
+          <SectionContent content={section.content} leadingImage={section.image} />
+          {section.links && (
+            <div className="section-card__links">
+              {section.links.map((link) => (
+                <a
+                  key={link.href}
+                  className="card-link"
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {link.label} ↗
+                </a>
+              ))}
+            </div>
+          )}
+          <button className="continue ui-button" type="button" onClick={onContinue}>
+            {isFinalSection ? "Play again" : "Continue obby"}
+          </button>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

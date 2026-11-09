@@ -82,7 +82,9 @@ export function Hud({
           <ToggleControl
             className="hud-utility hud-utility--popups"
             enabled={popupsEnabled}
-            label={popupsEnabled ? "Disable checkpoint popups" : "Enable checkpoint popups"}
+            label={
+              popupsEnabled ? "Disable checkpoint popups" : "Enable checkpoint popups"
+            }
             tooltip={popupsEnabled ? "Hide checkpoint popups" : "Show checkpoint popups"}
             tooltipPosition="bottom"
             onToggle={onTogglePopups}

@@ -66,7 +66,8 @@ export function AvatarModel({ showChatBubble }: AvatarModelProps) {
   const model = useAvatarModel();
   const wavingArm = useMemo(() => model.getObjectByName("waving-right-arm"), [model]);
   useFrame(({ clock }) => {
-    if (wavingArm) wavingArm.rotation.z = -1.35 + Math.sin(clock.elapsedTime * 3.5) * 0.22;
+    if (wavingArm)
+      wavingArm.rotation.z = -1.35 + Math.sin(clock.elapsedTime * 3.5) * 0.22;
   });
   const fit = useMemo(() => {
     const box = new THREE.Box3().setFromObject(model);

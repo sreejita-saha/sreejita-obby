@@ -7,11 +7,7 @@ describe("final checkpoint layout", () => {
   it("keeps all three gate ropes extended to the moved toolkit stage", () => {
     const ropes = checkpoint04.platforms.filter((platform) => platform.rope);
     expect(ropes).toHaveLength(3);
-    expect(ropes.map((platform) => platform.rope?.end[2])).toEqual([
-      -74.4,
-      -74.4,
-      -74.4,
-    ]);
+    expect(ropes.map((platform) => platform.rope?.end[2])).toEqual([-74.4, -74.4, -74.4]);
   });
 
   it("moves the toolkit label clear of the gate and shifts later stages together", () => {

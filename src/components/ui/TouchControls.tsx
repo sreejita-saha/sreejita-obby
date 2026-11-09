@@ -38,12 +38,15 @@ function TouchButton({
     }
     activePointers.current.add(event.pointerId);
   };
-  const release = useCallback((pointerId: number) => {
-    const wasActive = activePointers.current.delete(pointerId);
-    if (wasActive && activePointers.current.size === 0) {
-      sendControlEvent(GAME_CONTROL_EVENTS.end, codes);
-    }
-  }, [codes]);
+  const release = useCallback(
+    (pointerId: number) => {
+      const wasActive = activePointers.current.delete(pointerId);
+      if (wasActive && activePointers.current.size === 0) {
+        sendControlEvent(GAME_CONTROL_EVENTS.end, codes);
+      }
+    },
+    [codes],
+  );
 
   useEffect(() => {
     // Some mobile browsers can lose pointer capture when the page is briefly

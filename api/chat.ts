@@ -18,7 +18,11 @@ function getCasualReply(question: string) {
     return "Hiii! It’s so great to meet you. Feel free to ask me about my work, projects, experience, education, or skills!";
   }
 
-  if (/^(?:how are you|how are you doing|how r u|hows it going|how's it going|whats up|what's up)$/.test(message)) {
+  if (
+    /^(?:how are you|how are you doing|how r u|hows it going|how's it going|whats up|what's up)$/.test(
+      message,
+    )
+  ) {
     return "I’m doing well, thank you for asking! I’d love to tell you about my work, projects, or experience.";
   }
 
@@ -40,7 +44,8 @@ function getCasualReply(question: string) {
  */
 function selectRelevantChunks(chunks: PortfolioChunk[]) {
   const bestSimilarity = chunks[0]?.similarity;
-  if (bestSimilarity === undefined || bestSimilarity < minimumRetrievalSimilarity) return [];
+  if (bestSimilarity === undefined || bestSimilarity < minimumRetrievalSimilarity)
+    return [];
 
   const cutoff = Math.max(
     minimumRetrievalSimilarity,
