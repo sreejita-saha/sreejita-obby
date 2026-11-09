@@ -4,7 +4,16 @@ import { createHash } from "node:crypto";
 
 const rateLimitMaxRequests = 10;
 const rateLimitWindowSeconds = 60 * 60;
+const maxQuestionLength = 200;
 const outOfTokensMessage = "Oops sorry, I am out of tokens, sorry about that :P";
+
+// Greetings should feel human, but they do not need portfolio retrieval.
+const casualConversationPattern =
+  /^(?:hi|hello|hey|hiya|how are you|how's it going|hows it going|what's up|whats up|thank you|thanks|bye|goodbye)[!?.\s]*$/i;
+
+function isCasualConversation(question: string) {
+  return casualConversationPattern.test(question.trim());
+}
 
 function isQuotaError(error: unknown) {
   const message = error instanceof Error ? error.message : String(error);
@@ -41,9 +50,9 @@ export async function POST(request: Request) {
       return Response.json({ error: "Please provide a question." }, { status: 400 });
     }
 
-    if (question.length > 500) {
+    if (question.length > maxQuestionLength) {
       return Response.json(
-        { error: "Questions must be 500 characters or fewer." },
+        { error: `Questions must be ${maxQuestionLength} characters or fewer.` },
         { status: 400 },
       );
     }
@@ -85,29 +94,32 @@ export async function POST(request: Request) {
       );
     }
 
-    const embeddingResponse = await ai.models.embedContent({
-      model: "gemini-embedding-2",
-      contents: question,
-      config: {
-        taskType: "RETRIEVAL_QUERY",
-        outputDimensionality: 768,
-      },
-    });
+    let chunks: PortfolioChunk[] = [];
 
-    const queryEmbedding = embeddingResponse.embeddings[0]?.values;
+    if (!isCasualConversation(question)) {
+      const embeddingResponse = await ai.models.embedContent({
+        model: "gemini-embedding-2",
+        contents: question,
+        config: {
+          taskType: "RETRIEVAL_QUERY",
+          outputDimensionality: 768,
+        },
+      });
 
-    if (!queryEmbedding) {
-      throw new Error("Gemini did not return a query embedding.");
+      const queryEmbedding = embeddingResponse.embeddings[0]?.values;
+
+      if (!queryEmbedding) {
+        throw new Error("Gemini did not return a query embedding.");
+      }
+
+      const { data, error } = await supabase.rpc("match_portfolio_chunks", {
+        query_embedding: queryEmbedding,
+        match_count: 4,
+      });
+
+      if (error) throw error;
+      chunks = (data ?? []) as PortfolioChunk[];
     }
-
-    const { data, error } = await supabase.rpc("match_portfolio_chunks", {
-      query_embedding: queryEmbedding,
-      match_count: 4,
-    });
-
-    if (error) throw error;
-
-    const chunks = (data ?? []) as PortfolioChunk[];
 
     const context = chunks
       .map(
@@ -123,15 +135,17 @@ export async function POST(request: Request) {
         systemInstruction: `
 You are Sreejita Saha's portfolio assistant. Speak as Sreejita in the first person: use wording such as "I built", "I worked on", and "my experience". Never describe Sreejita in the third person.
 
-Answer only from the supplied portfolio context.
-If a question is unrelated to my portfolio (for example, live news, today's date, weather, or general trivia), say: "I can only help with questions about my portfolio, projects, experience, education, and skills."
-If the context does not contain a portfolio answer, say that you do not have that detail.
+Be warm, upbeat, and natural, with a little personality. For greetings, thanks, goodbyes, and casual questions such as "How are you?", reply briefly and warmly. You may invite the visitor to ask about my work afterwards.
+
+For questions about my background, projects, experience, education, or skills, answer only from the supplied portfolio context. Prioritise the most directly relevant information and make the answer clear and specific.
+If a portfolio question is not covered by the context, say you do not have that detail rather than guessing.
+If a question is unrelated to my portfolio (for example, live news, today's date, weather, or general trivia), gently say: "I’m here to chat about my portfolio, projects, experience, education, and skills."
 Do not invent skills, dates, achievements, links, or personal information.
-Be concise, friendly, and professional.
+Keep answers concise, friendly, and professional.
 Do not mention "the context", "retrieval", or "sources" in the answer.
         `.trim(),
         thinkingConfig: { thinkingLevel: "minimal" },
-        temperature: 0.2,
+        temperature: 0.45,
         maxOutputTokens: 220,
       },
     });
