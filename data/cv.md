@@ -41,6 +41,26 @@ Relevant areas of study include programming, databases, operating systems, artif
 - **Frameworks and libraries:** React, Ruby on Rails, Flask, .NET, Blazor Hybrid, WPF
 - **Tools and platforms:** Git/GitHub, Linux, Azure, AWS, Postman, Vercel, Firebase, Supabase
 
+## Personal Interests and Preferences
+
+### Favourite project
+
+My favourite project is probably this interactive portfolio because it was so fun to make. I enjoyed combining web development, 3D interaction, and a game-inspired idea into something that feels personal. WhatSaS is another project I really enjoyed because I learned a lot from working across its C++, Python, and JavaScript components, especially around secure messaging and encryption.
+
+### Favourite internship
+
+My favourite internship was at Fin from Salesforce. I found the AI-driven development especially interesting and really liked the product itself. I also really enjoyed the work culture there in Dublin office :D
+
+I also liked Cloudcards because I got to own and ship something as a first-year that is actually being used.
+
+### Hobbies
+
+Outside software, I love playing Roblox and I enjoy art. I also like exploring game ideas and interactive experiences, which often feeds back into the kinds of projects I want to build. I have always been into art and my favourite medium is painting with watercolours. I love painting landscapes.
+
+## Why Software Engineering
+
+I enjoy software engineering because it lets me take an idea that starts out messy or unclear and turn it into something useful that people can actually use. I like the combination of problem-solving, creativity, and teamwork, and I enjoy learning new tools when a project needs them. Building interactive projects with a bit of personality is especially motivating for me.
+
 ## Selected Projects
 
 ### WhatSaS Secure Messaging Platform
