@@ -1,4 +1,8 @@
-import { getPortfolioSectionId, renderChatMessage } from "./chat.utils";
+import {
+  getPortfolioSectionId,
+  getPortfolioSectionLabel,
+  renderChatMessage,
+} from "./chat.utils";
 import type { ChatMessage } from "./chat.types";
 
 type ChatMessageRowProps = {
@@ -39,7 +43,7 @@ export function ChatMessageRow({ message, index, onOpenSection }: ChatMessageRow
                         onClick={() => onOpenSection(sectionId)}
                         aria-label={`Open the ${sectionId} portfolio section`}
                       >
-                        {source.title}
+                        {getPortfolioSectionLabel(sectionId)}
                       </button>
                     ) : (
                       source.title

@@ -24,6 +24,16 @@ export function getPortfolioSectionId(source: ChatSource) {
   if (source.source === "projects.md") return "projects";
   if (source.source === "education.md") return "education";
 
+  switch (source.title.toLowerCase()) {
+    case "favourite project":
+      return "projects";
+    case "favourite internship":
+      return "experience";
+    case "hobbies":
+    case "why software engineering":
+      return "about";
+  }
+
   switch (source.metadata?.section?.toLowerCase()) {
     case "profile":
       return "about";
@@ -38,4 +48,16 @@ export function getPortfolioSectionId(source: ChatSource) {
     default:
       return undefined;
   }
+}
+
+export function getPortfolioSectionLabel(sectionId: string) {
+  const labels: Record<string, string> = {
+    about: "About me",
+    education: "Education",
+    experience: "Experience",
+    projects: "Projects",
+    skills: "My toolkit",
+  };
+
+  return labels[sectionId] ?? "Portfolio section";
 }

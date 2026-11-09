@@ -57,8 +57,9 @@
   flex-direction: column;
   width: clamp(300px, 29vw, 365px);
   max-width: calc(100vw - 24px);
-  /* Preserve breathing room above the panel at normal browser zoom. */
-  max-height: min(520px, calc(100dvh - 200px));
+  /* Reserve room for the HUD and toggle, then let messages use the rest. */
+  height: min(520px, calc(100dvh - 200px));
+  max-height: calc(100dvh - 200px);
   overflow: hidden;
   border-top: 12px solid #aaf08c;
   box-shadow: 8px 8px 0 var(--ink);
@@ -296,12 +297,14 @@
   }
 
   .portfolio-chat__panel {
-    max-height: min(560px, calc(100dvh - 1.5rem));
+    height: min(600px, calc(100dvh - 9.5rem));
+    max-height: calc(100dvh - 9.5rem);
   }
 }
 
 @media (max-height: 700px) {
   .portfolio-chat__panel {
+    height: calc(100dvh - 172px);
     max-height: calc(100dvh - 172px);
   }
   .portfolio-chat__header {
