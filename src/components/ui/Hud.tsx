@@ -29,7 +29,13 @@ export function Hud({
         <button
           className="brand"
           type="button"
-          onClick={() => setIsWelcomeOpen((open) => !open)}
+          onClick={() => {
+            if (window.matchMedia("(max-width: 640px)").matches) {
+              openPortfolioChat();
+              return;
+            }
+            setIsWelcomeOpen((open) => !open);
+          }}
           aria-expanded={isWelcomeOpen}
           aria-controls="avatar-welcome"
           aria-label="Open Sreejita's welcome message"

@@ -293,7 +293,23 @@
 @media (max-width: 640px) {
   .portfolio-chat {
     right: max(12px, env(safe-area-inset-right));
-    bottom: calc(var(--viewport-bottom) + 4rem);
+    /* Leave space above the 72px Jump control, including both shadows. */
+    bottom: calc(var(--viewport-bottom) + 5.5rem);
+  }
+
+  .portfolio-chat__toggle {
+    width: 68px;
+    min-height: 28px;
+    padding: 4px 3px;
+    border-width: 2px;
+    border-radius: 8px;
+    box-shadow: 0 3px 0 var(--ink);
+    font-size: 0.56rem;
+    line-height: 1.2;
+  }
+
+  .portfolio-chat__toggle span {
+    font-size: 0.64rem;
   }
 
   .portfolio-chat__panel {

@@ -123,22 +123,25 @@
   .hud-utility,
   .music-toggle,
   .rating-toggle {
-    height: 38px;
-    min-width: 88px;
-    padding: 0 8px;
-    font-size: 0.74rem;
+    height: 34px;
+    min-width: 80px;
+    padding: 0 6px;
+    border-width: 2px;
+    border-radius: 9px;
+    box-shadow: 0 4px 0 #17223b;
+    font-size: 0.68rem;
   }
   .hud-utility--skip {
-    min-width: 88px;
-    padding: 0 8px;
+    min-width: 80px;
+    padding: 0 6px;
   }
   .hud-utility--skip .control-icon {
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
   }
   .control-icon {
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
   }
   .music-toggle {
     left: 6px;
@@ -334,33 +337,38 @@
   .quick-actions {
     top: auto !important;
     right: auto !important;
-    bottom: 286px !important;
+    bottom: 298px !important;
     left: 14px !important;
     gap: 6px;
   }
   .hud-utility,
   .music-toggle,
   .rating-toggle {
-    width: 82px !important;
-    min-width: 82px !important;
-    padding-inline: 5px !important;
-    gap: 4px !important;
-    font-size: 0.68rem !important;
+    width: 68px !important;
+    min-width: 68px !important;
+    height: 28px !important;
+    padding-inline: 3px !important;
+    gap: 3px !important;
+    border-width: 2px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 3px 0 #17223b !important;
+    font-size: 0.56rem !important;
   }
   .rating-toggle {
     top: auto !important;
     right: auto !important;
-    bottom: 242px !important;
+    bottom: 260px !important;
     left: 14px !important;
   }
   .music-toggle {
     right: auto !important;
-    bottom: 198px !important;
+    /* Match the 10px gap used by Skip, Rate, and Popups. */
+    bottom: 184px !important;
     left: 14px !important;
   }
   .hud .hud-utility--popups {
     right: auto !important;
-    bottom: 154px !important;
+    bottom: 222px !important;
     left: 14px !important;
   }
 }

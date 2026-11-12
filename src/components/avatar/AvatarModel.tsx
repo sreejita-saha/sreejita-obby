@@ -13,7 +13,7 @@ type AvatarModelProps = {
 const AVATAR_POSITION: [number, number, number] = [-2.5, 0, 0.8];
 const AVATAR_ROTATION: [number, number, number] = [0, Math.PI + 0.45, 0];
 const DISPLAY_SIZE = 1.69;
-const RIGHT_SHOULDER = new THREE.Vector3(-74.6, 26.35, 265.15);
+const RIGHT_SHOULDER = new THREE.Vector3(-74.55, 26, 28885);
 
 function useAvatarModel() {
   const materials = useLoader(MTLLoader, "/models/me/sreejita.mtl");

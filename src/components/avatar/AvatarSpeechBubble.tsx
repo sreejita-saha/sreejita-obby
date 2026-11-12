@@ -5,7 +5,7 @@ import "../../styles/avatar/AvatarSpeechBubble.css";
 /** The clickable in-world introduction shown above Sreejita's avatar. */
 export function AvatarSpeechBubble() {
   return (
-    <Html position={[0, 6.9, -0.3]} center distanceFactor={6}>
+    <Html position={[0, 6.9, -0.3]} center distanceFactor={6} zIndexRange={[9, 0]}>
       <div className="avatar-speech-bubble">
         <p>
           Heyy, I’m Sreejita!

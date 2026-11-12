@@ -180,6 +180,10 @@
   .brand {
     width: clamp(48px, 14vw, 62px);
   }
+  /* On phones the avatar opens Ask AI directly, leaving progress unobstructed. */
+  .brand-welcome {
+    display: none;
+  }
   .progress {
     position: fixed;
     top: calc(62px + env(safe-area-inset-top));
@@ -194,7 +198,15 @@
   }
   .hud-actions .menu-button {
     right: max(12px, env(safe-area-inset-right));
-    bottom: calc(var(--viewport-bottom) + 4.875rem);
+    top: max(10px, env(safe-area-inset-top));
+    bottom: auto;
+    width: 72px;
+    min-height: 28px;
+    padding: 4px 5px;
+    border-width: 2px;
+    border-radius: 8px;
+    box-shadow: 0 3px 0 #17223b;
+    font-size: 0.56rem;
   }
   .controls {
     bottom: 10px;
