@@ -62,34 +62,13 @@
   background: linear-gradient(135deg, #e2f9ff, #a5e6ff);
 }
 .hud .hud-utility--popups {
-  position: fixed;
-  z-index: 12;
-  bottom: var(--viewport-bottom);
-  left: calc(var(--viewport-gutter) + 6.625rem);
   background: linear-gradient(135deg, #d4ffdf, #8ff3ae);
-  box-shadow:
-    0 5px 0 #17223b,
-    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 .music-toggle {
-  position: fixed;
-  z-index: 12;
-  left: var(--viewport-gutter);
-  bottom: var(--viewport-bottom);
   background: linear-gradient(135deg, #ffd9e9, #ff9fca);
-  box-shadow:
-    0 5px 0 #17223b,
-    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 .rating-toggle {
-  position: fixed;
-  z-index: 12;
-  top: calc(clamp(10rem, 31vh, 22rem) + 3.25rem);
-  left: var(--viewport-gutter);
   background: linear-gradient(135deg, #fff8b8, #ffe65b);
-  box-shadow:
-    0 5px 0 #17223b,
-    inset 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 .hud-utility.is-off,
 .music-toggle.is-off {
@@ -112,50 +91,6 @@
   box-shadow:
     0 2px 0 #17223b,
     inset 0 0 0 2px rgba(255, 255, 255, 0.35);
-}
-@media (max-width: 640px) {
-  .quick-actions {
-    top: auto;
-    bottom: 66px;
-    left: 6px;
-    gap: 8px;
-  }
-  .hud-utility,
-  .music-toggle,
-  .rating-toggle {
-    height: 34px;
-    min-width: 80px;
-    padding: 0 6px;
-    border-width: 2px;
-    border-radius: 9px;
-    box-shadow: 0 4px 0 #17223b;
-    font-size: 0.68rem;
-  }
-  .hud-utility--skip {
-    min-width: 80px;
-    padding: 0 6px;
-  }
-  .hud-utility--skip .control-icon {
-    width: 15px;
-    height: 15px;
-  }
-  .control-icon {
-    width: 15px;
-    height: 15px;
-  }
-  .music-toggle {
-    left: 6px;
-    bottom: 12px;
-  }
-  .hud-utility--popups {
-    left: 102px;
-    bottom: 12px;
-  }
-  .rating-toggle {
-    top: auto;
-    left: 6px;
-    bottom: 58px;
-  }
 }
 .touch-controls {
   display: none;
@@ -192,12 +127,6 @@
       800 0.64rem/1 "DM Sans",
       sans-serif;
     padding: 5px 8px;
-  }
-  .touch-dpad {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    pointer-events: auto;
   }
   .touch-joystick {
     position: relative;
@@ -267,38 +196,6 @@
     box-shadow: 0 1px 0 var(--ink);
     background: var(--accent);
   }
-  .touch-control--up {
-    left: 52px;
-    top: 0;
-  }
-  .touch-control--left {
-    left: 0;
-    top: 52px;
-  }
-  .touch-control--down {
-    left: 52px;
-    top: 104px;
-  }
-  .touch-control--right {
-    left: 104px;
-    top: 52px;
-  }
-  .touch-control--up-left {
-    left: 0;
-    top: 0;
-  }
-  .touch-control--up-right {
-    left: 104px;
-    top: 0;
-  }
-  .touch-control--down-left {
-    left: 0;
-    top: 104px;
-  }
-  .touch-control--down-right {
-    left: 104px;
-    top: 104px;
-  }
   .touch-control--jump {
     position: static;
     width: 72px;
@@ -312,63 +209,36 @@
     display: block;
     line-height: 1;
   }
-  .touch-control--left .touch-control__glyph {
-    transform: rotate(-90deg);
-  }
-  .touch-control--down .touch-control__glyph {
-    transform: rotate(180deg);
-  }
-  .touch-control--right .touch-control__glyph {
-    transform: rotate(90deg);
-  }
-  .touch-control--up-left .touch-control__glyph {
-    transform: rotate(-45deg);
-  }
-  .touch-control--up-right .touch-control__glyph {
-    transform: rotate(45deg);
-  }
-  .touch-control--down-left .touch-control__glyph {
-    transform: rotate(-135deg);
-  }
-  .touch-control--down-right .touch-control__glyph {
-    transform: rotate(135deg);
-  }
-  /* A uniform left-side stack sits above the joystick and away from Jump. */
   .quick-actions {
-    top: auto !important;
-    right: auto !important;
-    bottom: 298px !important;
-    left: 14px !important;
+    top: calc(max(10px, env(safe-area-inset-top)) + 78px);
+    left: max(10px, env(safe-area-inset-left));
+    right: max(10px, env(safe-area-inset-right));
+    display: flex;
+    flex-wrap: wrap;
     gap: 6px;
   }
   .hud-utility,
   .music-toggle,
-  .rating-toggle {
-    width: 68px !important;
-    min-width: 68px !important;
-    height: 28px !important;
-    padding-inline: 3px !important;
-    gap: 3px !important;
-    border-width: 2px !important;
-    border-radius: 8px !important;
-    box-shadow: 0 3px 0 #17223b !important;
-    font-size: 0.56rem !important;
+  .rating-toggle,
+  .hud .hud-utility--skip {
+    min-width: 0;
+    height: 36px;
+    padding: 0 8px;
+    gap: 4px;
+    border-width: 2px;
+    border-radius: 9px;
+    box-shadow: 0 3px 0 var(--ink);
+    font-size: 0.7rem;
   }
-  .rating-toggle {
-    top: auto !important;
-    right: auto !important;
-    bottom: 260px !important;
-    left: 14px !important;
+  .control-icon,
+  .hud-utility--skip .control-icon {
+    width: 15px;
+    height: 15px;
   }
-  .music-toggle {
-    right: auto !important;
-    /* Match the 10px gap used by Skip, Rate, and Popups. */
-    bottom: 184px !important;
-    left: 14px !important;
-  }
-  .hud .hud-utility--popups {
-    right: auto !important;
-    bottom: 222px !important;
-    left: 14px !important;
+  .touch-controls__hint {
+    bottom: 0;
+    max-width: calc(100% - 210px);
+    white-space: normal;
+    text-align: center;
   }
 }
