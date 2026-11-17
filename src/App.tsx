@@ -207,15 +207,14 @@ function ObbyApp() {
         onSkip={skipCheckpoint}
         popupsEnabled={popupsEnabled}
         onTogglePopups={() => setPopupsEnabled((enabled) => !enabled)}
-      >
-        <MusicToggle
-          canPlay={started}
-          enabled={musicEnabled}
-          onToggle={() => setMusicEnabled((enabled) => !enabled)}
-          onUnload={unloadMusic}
-        />
-        <RatingWidget />
-      </Hud>
+      />
+      <MusicToggle
+        canPlay={started}
+        enabled={musicEnabled}
+        onToggle={() => setMusicEnabled((enabled) => !enabled)}
+        onUnload={unloadMusic}
+      />
+      <RatingWidget />
       <PortfolioChat onOpenSection={openPortfolioSection} />
       <TooltipLayer />
 

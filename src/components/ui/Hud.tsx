@@ -1,12 +1,11 @@
 import { portfolio } from "../../data/portfolio";
 import { ControlIcon } from "./ControlIcon";
 import { ToggleControl } from "./ToggleControl";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import { openPortfolioChat } from "../../config/events";
 import "../../styles/ui/Hud.css";
 import "../../styles/ui/GameControls.css";
 type HudProps = {
-  children: ReactNode;
   checkpoint: number;
   onOpenPortfolio: () => void;
   onSelectCheckpoint: (index: number) => void;
@@ -15,7 +14,6 @@ type HudProps = {
   onTogglePopups: () => void;
 };
 export function Hud({
-  children,
   checkpoint,
   onOpenPortfolio,
   onSelectCheckpoint,
@@ -98,7 +96,6 @@ export function Hud({
             <ControlIcon name="popups" />
             <span>Popups</span>
           </ToggleControl>
-          {children}
         </div>
         <button
           className="menu-button"
